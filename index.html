@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2a52">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FacultyFlow">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>FacultyFlow — Faculty Teaching Tracker</title>
+<style>
+:root{--navy:#0b2a52;--blue:#1479ff;--gold:#c79a3b;--bg:#f4f7fb;--card:#fff;--text:#10233f;--muted:#6c7a90;--line:#e5ebf3;--green:#15966b;--red:#e24c4c;--shadow:0 10px 28px rgba(18,48,86,.08)}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg)}.top{background:linear-gradient(145deg,#071d3b,#104a83);color:#fff;padding:18px 18px 22px;border-radius:0 0 28px 28px}.brand{display:flex;align-items:center;gap:10px}.logo{width:44px;height:44px;border-radius:12px;background:#fff;padding:4px;object-fit:contain}.brand b{font-size:21px}.brand small{display:block;opacity:.8}.profile{margin-top:20px}.profile h1{font-size:25px;margin:0 0 5px}.profile p{margin:3px 0;opacity:.9;font-size:13px}.pill{display:inline-block;margin-top:9px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);font-size:12px}.content{padding:16px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}.stat strong{font-size:22px;display:block}.stat span{font-size:12px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2{font-size:17px;margin:0 0 12px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.muted{color:var(--muted)}.small{font-size:12px}.class{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:13px;margin:9px 0;background:#fbfdff}.class.active{border-left-color:var(--green);background:#f3fcf8}.class.done{border-left-color:#8c9aaa;background:#f7f8fa}.time{font-weight:700}.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#edf5ff;color:#1764c0}.tag.green{background:#e8f8f1;color:#087653}.tag.gold{background:#fff6df;color:#8a6518}.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--blue);color:#fff;font-weight:700}.btn.secondary{background:#edf4fd;color:#16579e}.btn.danger{background:#e94b4b}.btn.block{width:100%}.field{margin:10px 0}.field label{font-size:12px;font-weight:700;display:block;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #d7e0eb;border-radius:11px;background:#fff;color:var(--text)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;color:var(--muted)}.tabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}.nav{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}.nav button{border:0;background:transparent;color:var(--muted);font-size:11px;padding:7px 2px}.nav button.active{color:var(--blue);font-weight:800}.nav .plus{background:var(--blue);color:#fff;width:44px;height:44px;border-radius:50%;margin:auto;font-size:22px}.screen{display:none}.screen.active{display:block}.notice{padding:12px;border-radius:13px;background:#eef7ff;border:1px solid #d6eaff;color:#1d5b98;font-size:12px}.success{background:#ebf9f3;border-color:#c9efdf;color:#117151}.count{font-size:42px;font-weight:800;text-align:center;margin:12px 0}.center{text-align:center}.timer-ring{width:190px;height:190px;border-radius:50%;margin:18px auto;border:12px solid #dff3eb;border-top-color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center}.timer-ring b{font-size:34px}.empty{text-align:center;padding:25px;color:var(--muted)}.listline{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.listline:last-child{border:0}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><img class="logo" src="icon-180.png" alt="SRM University-AP logo"><div><b>FacultyFlow</b><small>Plan • Teach • Track • Achieve</small></div></div>
+  <div class="profile"><h1 id="greeting">Good Morning!</h1><p id="facultyLine">Faculty Member</p><p id="schoolLine">School • Department</p><span class="pill" id="semesterLine">Academic Year / Semester</span></div>
+</header>
+<main class="content">
+<section id="home" class="screen active">
+  <div class="grid" id="stats"></div>
+  <div class="card" id="nextCard"></div>
+  <div class="card"><div class="row"><h2>Quick Actions</h2></div><div class="two"><button class="btn secondary" id="goSchedule">Today's Schedule</button><button class="btn secondary" id="goImport">Import Timetable</button><button class="btn secondary" id="goTracker">Semester Tracker</button><button class="btn secondary" id="goAdjust">Adjustment Class</button></div></div>
+</section>
+<section id="schedule" class="screen">
+  <div class="card"><div class="row"><h2>Today's Schedule</h2><span class="tag" id="todayDate"></span></div><div id="todayList"></div></div>
+</section>
+<section id="import" class="screen">
+  <div class="card"><h2>Faculty Profile & Academic Structure</h2><div class="notice">The same app can be used by any faculty. Choose the University → School → Department, then save your profile.</div>
+    <div class="field"><label>University</label><input id="university" placeholder="e.g., SRM University-AP"></div>
+    <div class="field"><label>School / College</label><input id="school" placeholder="e.g., School of Engineering & Sciences"></div>
+    <div class="field"><label>Department</label><input id="department" placeholder="e.g., Department of Computer Science & Engineering"></div>
+    <div class="field"><label>Faculty Name</label><input id="faculty" placeholder="e.g., Dr. Yasir Afaq"></div>
+    <div class="two"><div class="field"><label>Designation</label><input id="designation" placeholder="Assistant Professor"></div><div class="field"><label>Academic Year / Semester</label><input id="semester" placeholder="2026–27 / Odd"></div></div>
+    <button class="btn block" id="saveProfile">Save Faculty Profile</button>
+  </div>
+  <div class="card"><h2>Import Timetable</h2><div class="tabs"><button class="active" data-import="excel">Excel / CSV</button><button data-import="pdf">PDF</button><button data-import="image">Image</button><button data-import="manual">Manual</button></div>
+    <div id="excelPane"><div class="notice">Excel/CSV is the most reliable option for a GitHub Pages app. Choose a timetable file and review the rows before applying.</div><div class="field"><label>Timetable file</label><input id="fileInput" type="file" accept=".xlsx,.xls,.csv,.txt"></div></div>
+    <div id="pdfPane" class="hidden"><div class="notice">PDF timetable import can be added with browser PDF parsing. For best accuracy, use a text-based PDF or Excel file.</div><div class="field"><input type="file" accept=".pdf"></div></div>
+    <div id="imagePane" class="hidden"><div class="notice">Image timetable import is prepared for OCR. Use a clear timetable photo, then verify every detected row.</div><div class="field"><input type="file" accept="image/png,image/jpeg"></div></div>
+    <div id="manualPane" class="hidden"><div class="notice">Add classes manually if your institution uses a complex timetable format.</div><button class="btn secondary" id="addManual">Add a timetable row</button></div>
+  </div>
+  <div class="card"><h2>Current Timetable</h2><div id="timetableList"></div><button class="btn block" id="applyDemo">Load / Replace with Sample Timetable</button></div>
+</section>
+<section id="tracker" class="screen">
+  <div class="card"><h2>Semester Tracker</h2><div class="grid" id="trackerStats"></div></div>
+  <div class="card"><div class="row"><h2>Lecture History</h2><button class="btn secondary" id="exportCsv">Export CSV</button></div><div id="history"></div></div>
+</section>
+<section id="more" class="screen">
+  <div class="card"><h2>Settings</h2><div class="listline"><span>University</span><b id="setUni">—</b></div><div class="listline"><span>School</span><b id="setSchool">—</b></div><div class="listline"><span>Department</span><b id="setDept">—</b></div><div class="listline"><span>Faculty</span><b id="setFaculty">—</b></div><div class="listline"><span>Semester</span><b id="setSem">—</b></div></div>
+  <div class="card"><h2>Data</h2><button class="btn secondary block" id="backup">Copy Backup Data</button><button class="btn danger block" id="reset" style="margin-top:9px">Reset App Data</button></div>
+</section>
+<section id="adjust" class="screen">
+  <div class="card"><h2>Add Adjustment Class</h2><div class="notice">Add a class assigned outside your regular timetable. It will appear in Today and can be tracked like a regular lecture.</div><div class="two"><div class="field"><label>Date</label><input id="adDate" type="date"></div><div class="field"><label>Day</label><input id="adDay" readonly></div></div><div class="two"><div class="field"><label>Start</label><input id="adStart" type="time"></div><div class="field"><label>End</label><input id="adEnd" type="time"></div></div><div class="field"><label>Course / Subject</label><input id="adCourse" placeholder="e.g., CSE 101"></div><div class="two"><div class="field"><label>Section / Batch</label><input id="adBatch" placeholder="e.g., CSE I-C"></div><div class="field"><label>Room</label><input id="adRoom" placeholder="e.g., V101"></div></div><div class="field"><label>Notes</label><input id="adNotes" placeholder="Optional"></div><button class="btn block" id="saveAdjust">Add Adjustment Class</button></div>
+  <div class="card"><h2>Saved Adjustments</h2><div id="adjustList"></div></div>
+</section>
+</main>
+<nav class="nav"><button data-nav="home" class="active">⌂<br>Home</button><button data-nav="schedule">▣<br>Schedule</button><button class="plus" id="plus">+</button><button data-nav="tracker">▥<br>Tracker</button><button data-nav="more">☰<br>More</button></nav>
+</div>
+<script>
+const KEY='facultyflow_v6';
+const demo=[
+ {day:'Tuesday',start:'09:00',end:'09:50',course:'CSE 101',section:'AIML I-P',room:'V603'},
+ {day:'Tuesday',start:'10:00',end:'10:50',course:'CSE 101',section:'AIML I-P',room:'V603'},
+ {day:'Tuesday',start:'15:00',end:'15:50',course:'CSE 101',section:'CS I-C',room:'V403'},
+ {day:'Tuesday',start:'16:00',end:'17:30',course:'CSE 101',section:'CS I-C',room:'V403'},
+ {day:'Wednesday',start:'11:00',end:'11:50',course:'CSE 101',section:'CS I-C',room:'V101'},
+ {day:'Wednesday',start:'12:00',end:'12:50',course:'CSE 101',section:'CS I-C',room:'V101'},
+ {day:'Thursday',start:'09:00',end:'09:50',course:'CSE 101',section:'AIML I-P',room:'V601'},
+ {day:'Thursday',start:'10:00',end:'10:50',course:'CSE 101',section:'AIML I-P',room:'V601'},
+ {day:'Thursday',start:'15:00',end:'15:50',course:'CSE 101',section:'CS I-C',room:'S307'},
+ {day:'Friday',start:'09:00',end:'09:50',course:'CSE 101',section:'CS I-C',room:'S307'},
+ {day:'Friday',start:'10:00',end:'10:50',course:'CSE 101',section:'CS I-C',room:'S307'}
+];
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{profile:{university:'SRM University-AP',school:'School of Engineering & Sciences',department:'Department of Computer Science & Engineering',faculty:'Dr. Yasir Afaq',designation:'Assistant Professor',semester:'2026–27 / Odd'},timetable:demo,adjustments:[],history:[]};
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function dayName(d){return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d]}
+function mins(t){const [h,m]=t.split(':').map(Number);return h*60+m}
+function dur(a,b){return Math.max(0,mins(b)-mins(a))}
+function todayClasses(){const now=new Date(),day=dayName(now.getDay()),date=now.toISOString().slice(0,10);return [...state.timetable.filter(x=>x.day===day).map(x=>({...x,type:'Regular'})),...state.adjustments.filter(x=>x.date===date).map(x=>({...x,type:'Adjustment'}))].sort((a,b)=>a.start.localeCompare(b.start))}
+function fmtDate(d=new Date()){return d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short',year:'numeric'})}
+function time12(t){let [h,m]=t.split(':').map(Number);let ap=h>=12?'PM':'AM';h=h%12||12;return `${h}:${String(m).padStart(2,'0')} ${ap}`}
+function keyFor(x){return `${x.type}|${x.date||x.day}|${x.start}|${x.course}|${x.section}`}
+function historyFor(x){return state.history.find(h=>h.key===keyFor(x))}
+let timer=null;
+function currentStatus(x){const n=new Date(),cur=n.getHours()*60+n.getMinutes()+n.getSeconds()/60,s=mins(x.start),e=mins(x.end);if(cur<s)return 'upcoming';if(cur<e)return 'current';return 'passed'}
+function startLecture(x){const key=keyFor(x),existing=historyFor(x);if(existing&&existing.status==='completed')return;let h=existing||{key,...x,status:'running'};h.startedAt=h.startedAt||Date.now();h.status='running';const i=state.history.findIndex(v=>v.key===key);if(i>=0)state.history[i]=h;else state.history.push(h);save();nav('schedule')}
+function completeLecture(x){const key=keyFor(x),h=historyFor(x);if(!h||!h.startedAt)return;h.completedAt=Date.now();h.actualMinutes=Math.max(0,Math.round((h.completedAt-h.startedAt)/60000));h.status='completed';save()}
+function render(){
+ const p=state.profile;document.getElementById('facultyLine').textContent=`${p.faculty||'Faculty Member'} • ${p.designation||''}`;document.getElementById('schoolLine').textContent=`${p.university||''} • ${p.school||''} • ${p.department||''}`;document.getElementById('semesterLine').textContent=p.semester||'Academic Year / Semester';
+ document.getElementById('greeting').textContent=(new Date().getHours()<12?'Good Morning!':new Date().getHours()<17?'Good Afternoon!':'Good Evening!');
+ const tc=todayClasses(),completedToday=tc.filter(x=>historyFor(x)?.status==='completed').length,actual=state.history.filter(h=>h.status==='completed').reduce((s,h)=>s+(h.actualMinutes||0),0),planned=state.history.filter(h=>h.status==='completed').reduce((s,h)=>s+dur(h.start,h.end),0);
+ document.getElementById('stats').innerHTML=`<div class="stat"><strong>${tc.length}</strong><span>Classes Today</span></div><div class="stat"><strong>${Math.floor(actual/60)}h ${actual%60}m</strong><span>Actual Teaching</span></div><div class="stat"><strong>${completedToday}</strong><span>Completed Today</span></div><div class="stat"><strong>${state.adjustments.length}</strong><span>Adjustments</span></div>`;
+ const next=tc.find(x=>!historyFor(x)?.status==='completed')||tc.find(x=>historyFor(x)?.status!=='completed');
+ document.getElementById('nextCard').innerHTML=next?`<div class="row"><h2>Next / Current Lecture</h2><span class="tag">${currentStatus(next)==='current'?'LIVE':currentStatus(next)==='upcoming'?'Upcoming':'Completed time'}</span></div><div class="class ${currentStatus(next)==='current'?'active':''}"><div class="row"><div><div class="time">${time12(next.start)} – ${time12(next.end)}</div><b>${next.course} — ${next.section}</b><div class="muted small">${next.room} • ${next.type}</div></div><button class="btn" onclick='startLecture(${JSON.stringify(next)})'>▶ Start</button></div></div>`:`<div class="empty">No classes scheduled for today.</div>`;
+ document.getElementById('todayDate').textContent=fmtDate();document.getElementById('todayList').innerHTML=tc.length?tc.map(x=>classHtml(x)).join(''):'<div class="empty">No classes today.</div>';
+ renderTimetable();renderTracker();renderAdjust();renderSettings();
+ if(timer)clearInterval(timer);timer=setInterval(()=>{renderLiveOnly()},1000)
+}
+function classHtml(x){const h=historyFor(x),st=h?.status==='completed'?'done':currentStatus(x)==='current'?'active':'';let action=h?.status==='completed'?`<span class="tag green">✓ ${h.actualMinutes||0} min</span>`:h?.status==='running'?`<button class="btn danger" onclick='completeLecture(${JSON.stringify(x)})'>✓ Mark Complete</button>`:`<button class="btn" onclick='startLecture(${JSON.stringify(x)})'>▶ Start Lecture</button>`;return `<div class="class ${st}" data-live="1"><div class="row"><div><div class="time">${time12(x.start)} – ${time12(x.end)}</div><b>${x.course} — ${x.section}</b><div class="muted small">${x.room} • ${x.type}</div><div class="small muted" data-count='${keyFor(x)}'></div></div><div>${action}</div></div></div>`}
+function renderLiveOnly(){document.querySelectorAll('[data-count]').forEach(el=>{const h=state.history.find(v=>v.key===el.dataset.count);if(!h||h.status!=='running')return;const x=h,e=mins(x.end)*60000;const end=new Date();end.setHours(0,0,0,0);end.setTime(end.getTime()+e);let r=end.getTime()-Date.now();if(r<0)el.textContent=`Time over • actual ${Math.round((Date.now()-h.startedAt)/60000)} min`;else{let s=Math.floor(r/1000),m=Math.floor(s/60),sec=s%60;el.textContent=`Live • ${m}m ${String(sec).padStart(2,'0')}s remaining`}})}
+function renderTimetable(){document.getElementById('timetableList').innerHTML=state.timetable.length?state.timetable.map(x=>`<div class="listline"><span><b>${x.day}</b> ${time12(x.start)}–${time12(x.end)}<br><span class="muted">${x.course} • ${x.section}</span></span><b>${x.room}</b></div>`).join(''):'<div class="empty">No timetable loaded.</div>'}
+function renderTracker(){const done=state.history.filter(h=>h.status==='completed'),actual=done.reduce((s,h)=>s+(h.actualMinutes||0),0),planned=done.reduce((s,h)=>s+dur(h.start,h.end),0);document.getElementById('trackerStats').innerHTML=`<div class="stat"><strong>${done.length}</strong><span>Lectures Completed</span></div><div class="stat"><strong>${Math.floor(actual/60)}h ${actual%60}m</strong><span>Actual Teaching Time</span></div><div class="stat"><strong>${Math.floor(planned/60)}h ${planned%60}m</strong><span>Planned Time</span></div><div class="stat"><strong>${planned?Math.round(actual/planned*100):0}%</strong><span>Actual / Planned</span></div>`;document.getElementById('history').innerHTML=done.length?done.slice().reverse().map(h=>`<div class="listline"><span><b>${h.course} — ${h.section}</b><br><span class="muted">${h.type} • ${h.room} • ${h.start}–${h.end}</span></span><b>${h.actualMinutes||0} min</b></div>`).join(''):'<div class="empty">Start and complete lectures to build your semester history.</div>'}
+function renderAdjust(){document.getElementById('adjustList').innerHTML=state.adjustments.length?state.adjustments.map((x,i)=>`<div class="class"><div class="row"><div><b>${x.course} — ${x.section}</b><div class="small muted">${x.date} • ${time12(x.start)}–${time12(x.end)} • ${x.room}</div></div><button class="btn danger" onclick="deleteAdjust(${i})">Delete</button></div></div>`).join(''):'<div class="empty">No adjustment classes added.</div>'}
+function renderSettings(){const p=state.profile;['university','school','department','faculty','semester'].forEach(k=>document.getElementById('set'+k[0].toUpperCase()+k.slice(1)).textContent=p[k]||'—');['university','school','department','faculty','designation','semester'].forEach(k=>document.getElementById(k).value=p[k]||'')}
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav [data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.nav)));
+document.getElementById('plus').onclick=()=>nav('adjust');document.getElementById('goSchedule').onclick=()=>nav('schedule');document.getElementById('goImport').onclick=()=>nav('import');document.getElementById('goTracker').onclick=()=>nav('tracker');document.getElementById('goAdjust').onclick=()=>nav('adjust');
+document.getElementById('saveProfile').onclick=()=>{['university','school','department','faculty','designation','semester'].forEach(k=>state.profile[k]=document.getElementById(k).value.trim());save();alert('Faculty profile saved. The dashboard is now customized for this faculty member.')};
+document.querySelectorAll('[data-import]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-import]').forEach(x=>x.classList.remove('active'));b.classList.add('active');['excel','pdf','image','manual'].forEach(k=>document.getElementById(k+'Pane').classList.toggle('hidden',k!==b.dataset.import))});
+document.getElementById('applyDemo').onclick=()=>{if(confirm('Replace the current timetable with the sample timetable?')){state.timetable=demo;save()}};
+document.getElementById('adDate').onchange=e=>{if(e.target.value){const d=new Date(e.target.value+'T00:00:00');document.getElementById('adDay').value=dayName(d.getDay())}};
+document.getElementById('saveAdjust').onclick=()=>{const x={date:adDate.value,start:adStart.value,end:adEnd.value,course:adCourse.value.trim(),section:adBatch.value.trim(),room:adRoom.value.trim(),notes:adNotes.value.trim(),day:adDay.value,type:'Adjustment'};if(!x.date||!x.start||!x.end||!x.course){alert('Please enter date, start time, end time and course.');return}if(mins(x.end)<=mins(x.start)){alert('End time must be after start time.');return}state.adjustments.push(x);document.querySelectorAll('#adjust input').forEach(i=>i.value='');save();nav('adjust')};
+function deleteAdjust(i){const x=state.adjustments[i];if(confirm('Delete this adjustment class?')){state.adjustments.splice(i,1);state.history=state.history.filter(h=>h.key!==keyFor(x));save()}}
+document.getElementById('exportCsv').onclick=()=>{const rows=[['Date','Type','Course','Section','Room','Start','End','Actual Minutes'],...state.history.filter(h=>h.status==='completed').map(h=>[new Date(h.completedAt).toLocaleDateString(),h.type,h.course,h.section,h.room,h.start,h.end,h.actualMinutes||0])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='FacultyFlow_Semester_Report.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+document.getElementById('backup').onclick=()=>{navigator.clipboard?.writeText(JSON.stringify(state,null,2)).then(()=>alert('Backup data copied.'))||alert(JSON.stringify(state))};
+document.getElementById('reset').onclick=()=>{if(confirm('Reset all FacultyFlow data on this device?')){localStorage.removeItem(KEY);location.reload()}};
+render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body></html>
