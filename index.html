@@ -1,0 +1,1630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#071f3d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FacultyFlow">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>FacultyFlow | Faculty Teaching Management</title>
+<style>
+:root{--navy:#071f3d;--navy2:#0d3d68;--blue:#0b72f5;--blue2:#eaf3ff;--gold:#b28b35;--green:#14966a;--green2:#e9f8f1;--red:#d94b4b;--purple:#7257d8;--bg:#f4f7fb;--card:#fff;--text:#14253d;--muted:#6c7b90;--line:#dfe7f0;--shadow:0 8px 24px rgba(11,42,75,.07)}
+*{box-sizing:border-box}
+html{background:var(--bg);overflow-x:hidden;touch-action:pan-y}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden;overscroll-behavior-x:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+input,select,textarea{font-size:16px}
+.app{width:100%;max-width:560px;min-height:100vh;margin:auto;padding-bottom:92px;overflow-x:hidden}
+.top{background:linear-gradient(145deg,#061a34 0%,#0d4778 100%);color:#fff;padding:15px 16px 20px;border-radius:0 0 26px 26px}
+.brand{display:flex;align-items:center;gap:11px}
+.srm-logo{width:58px;height:40px;object-fit:contain;background:#fff;border-radius:8px;padding:4px}
+.brand-title{font-size:21px;font-weight:900;letter-spacing:-.5px}.brand-title span{color:#d2b35c}.brand-sub{font-size:10px;opacity:.78;margin-top:2px}
+.identity{margin-top:17px}.identity h1{margin:0 0 4px;font-size:25px;line-height:1.1}.identity p{margin:3px 0;font-size:11px;opacity:.9;line-height:1.35}.semester-pill{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12);font-size:10px}
+.content{padding:14px 14px 8px}.screen{display:none}.screen.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:17px;margin:0 0 12px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;min-width:0}.muted{color:var(--muted)}.small{font-size:11px}.tiny{font-size:10px}
+.datebar{display:flex;align-items:center;justify-content:space-between;background:#f4f8fc;border:1px solid #e1eaf4;border-radius:13px;padding:7px 9px;margin-bottom:11px}.datebar button{border:0;background:transparent;color:var(--navy);font-size:23px;min-width:42px;min-height:42px}.datebar b{font-size:12px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{min-width:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 7px;text-align:center}.stat strong{display:block;font-size:19px;line-height:1.1}.stat span{display:block;font-size:9px;color:var(--muted);margin-top:4px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-head h2{margin:0}
+.class{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:12px;margin:9px 0;background:#fbfdff}.class.current{border-left-color:var(--green);background:#f2fbf7}.class.completed{border-left-color:#9ca9b8;background:#f8fafc}.class.adjustment{border-left-color:var(--gold);background:#fffaf0}
+.class-title{font-size:13px;font-weight:900}.time{font-size:12px;font-weight:900;color:var(--navy)}.meta{font-size:10px;color:var(--muted);margin-top:4px}
+.tag{font-size:9px;font-weight:800;padding:5px 8px;border-radius:999px;background:#edf5ff;color:#1764bf;white-space:nowrap}.tag.green{background:#e7f8f0;color:#087552}.tag.gold{background:#fff3d4;color:#856116}.tag.red{background:#fff0f0;color:#a12d2d}.tag.gray{background:#eef1f4;color:#647184}
+.btn{border:0;border-radius:11px;min-height:42px;padding:9px 13px;background:var(--blue);color:#fff;font-weight:800;font-size:12px}.btn.secondary{background:#edf4fd;color:#145c9f}.btn.success{background:var(--green)}.btn.danger{background:var(--red)}.btn.gold{background:#9d7825}.btn.block{width:100%}.btn:disabled{opacity:.5;cursor:not-allowed}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick{min-height:46px}
+.notice{padding:11px 12px;border-radius:12px;background:#eef6ff;border:1px solid #d9e8f8;color:#185b96;font-size:11px;line-height:1.45}.notice.success{background:var(--green2);border-color:#cbeedf;color:#117151}.notice.warn{background:#fff8e9;border-color:#f1e0ad;color:#7d601b}
+.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #d3deea;border-radius:11px;background:#fff;color:var(--text);padding:11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,114,245,.1)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hero-next{background:linear-gradient(145deg,#f0f7ff,#fff);border:1px solid #d8e7f7}.next-label{font-size:10px;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:.7px}
+.course-line{display:flex;align-items:center;gap:10px;margin:10px 0}.course-icon{width:38px;height:38px;border-radius:12px;background:var(--blue2);display:grid;place-items:center;color:var(--blue);font-weight:900}.course-icon.green{background:var(--green2);color:var(--green)}.course-icon.gold{background:#fff4d8;color:#9d7825}
+.empty{text-align:center;padding:25px 10px;color:var(--muted);font-size:12px}.empty strong{display:block;color:var(--text);margin-bottom:5px}
+.live-head{background:linear-gradient(145deg,#eff7ff,#fff)}.timer-ring{width:190px;height:190px;border-radius:50%;margin:18px auto;border:12px solid #dff2e9;border-top-color:var(--green);border-right-color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.timer-ring b{font-size:35px}.live-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.check{width:74px;height:74px;border-radius:50%;background:#e3f8ec;color:var(--green);display:grid;place-items:center;font-size:40px;margin:2px auto 11px}
+.listline{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}.listline:last-child{border-bottom:0}.listline span{min-width:0}.listline b{white-space:nowrap}
+.bar{height:8px;background:#edf1f5;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:99px}
+.tracker-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.tracker-stat{padding:13px;border:1px solid var(--line);border-radius:14px}.tracker-stat strong{font-size:21px;display:block}.tracker-stat span{font-size:10px;color:var(--muted)}
+.segment{display:grid;grid-template-columns:1fr 1fr;background:#eef3f8;padding:3px;border-radius:11px;margin-bottom:12px}.segment button{border:0;background:transparent;border-radius:9px;padding:9px;color:var(--muted);font-weight:800;font-size:11px}.segment button.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.profile-card{display:flex;gap:12px;align-items:center}.photo{width:62px;height:62px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 15px rgba(0,0,0,.14)}
+.import-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.upload-tile{position:relative;border:1px solid var(--line);border-radius:15px;padding:15px 10px;text-align:center;background:#fbfdff;min-height:116px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}.upload-tile input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.upload-icon{width:40px;height:40px;border-radius:12px;background:#edf5ff;color:var(--blue);display:grid;place-items:center;font-size:19px;font-weight:900;margin-bottom:7px}.upload-tile.excel .upload-icon{background:#eaf8ef;color:#16854e}.upload-tile.pdf .upload-icon{background:#fff0f0;color:#c43c3c}.upload-tile.image .upload-icon{background:#f2edff;color:#7257d8}.upload-tile b{font-size:12px}.upload-tile span{font-size:9px;color:var(--muted);margin-top:3px}
+.import-status{display:none;margin-top:10px}.import-status.show{display:block}
+.preview-table{width:100%;border-collapse:collapse;font-size:10px}.preview-table th,.preview-table td{border-bottom:1px solid var(--line);padding:8px 5px;text-align:left;vertical-align:top}.preview-table th{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.manual-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}.manual-row:last-child{border-bottom:0}
+.nav{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:0;width:min(560px,100%);background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 8px calc(7px + env(safe-area-inset-bottom));}.nav button{border:0;background:transparent;color:var(--muted);font-size:10px;min-height:48px;padding:3px}.nav button.active{color:var(--blue);font-weight:900}.nav .plus{width:46px;height:46px;min-height:46px;background:var(--blue);color:#fff;border-radius:50%;margin:auto;font-size:22px}
+.footer{text-align:center;color:var(--muted);font-size:9px;padding:4px 15px 15px}
+.toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:50;background:#14253d;color:#fff;padding:11px 14px;border-radius:12px;font-size:11px;max-width:calc(100% - 30px);box-shadow:0 8px 24px rgba(0,0,0,.2);display:none}.toast.show{display:block}
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,20,38,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}.modal-backdrop.show{display:flex}.modal{width:min(560px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+.modal h2{margin:0 0 6px}.modal .close{border:0;background:#eef3f8;border-radius:50%;width:38px;height:38px;font-size:18px}
+@media(min-width:700px){body{padding:20px 0}.app{box-shadow:0 15px 50px rgba(7,31,61,.12);border-radius:28px;overflow:hidden}.top{border-radius:0}.nav{border-radius:0 0 28px 28px}}
+@media(max-width:360px){.stats{grid-template-columns:1fr 1fr}.import-grid{grid-template-columns:1fr}.brand-title{font-size:19px}.identity h1{font-size:23px}}
+
+.file-action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:12px;border:1px solid #cfe0f5;background:#f7fbff;border-radius:14px}.file-action strong{display:block;font-size:12px;word-break:break-word}.file-action .btn{min-width:145px}.upload-tile input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.upload-tile:focus-within{outline:3px solid rgba(20,121,248,.18);border-color:var(--blue)}@media(max-width:430px){.file-action{align-items:stretch;flex-direction:column}.file-action .btn{width:100%}}
+
+/* ===== FacultyFlow v33 — Advanced Responsive UI ===== */
+:root{
+  --navy:#061a34;--navy2:#0a3157;--blue:#1677ff;--blue2:#eaf3ff;
+  --gold:#c5a14b;--green:#10a56f;--green2:#e9f9f2;--red:#ef4444;
+  --purple:#7357e8;--bg:#f3f7fc;--card:#ffffff;--text:#102341;
+  --muted:#6b7b91;--line:#dce6f1;--shadow:0 12px 35px rgba(10,39,70,.08);
+  --radius:20px;
+}
+html,body{background:linear-gradient(180deg,#eef5fb 0%,#f7faff 45%,#f2f6fb 100%);color:var(--text)}
+body{min-height:100vh}
+.app{max-width:1440px;min-height:100vh;margin:0 auto;padding:0 0 32px 252px;overflow-x:hidden}
+.top{
+  position:sticky;top:0;z-index:20;height:78px;padding:14px 30px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  border-radius:0;background:rgba(255,255,255,.88);color:var(--text);
+  border-bottom:1px solid rgba(220,230,241,.9);backdrop-filter:blur(18px);
+  box-shadow:0 4px 22px rgba(9,35,62,.05)
+}
+.brand{gap:12px;min-width:230px}
+.srm-logo{width:55px;height:44px;object-fit:contain;background:#fff;border-radius:10px;padding:3px}
+.brand-title{font-size:22px;color:var(--navy);letter-spacing:-.7px}
+.brand-title span{color:var(--blue)}
+.brand-sub{font-size:10px;color:var(--muted)}
+.identity{margin:0;display:flex;align-items:center;gap:12px;flex:1;justify-content:flex-end}
+.identity h1{margin:0;font-size:17px;line-height:1.1;color:var(--navy)}
+.identity p{margin:0;font-size:10px;color:var(--muted)}
+.semester-pill{margin:0;padding:7px 11px;background:#eef5ff;color:#175da7;border:1px solid #d8e8fa}
+.content{padding:24px 30px 12px;max-width:1180px}
+.screen.active{animation:screenIn .18s ease-out}
+@keyframes screenIn{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+.card{border:1px solid rgba(215,226,238,.9);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);background:rgba(255,255,255,.94)}
+.card h2{font-size:18px}
+.datebar{background:#fff;border-radius:15px;padding:6px 10px;margin-bottom:14px}
+.datebar button{min-width:38px;min-height:38px}
+.stats{grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{border-radius:16px;padding:15px 10px;background:linear-gradient(180deg,#fff,#f9fbfe);box-shadow:0 4px 14px rgba(15,52,86,.04)}
+.stat strong{font-size:22px;color:var(--navy)}
+.section-head h2{font-size:18px}
+.btn{border-radius:12px;min-height:44px;padding:10px 15px;box-shadow:0 5px 14px rgba(22,119,255,.12)}
+.btn.secondary{background:#eef5ff;border:1px solid #d9e8fb}
+.class{border:1px solid #dfe8f2;border-left:5px solid var(--blue);border-radius:15px;padding:14px;margin:10px 0;background:#fbfdff}
+.class.current{border-left-color:var(--red);background:linear-gradient(100deg,#fff5f5,#fff)}
+.class.completed{border-left-color:var(--green);background:linear-gradient(100deg,#f2fbf7,#fff)}
+.class.adjustment{border-left-color:var(--gold);background:#fffaf0}
+.hero-next{background:linear-gradient(135deg,#071f3d 0%,#0e4d7e 72%,#166ec4 100%);color:#fff;border:0;box-shadow:0 18px 40px rgba(6,40,73,.2)}
+.hero-next .next-label,.hero-next .muted,.hero-next .meta{color:rgba(255,255,255,.78)}
+.hero-next .time,.hero-next .class-title{color:#fff}
+.hero-next .btn.secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.2);color:#fff}
+.quick-grid{grid-template-columns:repeat(4,1fr)}
+.tracker-grid{grid-template-columns:repeat(4,1fr)}
+.tracker-stat{border-radius:16px;background:linear-gradient(180deg,#fff,#f8fbff)}
+.import-grid{grid-template-columns:repeat(4,1fr)}
+.upload-tile{min-height:135px;border-radius:17px;background:linear-gradient(180deg,#fff,#f8fbff);transition:.18s transform,.18s box-shadow}
+.upload-tile:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(10,45,80,.1)}
+.file-action{border:1px solid #d9e6f3;border-radius:15px;background:#f8fbff;padding:12px}
+.preview-table{font-size:11px}.preview-table th{background:#f4f8fc;position:sticky;top:0}
+.profile-card{padding:4px 0}
+.photo{width:56px;height:56px}
+.footer{padding:15px 30px;font-size:10px}
+.nav{
+  position:fixed;z-index:40;left:0;top:0;bottom:0;width:252px;
+  transform:none;padding:18px 12px;display:flex;flex-direction:column;
+  justify-content:flex-start;gap:4px;background:linear-gradient(180deg,#061a34 0%,#08294a 70%,#061a34 100%);
+  border:0;border-right:1px solid rgba(255,255,255,.08);box-shadow:12px 0 30px rgba(5,25,47,.12)
+}
+.nav:before{content:"FacultyFlow";display:block;color:#fff;font-size:22px;font-weight:900;padding:4px 14px 22px;letter-spacing:-.5px}
+.nav button{width:100%;min-height:46px;border-radius:12px;text-align:left;padding:9px 14px;color:rgba(255,255,255,.68);font-size:12px;display:flex;align-items:center;gap:11px}
+.nav button br{display:none}
+.nav button.active{background:linear-gradient(90deg,rgba(22,119,255,.28),rgba(22,119,255,.1));color:#fff;font-weight:900;border-left:3px solid #58a1ff}
+.nav .plus{width:100%;height:46px;border-radius:12px;margin:7px 0;background:linear-gradient(135deg,#1677ff,#0c5dd0);font-size:16px;text-align:left}
+.nav .plus:after{content:"  Add / Adjust Class";font-size:12px;font-weight:800;margin-left:8px}
+.toast{bottom:28px}
+.modal-backdrop{backdrop-filter:blur(5px)}
+/* Home dashboard enhancement */
+.home-command{display:grid;grid-template-columns:1.25fr .9fr .9fr;gap:14px;margin-top:14px}
+.status-panel{min-height:210px;border-radius:20px;padding:18px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow)}
+.status-panel.ongoing{background:linear-gradient(145deg,#fff4f4,#fff);border-color:#ffd4d4}
+.status-panel.upcoming{background:linear-gradient(145deg,#f0f7ff,#fff)}
+.status-panel.completed{background:linear-gradient(145deg,#effbf6,#fff)}
+.status-kicker{font-size:10px;font-weight:900;letter-spacing:.9px;text-transform:uppercase}
+.status-panel.ongoing .status-kicker{color:var(--red)}
+.status-panel.upcoming .status-kicker{color:var(--blue)}
+.status-panel.completed .status-kicker{color:var(--green)}
+.status-main{font-size:21px;font-weight:900;margin:9px 0 4px;color:var(--navy)}
+.status-time{font-size:13px;font-weight:800;color:var(--muted)}
+.live-mini{display:flex;align-items:center;gap:9px;margin:13px 0}
+.live-dot{width:9px;height:9px;background:var(--red);border-radius:50%;box-shadow:0 0 0 5px rgba(239,68,68,.12)}
+.countdown{font-size:30px;font-weight:900;color:var(--red);letter-spacing:-1px}
+.dashboard-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.quick-action{border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;text-align:left}
+.quick-action b{display:block;font-size:12px}.quick-action span{font-size:9px;color:var(--muted)}
+@media(max-width:1100px){
+  .app{padding-left:220px}.nav{width:220px}.content{padding-left:20px;padding-right:20px}
+  .home-command{grid-template-columns:1fr 1fr}.home-command .completed{grid-column:1/-1}
+  .quick-actions{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .app{max-width:560px;margin:auto;padding:0 0 90px}
+  .top{position:relative;height:auto;padding:14px 16px 18px;display:block;border-radius:0 0 24px 24px}
+  .brand{min-width:0}.srm-logo{width:52px;height:38px}.brand-title{font-size:20px}
+  .identity{margin-top:15px;display:block}.identity h1{font-size:24px;color:#fff}.identity p{font-size:11px;color:rgba(255,255,255,.86);margin-top:4px}.semester-pill{margin-top:8px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.12);color:#fff}
+  .top{background:linear-gradient(145deg,#061a34,#0e4d7e)}
+  .content{padding:14px 14px 8px}
+  .card{border-radius:18px;padding:15px;margin-bottom:12px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .home-command,.dashboard-grid{grid-template-columns:1fr}
+  .home-command .completed{grid-column:auto}
+  .quick-grid,.quick-actions{grid-template-columns:1fr 1fr}
+  .tracker-grid{grid-template-columns:1fr 1fr}
+  .import-grid{grid-template-columns:1fr 1fr}
+  .nav{
+    left:0;right:0;top:auto;bottom:0;width:100%;height:auto;transform:none;
+    flex-direction:row;justify-content:space-around;gap:0;padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+    background:rgba(255,255,255,.97);border-top:1px solid var(--line);box-shadow:0 -8px 25px rgba(10,35,60,.08);backdrop-filter:blur(15px)
+  }
+  .nav:before{display:none}
+  .nav button{width:auto;flex:1;min-height:48px;padding:4px 2px;color:var(--muted);display:block;text-align:center;font-size:9px;border-left:0}
+  .nav button br{display:block}
+  .nav button.active{background:transparent;color:var(--blue);border-left:0}
+  .nav .plus{width:48px;flex:0 0 48px;height:48px;min-height:48px;border-radius:50%;margin:auto;font-size:22px;padding:0;color:#fff;text-align:center}
+  .nav .plus:after{display:none}
+  .footer{padding-bottom:6px}
+  .preview-table{min-width:600px}
+}
+@media(max-width:430px){
+  .import-grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr 1fr}
+  .status-main{font-size:19px}.countdown{font-size:26px}
+}
+
+
+/* v34: high-contrast ongoing panel */
+#homeToday .status-panel.ongoing .class,
+#homeToday .status-panel.ongoing .class * { color:#102341 !important; opacity:1 !important; }
+#homeToday .status-panel.ongoing .class { background:#fff !important; border-left:4px solid #ef4444 !important; }
+#homeToday .status-panel.ongoing .class .tag { color:#b91c1c !important; background:#fff0f0 !important; }
+#homeToday .status-panel.ongoing .class .meta,
+#homeToday .status-panel.ongoing .class .muted { color:#61738a !important; }
+#homeToday .status-panel.ongoing .class .time,
+#homeToday .status-panel.ongoing .class-title { color:#102341 !important; font-weight:900 !important; }
+
+.sync-panel{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sync-note{font-size:11px;line-height:1.5;color:#61738a;background:#f4f8fc;border:1px solid #dce6f1;border-radius:12px;padding:11px}
+@media(max-width:760px){.sync-panel{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand">
+    <img class="srm-logo" src="https://www.srmap.edu.in/wp-content/uploads/2025/06/SRMAP-Logo-Main.png" alt="SRM University-AP">
+    <div><div class="brand-title">Faculty<span>Flow</span></div><div class="brand-sub">Plan • Teach • Track • Grow</div></div>
+  </div>
+  <div class="identity">
+    <h1 id="greeting">Good Morning 👋</h1>
+    <p id="facultyLine">Faculty Member</p>
+    <p id="orgLine">University • School • Department</p>
+    <span class="semester-pill" id="semesterLine">Academic Year / Semester</span>
+  </div>
+</header>
+
+<main class="content">
+<section id="home" class="screen active">
+  <div class="card">
+    <div class="datebar"><button type="button" id="prevDay">‹</button><b id="homeDate"></b><button type="button" id="nextDay">›</button></div>
+    <div class="stats" id="homeStats"></div>
+  </div>
+  <div class="card hero-next" id="nextCard"></div>
+  <div class="card">
+    <div class="section-head"><h2>Today’s Classes</h2><button class="btn secondary" id="openSchedule">View schedule</button></div>
+    <div id="homeToday"></div>
+  </div>
+</section>
+
+<section id="schedule" class="screen">
+  <div class="card"><div class="section-head"><h2>Today’s Schedule</h2><span class="tag" id="scheduleDate"></span></div><div id="todayList"></div></div>
+</section>
+
+<section id="live" class="screen">
+  <div class="card live-head" id="liveCard"></div>
+</section>
+
+<section id="complete" class="screen">
+  <div class="card center" id="completeCard"></div>
+</section>
+
+<section id="tracker" class="screen">
+  <div class="card">
+    <div class="section-head"><h2>Semester Tracker</h2><span class="tag" id="trackerSemester"></span></div>
+    <div class="tracker-grid" id="trackerStats"></div>
+    <div style="margin-top:13px"><div class="row tiny"><span>Teaching progress</span><b id="completionPct">0%</b></div><div class="bar" style="margin-top:5px"><i id="completionBar" style="width:0%"></i></div></div>
+  </div>
+  <div class="card">
+    <div class="segment"><button id="recentTab" class="active">Recent Lectures</button><button id="courseTab">Course-wise</button></div>
+    <div id="recentPanel"></div><div id="coursePanel" class="hidden"></div>
+  </div>
+  <div class="card">
+    <div class="section-head"><h2>Quick Stats</h2><button class="btn secondary" id="exportCsv">Export CSV</button></div>
+    <div id="quickStats"></div>
+  </div>
+</section>
+
+<section id="adjust" class="screen">
+  <div class="card">
+    <h2>Add Adjustment Class</h2>
+    <div class="notice success">Use this for a class assigned outside your regular timetable. It will appear on the selected date and can be timed and completed like a regular class.</div>
+    <div class="two"><div class="field"><label>Date</label><input id="adDate" type="date"></div><div class="field"><label>Day</label><input id="adDay" readonly></div></div>
+    <div class="two"><div class="field"><label>Start Time</label><input id="adStart" type="time"></div><div class="field"><label>End Time</label><input id="adEnd" type="time"></div></div>
+    <div class="field"><label>Course / Subject</label><input id="adCourse" placeholder="e.g. CSE 101"></div>
+    <div class="two"><div class="field"><label>Batch / Section</label><input id="adBatch" placeholder="e.g. CSE I-C"></div><div class="field"><label>Room</label><input id="adRoom" placeholder="e.g. V101"></div></div>
+    <div class="field"><label>Notes</label><textarea id="adNotes" rows="2" placeholder="Optional teaching note"></textarea></div>
+    <button class="btn block" id="saveAdjust">Add Adjustment Class</button>
+  </div>
+  <div class="card"><h2>Saved Adjustments</h2><div id="adjustList"></div></div>
+</section>
+
+<section id="import" class="screen">
+  <div class="card">
+    <div class="section-head"><h2>Faculty Profile</h2><span class="tag">Personal setup</span></div>
+    <div class="profile-card"><img id="profilePreview" class="photo" src="" alt="Faculty profile"><div><b id="profileName">Faculty Member</b><div class="muted small" id="profileDept">Department</div></div></div>
+    <div class="field"><label>Faculty Photo</label><input id="photoInput" type="file" accept="image/*"></div>
+    <div class="field"><label>University / Institution</label><input id="university" placeholder="Enter university name"></div>
+    <div class="field"><label>School / College</label><input id="school" placeholder="Enter school or college"></div>
+    <div class="field"><label>Department</label><input id="department" placeholder="Enter department"></div>
+    <div class="two"><div class="field"><label>Faculty Name</label><input id="faculty" placeholder="Enter faculty name"></div><div class="field"><label>Employee ID</label><input id="empId" placeholder="Enter employee ID" autocomplete="off"></div></div>
+    <div class="two"><div class="field"><label>Designation</label><select id="designation"><option value="Assistant Professor">Assistant Professor</option><option value="Associate Professor">Associate Professor</option><option value="Professor">Professor</option><option value="PhD Scholar">PhD Scholar</option></select></div><div class="field"><label>Academic Year / Semester</label><input id="semester" placeholder="2026–27 • Odd Semester"></div></div>
+    <button class="btn block" id="saveProfile">Save Faculty Profile</button>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><h2>Import Timetable</h2><span class="tag green">Your schedule</span></div>
+    <div class="notice">Upload your own timetable. FacultyFlow reads the timetable, prepares a review table, and only replaces your schedule after you confirm it.</div>
+    <div class="import-grid" style="margin-top:11px">
+      <label class="upload-tile excel"><input id="excelInput" type="file" accept=".xlsx,.xls,.csv"><div class="upload-icon">▦</div><b>Excel / CSV</b><span>Best for structured timetables</span></label>
+      <label class="upload-tile pdf"><input id="pdfInput" type="file" accept=".pdf"><div class="upload-icon">PDF</div><b>PDF timetable</b><span>Upload and extract</span></label>
+      <label class="upload-tile image"><input id="imageInput" type="file" accept="image/png,image/jpeg"><div class="upload-icon">⌁</div><b>Timetable image</b><span>JPG / PNG + OCR</span></label>
+      <button class="upload-tile" type="button" id="manualImport"><div class="upload-icon">＋</div><b>Enter manually</b><span>Create your schedule</span></button>
+    </div>
+    <div id="importStatus" class="import-status"></div>
+    <div id="fileAction" class="file-action hidden">
+      <div><strong id="selectedFileName">No file selected</strong><div class="muted tiny" id="selectedFileMeta">Choose a timetable file above.</div></div>
+      <button class="btn" id="processFile" type="button">Upload &amp; Extract</button>
+    </div>
+    <div id="manualEditor" class="hidden" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card hidden" id="previewCard">
+    <div class="section-head"><h2>Review Imported Timetable</h2><span class="tag" id="previewCount">0 classes</span></div>
+    <div class="notice warn">Review the detected rows before applying. You can edit any field that was interpreted incorrectly.</div>
+    <div class="table-wrap" style="margin-top:10px"><table class="preview-table"><thead><tr><th>Day</th><th>Start</th><th>End</th><th>Course / Section</th><th>Room</th></tr></thead><tbody id="previewBody"></tbody></table></div>
+    <div class="two" style="margin-top:11px"><button class="btn secondary" id="cancelPreview">Cancel</button><button class="btn" id="applyPreview">Use This Timetable</button></div>
+  </div>
+
+  <div class="card"><div class="section-head"><h2>Current Timetable</h2><span class="tag" id="classCount"></span></div><div id="timetableList"></div></div>
+</section>
+
+<section id="more" class="screen">
+  <div class="card"><div class="profile-card"><img id="morePhoto" class="photo" src="" alt=""><div><b id="moreFaculty">Faculty Member</b><div class="muted small" id="moreDept">Department</div><div class="muted tiny" id="moreSchool">School</div></div></div></div>
+  <div class="card"><h2>Manage</h2><button class="btn secondary block" id="goImport">Profile & Timetable</button><button class="btn secondary block" style="margin-top:8px" id="goAdjust">Adjustment Classes</button><button class="btn secondary block" style="margin-top:8px" id="goTracker">Semester Tracker & Reports</button></div>
+  <div class="card"><h2>Application</h2><div class="listline"><span>Platform</span><b>FacultyFlow PWA</b></div><div class="listline"><span>Data storage</span><b>On this device</b></div><div class="listline"><span>Timetable source</span><b id="moreTimetable">—</b></div><button class="btn danger block" style="margin-top:10px" id="reset">Reset App Data</button></div>
+</section>
+</main>
+
+
+<div class="card">
+  <div class="section-head"><h2>Device Sync</h2></div>
+  <div class="sync-note">
+    FacultyFlow stores your timetable, faculty profile, lecture history and adjustments on this device.
+    GitHub Pages publishes the application but does not synchronize personal data between devices.
+    Export your data on one device and import it on another, or connect a cloud database for automatic synchronization.
+  </div>
+  <div class="sync-panel" style="margin-top:10px">
+    <button class="btn secondary" id="exportData">Export My Data</button>
+    <button class="btn secondary" id="importDataBtn">Import My Data</button>
+  </div>
+  <input id="importDataFile" type="file" accept=".json,application/json" hidden>
+</div>
+
+<div class="footer">SRM University-AP • FacultyFlow • Plan Smarter • Teach Better • Track Effort • Achieve More</div>
+<nav class="nav"><button data-nav="home" class="active">⌂<br>Home</button><button data-nav="schedule">▣<br>Schedule</button><button id="plus" class="plus">+</button><button data-nav="tracker">▥<br>Tracker</button><button data-nav="more">☰<br>More</button></nav>
+<div id="toast" class="toast" aria-live="polite"></div>
+<div id="modalBackdrop" class="modal-backdrop"><div class="modal"><div class="row"><div><h2 id="modalTitle">Importing</h2><div class="muted small" id="modalSub">Please wait…</div></div><button class="close" id="closeModal">×</button></div><div id="modalBody" style="margin-top:13px"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script>
+const KEY='facultyflow_v33';
+const LEGACY='facultyflow_v27';
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+let state=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!state){state=JSON.parse(localStorage.getItem(LEGACY)||'null')}
+if(!state)state={profile:{university:'',school:'',department:'',faculty:'',empId:'',designation:'Assistant Professor',semester:''},timetable:[],adjustments:[],history:[],photo:''};
+state.profile=state.profile||{};state.profile.empId=state.profile.empId||'';state.timetable=Array.isArray(state.timetable)?state.timetable:[];state.adjustments=Array.isArray(state.adjustments)?state.adjustments:[];state.history=Array.isArray(state.history)?state.history:[];
+let selectedDate=new Date(),lastCompletion=null,previewRows=[];
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function dayName(n){return ['Sunday',...DAYS,'Sunday'][n]||'Sunday'}
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmt(d){return d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'})}
+function mins(t){const p=String(t||'').split(':').map(Number);return p.length===2?p[0]*60+p[1]:0}
+function dur(a,b){return Math.max(0,mins(b)-mins(a))}
+function time12(t){const p=String(t).split(':').map(Number);let h=p[0]||0;const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(p[1]||0).padStart(2,'0')+' '+ap}
+function safe(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function keyFor(x,date){return `${date||x.date||''}|${x.day||''}|${x.start}|${x.end}|${x.course}|${x.section}|${x.room}`}
+function classesFor(d){const day=dayName(d.getDay()),date=iso(d);return [...state.timetable.filter(x=>x.day===day).map(x=>({...x,date,source:'Regular'})),...state.adjustments.filter(x=>x.date===date).map(x=>({...x,source:'Adjustment',type:'Adjustment Class'}))].sort((a,b)=>mins(a.start)-mins(b.start))}
+function hist(x,d){return state.history.find(h=>h.key===keyFor(x,iso(d)))}
+function classStatus(x,d){const now=new Date(),date=x.date||iso(d);if(date!==iso(now))return 'upcoming';const n=mins(String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));if(n<mins(x.start))return 'upcoming';if(n<mins(x.end))return 'current';return 'passed'}
+function currentRunning(){return state.history.find(h=>h.status==='running')}
+function fmtMinutes(n){n=Math.max(0,Math.round(Number(n)||0));return Math.floor(n/60)+'h '+String(n%60).padStart(2,'0')+'m'}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function openModal(title,sub,body=''){ $('modalTitle').textContent=title;$('modalSub').textContent=sub||'';$('modalBody').innerHTML=body;$('modalBackdrop').classList.add('show')}
+function closeModal(){$('modalBackdrop').classList.remove('show')}
+function renderHeader(){const p=state.profile,h=new Date().getHours();$('greeting').textContent=(h<12?'Good Morning':h<17?'Good Afternoon':'Good Evening')+' 👋';$('facultyLine').textContent=(p.faculty||'Faculty Member')+' • '+(p.designation||'Faculty')+(p.empId?' • '+p.empId:'');$('orgLine').textContent=[p.university,p.school,p.department].filter(Boolean).join(' • ');$('semesterLine').textContent=p.semester||'Academic Year / Semester'}
+function renderProfile(){const p=state.profile;['university','school','department','faculty','empId','designation','semester'].forEach(k=>$(k).value=p[k]||'');$('profileName').textContent=p.faculty||'Faculty Member';$('profileDept').textContent=p.department||'Department';$('moreFaculty').textContent=(p.faculty||'Faculty Member')+(p.empId?' • '+p.empId:'');$('moreDept').textContent=p.department||'Department';$('moreSchool').textContent=p.school||'School';$('moreTimetable').textContent=state.timetable.length?state.timetable.length+' classes loaded':'Not configured';if(state.photo){$('profilePreview').src=state.photo;$('morePhoto').src=state.photo}}
+function renderHome(){
+  const d=selectedDate,cs=classesFor(d);
+  const done=cs.filter(x=>hist(x,d)?.status==='completed');
+  const running=cs.find(x=>hist(x,d)?.status==='running');
+  const upcoming=cs.filter(x=>!hist(x,d)||hist(x,d)?.status!=='completed').filter(x=>!running||keyFor(x,iso(d))!==running.key);
+  const actual=done.reduce((s,x)=>s+(hist(x,d)?.actualMinutes||0),0);
+  $('homeDate').textContent=fmt(d);
+  $('homeStats').innerHTML=
+    `<div class="stat"><strong>${cs.length}</strong><span>Today's Classes</span></div>
+     <div class="stat"><strong>${fmtMinutes(actual)}</strong><span>Teaching Time</span></div>
+     <div class="stat"><strong>${done.length}</strong><span>Completed</span></div>
+     <div class="stat"><strong>${cs.filter(x=>x.source==='Adjustment').length}</strong><span>Adjustments</span></div>`;
+
+  const next=running||upcoming[0];
+  $('nextCard').innerHTML=next ? `
+    <div class="next-label">${running?'ONGOING NOW':'NEXT CLASS'}</div>
+    ${classCard(next,d,true)}
+  ` : `<div class="empty"><strong>You're done for today</strong>No remaining classes on ${fmt(d)}.</div>`;
+
+  const ongoingHtml=running ? `
+    <div class="status-panel ongoing">
+      <div class="status-kicker">🔴 Ongoing now</div>
+      <div class="status-main">${safe(running.course)}${running.section?' • '+safe(running.section):''}</div>
+      <div class="status-time">${time12(running.start)} – ${time12(running.end)} • ${safe(running.room||'Room not set')}</div>
+      <div class="live-mini"><span class="live-dot"></span><span class="countdown" id="homeLiveCountdown">LIVE</span></div>
+      <button class="btn danger block" id="homeCompleteLive">✓ Complete Lecture</button>
+    </div>` :
+    `<div class="status-panel ongoing">
+      <div class="status-kicker">● No lecture in progress</div>
+      <div class="status-main">You're between classes</div>
+      <div class="status-time">FacultyFlow will highlight the next class automatically.</div>
+      <div style="margin-top:24px"><button class="btn secondary block" id="homeOpenSchedule">View Today's Schedule</button></div>
+    </div>`;
+
+  const up=upcoming.slice(0,3);
+  const upcomingHtml=`<div class="status-panel upcoming">
+    <div class="status-kicker">🔵 Upcoming classes</div>
+    ${up.length?up.map((x,i)=>`<div class="class" style="margin:${i?'8px 0 0':'10px 0 0'}">
+      <div class="row"><div><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div><div class="meta">⌖ ${safe(x.room||'Room not set')}</div></div><span class="tag">${i===0?'NEXT':'UPCOMING'}</span></div>
+    </div>`).join(''):`<div class="empty">No upcoming classes.</div>`}
+  </div>`;
+
+  const completedHtml=`<div class="status-panel completed">
+    <div class="status-kicker">✓ Completed today</div>
+    ${done.length?done.slice(-3).reverse().map(x=>`<div class="class completed">
+      <div class="row"><div><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div></div><span class="tag green">✓ ${hist(x,d)?.actualMinutes||0}m</span></div>
+    </div>`).join(''):`<div class="empty">No completed lectures yet.</div>`}
+    <div class="listline"><span>Today's teaching</span><b>${fmtMinutes(actual)}</b></div>
+  </div>`;
+
+  $('homeToday').innerHTML=`
+    <div class="home-command">${ongoingHtml}${upcomingHtml}${completedHtml}</div>
+    <div class="card" style="margin-top:14px;margin-bottom:0;background:linear-gradient(135deg,#f7fbff,#fff)">
+      <div class="section-head"><h2>Quick Actions</h2></div>
+      <div class="quick-actions">
+        <button class="quick-action" id="qaImport"><b>📥 Import Timetable</b><span>PDF • Image • Excel • CSV</span></button>
+        <button class="quick-action" id="qaAdjust"><b>＋ Adjustment Class</b><span>Add make-up or substitution</span></button>
+        <button class="quick-action" id="qaTracker"><b>📊 Teaching Tracker</b><span>Semester hours & progress</span></button>
+        <button class="quick-action" id="qaSchedule"><b>▦ Full Schedule</b><span>View your complete timetable</span></button>
+      </div>
+    </div>`;
+  $('homeOpenSchedule')?.addEventListener('click',()=>nav('schedule'));
+  $('homeCompleteLive')?.addEventListener('click',completeRunning);
+  $('qaImport')?.addEventListener('click',()=>nav('import'));
+  $('qaAdjust')?.addEventListener('click',()=>nav('adjust'));
+  $('qaTracker')?.addEventListener('click',()=>nav('tracker'));
+  $('qaSchedule')?.addEventListener('click',()=>nav('schedule'));
+}
+function classCard(x,d,primary){const h=hist(x,d),status=h?.status==='completed'?'completed':classStatus(x,d)==='current'?'current':'';let action='';if(h?.status==='completed')action=`<span class="tag green">✓ ${h.actualMinutes} min</span>`;else if(h?.status==='running')action=`<button class="btn danger" data-complete>Complete</button>`;else action=`<button class="btn" data-start="${encodeURIComponent(keyFor(x,iso(d)))}">▶ Start</button>`;return `<div class="class ${status} ${x.source==='Adjustment'?'adjustment':''}"><div class="row"><div style="min-width:0"><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div><div class="meta">⌖ ${safe(x.room||'Room not set')} • ${safe(x.type||'Regular Class')}</div>${h?.status==='running'?'<div class="meta" style="color:var(--green);font-weight:800">Lecture in progress</div>':''}</div><div>${action}</div></div></div>`}
+function renderSchedule(){$('scheduleDate').textContent=fmt(selectedDate);const cs=classesFor(selectedDate);$('todayList').innerHTML=cs.length?cs.map(x=>classCard(x,selectedDate,false)).join(''):'<div class="empty"><strong>No classes scheduled</strong>There are no classes on this day.</div>'}
+function renderLive(){const h=currentRunning(),el=$('liveCard');if(!h){el.innerHTML='<div class="empty"><strong>No lecture in progress</strong>Start a lecture from Today’s Schedule when you enter the classroom.<br><br><button class="btn" id="liveGoSchedule">Go to Today’s Schedule</button></div>';return}const end=new Date(h.date+'T'+h.end+':00');const remaining=Math.max(0,end.getTime()-Date.now()),sec=Math.floor(remaining/1000),m=Math.floor(sec/60),s=sec%60,elapsed=Math.max(0,Math.floor((Date.now()-h.startedAt)/60000));el.innerHTML=`<div class="smallcaps" style="font-size:9px;font-weight:900;color:var(--green);letter-spacing:.8px">LIVE LECTURE</div><div class="course-line"><div class="course-icon green">▣</div><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="muted small">${safe(h.room||'Room not set')} • ${safe(h.type)}</div></div></div><div class="notice"><b>Scheduled:</b> ${time12(h.start)} – ${time12(h.end)} (${dur(h.start,h.end)} minutes)</div><div class="timer-ring"><span class="small">${remaining?'remaining':'time over'}</span><b>${remaining?m+':'+String(s).padStart(2,'0'):'00:00'}</b><span class="small">Actual so far: ${elapsed} min</span></div><div class="live-actions"><button class="btn danger" id="liveComplete">✓ Mark Complete</button><button class="btn secondary" id="liveSchedule">View Schedule</button></div><div class="notice" style="margin-top:11px">Started at ${new Date(h.startedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}. Actual teaching time is counted until you mark the lecture complete.</div>`;$('liveComplete').onclick=completeRunning;$('liveSchedule').onclick=()=>nav('schedule')}
+function startByKey(encoded){if(currentRunning()){toast('A lecture is already running. Complete it before starting another.');return}const key=decodeURIComponent(encoded);const cs=classesFor(selectedDate),x=cs.find(v=>keyFor(v,iso(selectedDate))===key);if(!x)return;const h=hist(x,selectedDate);if(h?.status==='completed')return;const rec={key,date:iso(selectedDate),...x,status:'running',startedAt:Date.now()};state.history=state.history.filter(v=>v.key!==key);state.history.push(rec);save();nav('live');toast('Lecture timer started')}
+function completeRunning(){const h=currentRunning();if(!h)return;h.completedAt=Date.now();h.actualMinutes=Math.max(1,Math.round((h.completedAt-h.startedAt)/60000));h.status='completed';lastCompletion=h;save();nav('complete');toast('Lecture recorded successfully')}
+function renderComplete(){const el=$('completeCard'),h=lastCompletion||state.history.filter(x=>x.status==='completed').slice(-1)[0];if(!h){el.innerHTML='<div class="empty"><strong>No completed lecture yet</strong>Your completed lecture record will appear here.</div>';return}el.innerHTML=`<div class="check">✓</div><h2 style="text-align:center">Lecture Completed</h2><p class="muted small" style="text-align:center">Teaching activity has been recorded.</p><div class="class current" style="text-align:left"><div class="course-line"><div class="course-icon green">▣</div><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="muted small">${safe(h.room||'Room not set')} • ${safe(h.type)}</div></div></div><div class="listline"><span>Planned duration</span><b>${dur(h.start,h.end)} min</b></div><div class="listline"><span>Actual duration</span><b>${h.actualMinutes} min</b></div><div class="listline"><span>Started</span><b>${new Date(h.startedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</b></div><div class="listline"><span>Completed</span><b>${new Date(h.completedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</b></div></div><button class="btn block" id="viewTrackerAfter">View Semester Tracker</button>`;$('viewTrackerAfter').onclick=()=>nav('tracker')}
+function renderTracker(){const done=state.history.filter(h=>h.status==='completed'),actual=done.reduce((s,h)=>s+(h.actualMinutes||0),0),planned=done.reduce((s,h)=>s+dur(h.start,h.end),0),pct=planned?Math.round(actual/planned*100):0;$('trackerSemester').textContent=state.profile.semester||'Semester';$('trackerStats').innerHTML=`<div class="tracker-stat"><strong>${done.length}</strong><span>Lectures Completed</span></div><div class="tracker-stat"><strong>${fmtMinutes(actual)}</strong><span>Actual Teaching Time</span></div><div class="tracker-stat"><strong>${fmtMinutes(planned)}</strong><span>Planned Time</span></div><div class="tracker-stat"><strong>${pct}%</strong><span>Completion</span></div>`;$('completionPct').textContent=pct+'%';$('completionBar').style.width=Math.min(100,pct)+'%';$('recentPanel').innerHTML=done.length?done.slice().reverse().map(h=>`<div class="class ${h.type==='Adjustment Class'?'adjustment':''}"><div class="row"><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="meta">${new Date(h.completedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} • ${safe(h.room||'Room not set')}</div></div><b>${h.actualMinutes} min</b></div><div class="meta">✓ ${h.actualMinutes} min actual / ${dur(h.start,h.end)} min planned</div></div>`).join(''):'<div class="empty">No completed lectures yet. Start and complete your first class to build your semester record.</div>';const by={};done.forEach(h=>{const k=h.course||'Unspecified';by[k]=(by[k]||0)+(h.actualMinutes||0)});const entries=Object.entries(by).sort((a,b)=>b[1]-a[1]);$('coursePanel').innerHTML=entries.length?entries.map(([c,v])=>`<div class="listline"><span><b>${safe(c)}</b><br><span class="muted tiny">Actual teaching time</span></span><b>${fmtMinutes(v)}</b></div>`).join(''):'<div class="empty">Course-wise statistics appear after completed lectures.</div>';const avg=done.length?Math.round(actual/done.length):0;$('quickStats').innerHTML=`<div class="listline"><span>Total completed lectures</span><b>${done.length}</b></div><div class="listline"><span>Total actual teaching time</span><b>${fmtMinutes(actual)}</b></div><div class="listline"><span>Total planned teaching time</span><b>${fmtMinutes(planned)}</b></div><div class="listline"><span>Average actual time per lecture</span><b>${fmtMinutes(avg)}</b></div>`}
+function renderAdjust(){$('adjustList').innerHTML=state.adjustments.length?state.adjustments.slice().reverse().map((x,i)=>`<div class="class adjustment"><div class="row"><div><b>${safe(x.course)}${x.section?' — '+safe(x.section):''}</b><div class="meta">${x.date} • ${time12(x.start)}–${time12(x.end)} • ${safe(x.room||'Room not set')}</div></div><button class="btn danger" data-del="${state.adjustments.length-1-i}">Delete</button></div></div>`).join(''):'<div class="empty">No adjustment classes added.</div>'}
+function renderTimetable(){$('classCount').textContent=state.timetable.length+' classes';const by={};state.timetable.forEach(x=>(by[x.day]??=[]).push(x));$('timetableList').innerHTML=state.timetable.length?DAYS.filter(d=>by[d]).map(d=>`<div class="listline"><span><b>${d}</b><br><span class="muted tiny">${by[d].sort((a,b)=>mins(a.start)-mins(b.start)).map(x=>time12(x.start)+'–'+time12(x.end)+' • '+safe(x.course)+' • '+safe(x.room||'—')).join('<br>')}</span></span><b>${by[d].length}</b></div>`).join(''):'<div class="empty"><strong>No timetable loaded</strong>Use Import Timetable above to configure your schedule.</div>'}
+function setFields(){renderProfile()}
+function renderAll(){renderHeader();setFields();renderHome();renderSchedule();renderLive();renderComplete();renderTracker();renderAdjust();renderTimetable()}
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav [data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));renderAll();window.scrollTo(0,0)}
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('plus').onclick=()=>nav('adjust');$('openSchedule').onclick=()=>nav('schedule');$('goImport').onclick=()=>nav('import');$('goAdjust').onclick=()=>nav('adjust');$('goTracker').onclick=()=>nav('tracker');$('prevDay').onclick=()=>{selectedDate.setDate(selectedDate.getDate()-1);renderAll()};$('nextDay').onclick=()=>{selectedDate.setDate(selectedDate.getDate()+1);renderAll()};
+$('saveProfile').onclick=()=>{['university','school','department','faculty','empId','designation','semester'].forEach(k=>state.profile[k]=$(k).value.trim());save();renderAll();toast('Faculty profile updated')};
+$('photoInput').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.photo=r.result;save();renderAll();toast('Profile photo updated')};r.readAsDataURL(f)};
+$('adDate').onchange=e=>{if(e.target.value){const d=new Date(e.target.value+'T00:00:00');$('adDay').value=dayName(d.getDay())}};
+$('saveAdjust').onclick=()=>{const x={date:$('adDate').value,start:$('adStart').value,end:$('adEnd').value,course:$('adCourse').value.trim(),section:$('adBatch').value.trim(),room:$('adRoom').value.trim(),notes:$('adNotes').value.trim(),day:$('adDay').value,type:'Adjustment Class'};if(!x.date||!x.start||!x.end||!x.course){toast('Enter date, time and course/subject');return}if(mins(x.end)<=mins(x.start)){toast('End time must be after start time');return}state.adjustments.push(x);['adDate','adStart','adEnd','adCourse','adBatch','adRoom','adNotes','adDay'].forEach(id=>$(id).value='');save();renderAll();toast('Adjustment class added')};
+$('adjustList').onclick=e=>{const b=e.target.closest('[data-del]');if(!b)return;const i=Number(b.dataset.del);if(confirm('Delete this adjustment class?')){const x=state.adjustments[i];state.history=state.history.filter(h=>h.key!==keyFor(x,x.date));state.adjustments.splice(i,1);save();renderAll();toast('Adjustment class deleted')}};
+document.addEventListener('click',e=>{const s=e.target.closest('[data-start]');if(s){startByKey(s.dataset.start);return}if(e.target.closest('[data-complete]')){completeRunning();return}});
+$('recentTab').onclick=()=>{$('recentTab').classList.add('active');$('courseTab').classList.remove('active');$('recentPanel').classList.remove('hidden');$('coursePanel').classList.add('hidden')};$('courseTab').onclick=()=>{$('courseTab').classList.add('active');$('recentTab').classList.remove('active');$('coursePanel').classList.remove('hidden');$('recentPanel').classList.add('hidden')};
+$('exportCsv').onclick=()=>{const rows=[['Date','Type','Course','Section','Room','Start','End','Planned Minutes','Actual Minutes'],...state.history.filter(h=>h.status==='completed').map(h=>[new Date(h.completedAt).toLocaleDateString('en-IN'),h.type,h.course,h.section,h.room,h.start,h.end,dur(h.start,h.end),h.actualMinutes||0])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='FacultyFlow_Semester_Report.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('reset').onclick=()=>{if(confirm('Reset FacultyFlow data on this device? This removes the profile, timetable, adjustments and lecture history.')){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY);location.reload()}};
+$('manualImport').onclick=()=>showManualEditor();
+function showManualEditor(){const rows=previewRows.length?previewRows.map(x=>({...x})):[{day:'Monday',start:'09:00',end:'09:50',course:'',section:'',room:'',type:'Regular Class'}];$('manualEditor').classList.remove('hidden');$('manualEditor').innerHTML=`<div class="notice">Enter classes below. Add as many rows as needed, then use <b>Review timetable</b>.</div><div id="manualRows">${rows.map((x,i)=>manualRow(x,i)).join('')}</div><button class="btn secondary block" id="addManualRow" style="margin-top:9px">＋ Add another class</button><button class="btn block" id="reviewManual" style="margin-top:8px">Review Timetable</button>`;$('addManualRow').onclick=()=>{$('manualRows').insertAdjacentHTML('beforeend',manualRow({day:'Monday',start:'09:00',end:'09:50',course:'',section:'',room:'',type:'Regular Class'},$('manualRows').children.length))};$('reviewManual').onclick=()=>{const arr=[...$('manualRows').children].map(r=>({day:r.querySelector('[data-f="day"]').value,start:r.querySelector('[data-f="start"]').value,end:r.querySelector('[data-f="end"]').value,course:r.querySelector('[data-f="course"]').value.trim(),section:r.querySelector('[data-f="section"]').value.trim(),room:r.querySelector('[data-f="room"]').value.trim(),type:r.querySelector('[data-f="type"]').value||'Regular Class'})).filter(x=>x.course&&DAYS.includes(x.day)&&mins(x.end)>mins(x.start));if(!arr.length){toast('Add at least one valid class row');return}previewRows=arr;showPreview()}}
+function manualRow(x,i){return `<div class="manual-row" data-row="${i}"><div class="field"><label>Day</label><select data-f="day">${DAYS.map(d=>`<option ${d===x.day?'selected':''}>${d}</option>`).join('')}</select></div><div class="field"><label>Course / Section</label><input data-f="course" value="${safe(x.course)}" placeholder="CSE 101"><input data-f="section" value="${safe(x.section)}" placeholder="Section" style="margin-top:6px"></div><div class="field"><label>Start</label><input data-f="start" type="time" value="${x.start||'09:00'}"></div><div class="field"><label>End</label><input data-f="end" type="time" value="${x.end||'09:50'}"></div><div class="field"><label>Room</label><input data-f="room" value="${safe(x.room)}" placeholder="V101"></div><div class="field"><label>Type</label><select data-f="type"><option ${x.type==='Regular Class'?'selected':''}>Regular Class</option><option ${x.type==='Lab'?'selected':''}>Lab</option><option ${x.type==='Tutorial'?'selected':''}>Tutorial</option></select></div></div>`}
+function repairPreviewTimes(rows){
+  const defaults=defaultPeriodSlots();
+  return (rows||[]).map((x,idx)=>{
+    let start=x.start||'',end=x.end||'';
+    if((!/^\d{2}:\d{2}$/.test(start)||!/^\d{2}:\d{2}$/.test(end)) && Number.isInteger(x._slotIndex) && defaults[x._slotIndex]){
+      start=defaults[x._slotIndex].start; end=defaults[x._slotIndex].end;
+    }
+    return {...x,start,end};
+  });
+}
+function showPreview(){previewRows=repairPreviewTimes(previewRows);const body=$('previewBody');$('previewCard').classList.remove('hidden');$('previewCount').textContent=previewRows.length+' classes';body.innerHTML=previewRows.map((x,i)=>`<tr><td><select data-p="day" data-i="${i}">${DAYS.map(d=>`<option ${d===x.day?'selected':''}>${d}</option>`).join('')}</select></td><td><input data-p="start" data-i="${i}" type="time" value="${x.start}"></td><td><input data-p="end" data-i="${i}" type="time" value="${x.end}"></td><td><input data-p="course" data-i="${i}" value="${safe(x.course)}"><input data-p="section" data-i="${i}" value="${safe(x.section)}" placeholder="Section" style="margin-top:4px"></td><td><input data-p="room" data-i="${i}" value="${safe(x.room)}"></td></tr>`).join('');document.querySelectorAll('[data-p]').forEach(el=>el.onchange=()=>{const i=Number(el.dataset.i),k=el.dataset.p;previewRows[i][k]=el.value})}
+$('cancelPreview').onclick=()=>{$('previewCard').classList.add('hidden');previewRows=[]};
+$('applyPreview').onclick=()=>{
+  const trs=[...document.querySelectorAll('#previewBody tr')];
+  const current=trs.map((tr,i)=>{
+    const get=k=>tr.querySelector(`[data-p=\"${k}\"][data-i=\"${i}\"]`)?.value?.trim()||'';
+    return {...(previewRows[i]||{}),day:get('day'),start:get('start'),end:get('end'),course:get('course'),section:get('section'),room:get('room')};
+  });
+  previewRows=current.length?current:previewRows;
+  const valid=previewRows.filter(x=>DAYS.includes(x.day)&&x.course&&/^\d{2}:\d{2}$/.test(x.start)&&/^\d{2}:\d{2}$/.test(x.end)&&mins(x.end)>mins(x.start)).map(x=>({...x,type:x.type||'Regular Class'}));
+  const invalid=previewRows.length-valid.length;
+  if(!valid.length){toast('No valid timetable rows found. Check Day, Start and End times.');return}
+  if(invalid){toast(`${invalid} row(s) are incomplete. Complete or remove them before saving.`);return}
+  state.timetable=valid;state.history=[];save();$('previewCard').classList.add('hidden');$('manualEditor').classList.add('hidden');previewRows=[];renderAll();toast(valid.length+' timetable classes loaded successfully')
+};
+async function handleExcel(file){if(!window.XLSX){toast('Excel engine is still loading. Try again in a moment.');return}openModal('Reading timetable','Processing '+file.name);try{const data=await file.arrayBuffer();const wb=XLSX.read(data,{type:'array'});let best=[];for(const name of wb.SheetNames){const ws=wb.Sheets[name];const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});const parsed=parseMatrix(rows);if(parsed.length>best.length)best=parsed}closeModal();if(best.length){previewRows=best;showPreview()}else{toast('No timetable rows were recognized. Use CSV or Manual entry for this format.')}}catch(e){closeModal();toast('Could not read the Excel file')}}
+function normalizeDay(v){const s=String(v||'').trim().toLowerCase();const map={mon:'Monday',monday:'Monday',tue:'Tuesday',tues:'Tuesday',tuesday:'Tuesday',wed:'Wednesday',wednesday:'Wednesday',thu:'Thursday',thur:'Thursday',thurs:'Thursday',thursday:'Thursday',fri:'Friday',friday:'Friday',sat:'Saturday',saturday:'Saturday'};return map[s]||DAYS.find(d=>s.includes(d.toLowerCase()))||''}
+function normalizeTime(v){if(v===null||v===undefined||v==='')return '';if(typeof v==='number'){const total=Math.round(v*24*60);return String(Math.floor(total/60)%24).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}let s=String(v).trim().replace(/\./g,':').replace(/\s+/g,' ');let m=s.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return '';let h=Number(m[1]),mi=Number(m[2]||0),ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0')}
+function extractRange(s){const t=String(s||'').replace(/[–—−]/g,'-').replace(/\s+/g,' ');const parts=t.split(/\s*(?:-|to|TO)\s*/);if(parts.length<2)return null;const a=normalizeTime(parts[0]),b=normalizeTime(parts[1]);return a&&b?{start:a,end:b}:null}
+function parseMatrix(rows){const out=[];const header=rows.findIndex(r=>r.some(c=>/day|start|end|course|subject|section|room|time/i.test(String(c))));if(header>=0){const h=rows[header].map(c=>String(c).trim().toLowerCase());const ix={day:h.findIndex(x=>/^day$|day/.test(x)),start:h.findIndex(x=>/^start|from|begin/.test(x)),end:h.findIndex(x=>/^end|to|finish/.test(x)),course:h.findIndex(x=>/course|subject|class|paper/.test(x)),section:h.findIndex(x=>/section|batch|group/.test(x)),room:h.findIndex(x=>/room|venue|lab/.test(x)),type:h.findIndex(x=>/type/.test(x))};for(const r of rows.slice(header+1)){const day=normalizeDay(ix.day>=0?r[ix.day]:'');let start=normalizeTime(ix.start>=0?r[ix.start]:'');let end=normalizeTime(ix.end>=0?r[ix.end]:'');if((!start||!end)&&ix.start>=0){const range=extractRange(r[ix.start]);if(range){start=range.start;end=range.end}}if(day&&start&&end&&ix.course>=0&&String(r[ix.course]||'').trim())out.push({day,start,end,course:String(r[ix.course]).trim(),section:ix.section>=0?String(r[ix.section]||'').trim():'',room:ix.room>=0?String(r[ix.room]||'').trim():'',type:ix.type>=0?String(r[ix.type]||'').trim()||'Regular Class':'Regular Class'})}if(out.length)return out}return parseDayTimeMatrix(rows)}
+function parseDayTimeMatrix(rows){const out=[];for(const r of rows){const day=normalizeDay(r[0]);if(!day)continue;for(let i=1;i<r.length;i++){const cell=String(r[i]||'').trim();if(!cell)continue;const range=extractRange(String(rows[0]?.[i]||''))||extractRange(String(r[i-1]||''));if(range){const bits=cell.split(/\\n|\\r/).map(x=>x.trim()).filter(Boolean);out.push({day,start:range.start,end:range.end,course:bits[0]||cell,section:bits[1]||'',room:bits[2]||'',type:'Regular Class'})}}}return out}
+let pendingFile=null,pendingType='';
+function chooseFile(file,type){
+  pendingFile=file||null; pendingType=type||'';
+  if(!file){$('fileAction').classList.add('hidden');return}
+  $('fileAction').classList.remove('hidden');
+  $('selectedFileName').textContent=file.name;
+  $('selectedFileMeta').textContent=(file.type||'file')+' • '+Math.max(1,Math.round(file.size/1024))+' KB • Ready to process';
+  $('processFile').textContent=type==='excel'?'Upload & Read Excel':type==='pdf'?'Upload & Extract PDF':type==='image'?'Upload & Read Image':'Upload & Extract';
+  $('importStatus').innerHTML='<span class="tag green">File selected</span> Review the filename, then press the blue button to process it.';
+}
+$('excelInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'excel')};
+$('pdfInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'pdf')};
+$('imageInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'image')};
+$('processFile').onclick=async()=>{
+  if(!pendingFile){toast('Choose a timetable file first.');return}
+  const f=pendingFile,type=pendingType;
+  if(type==='excel') return handleExcel(f);
+  if(type==='pdf') return handlePDF(f);
+  if(type==='image') return handleImage(f);
+};
+function cleanOCRText(s){return String(s||'').replace(/[|{}\[\]<>]/g,' ').replace(/\s+/g,' ').trim()}
+function fuzzyDay(s){
+  const t=cleanOCRText(s).toLowerCase();
+  if(!t)return '';
+  const exact={monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday'};
+  if(exact[t])return exact[t];
+  let best='',score=99;
+  for(const d of DAYS){const a=t,b=d.toLowerCase();let dp=Array.from({length:a.length+1},(_,i)=>Array(b.length+1).fill(0));for(let i=0;i<=a.length;i++)dp[i][0]=i;for(let j=0;j<=b.length;j++)dp[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));if(dp[a.length][b.length]<score){score=dp[a.length][b.length];best=d}}
+  return score<=2?best:'';
+}
+function parseSRMStyleGrid(ocr){
+  // Robust parser for grid-style faculty timetable PDFs/images. It uses OCR word
+  // coordinates instead of relying on OCR preserving the table structure.
+  const words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),
+    x0:Number(w.bbox?.x0??w.x0??0), y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0), y1:Number(w.bbox?.y1??w.y1??0)
+  })).filter(w=>w.text&&Number.isFinite(w.x0));
+  if(words.length<20)return [];
+  const maxY=Math.max(...words.map(w=>w.y1));
+  const center=w=>({x:(w.x0+w.x1)/2,y:(w.y0+w.y1)/2});
+  const timeRe=/^\d{1,2}:\d{2}$/;
+  const timeWords=words.filter(w=>timeRe.test(w.text)&&w.y0>maxY*.25&&w.y0<maxY*.48);
+  const tg=[];
+  for(const w of timeWords){
+    const x=center(w).x; let g=tg.find(q=>Math.abs(q.x-x)<75);
+    if(!g){g={x,items:[]};tg.push(g)} g.items.push(w);
+  }
+  const ends=tg.map(g=>({x:g.x,end:normalizeTime(g.items.map(x=>x.text).sort((a,b)=>a.localeCompare(b))[g.items.length-1])}))
+    .filter(x=>x.end).sort((a,b)=>a.x-b.x);
+  if(ends.length<4)return [];
+  // The common SRM grid has 7 fifty-minute periods followed by a 16:00–17:30 period.
+  // If eight end-times are detected, reconstruct the missing start times reliably.
+  const slots=ends.map((e,i)=>{
+    const end=e.end, em=mins(end);
+    const duration=(ends.length>=8&&i===ends.length-1)?90:50;
+    const sm=em-duration; const start=String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0');
+    return {x:e.x,start,end};
+  });
+
+  const dayCandidates=[];
+  for(const w of words){
+    const d=fuzzyDay(w.text); if(!d)continue;
+    const c=center(w);
+    if(c.x<slots[0].x-(slots[1].x-slots[0].x)*.25 && c.y>maxY*.30 && c.y<maxY*.86) dayCandidates.push({day:d,y:c.y});
+  }
+  const days=[];
+  dayCandidates.sort((a,b)=>a.y-b.y).forEach(d=>{
+    if(!days.some(x=>x.day===d.day))days.push(d);
+  });
+  if(days.length<2)return [];
+
+  const dx=slots.length>1?slots[1].x-slots[0].x:180;
+  const leftEdge=slots[0].x-dx*.52, rightEdge=slots[slots.length-1].x+dx*.52;
+  const tableTop=Math.min(...days.map(d=>d.y))-55;
+  const tableBottom=Math.max(...days.map(d=>d.y))+65;
+  const out=[];
+  function cellWords(di,si){
+    const y=days[di].y;
+    const top=di===0?tableTop:(days[di-1].y+y)/2;
+    const bottom=di===days.length-1?tableBottom:(y+days[di+1].y)/2;
+    const x=slots[si].x;
+    const left=si===0?leftEdge:(slots[si-1].x+x)/2;
+    const right=si===slots.length-1?rightEdge:(x+slots[si+1].x)/2;
+    return words.filter(w=>{const c=center(w);return c.x>=left&&c.x<=right&&c.y>=top&&c.y<=bottom&&c.y>tableTop&&c.y<tableBottom;})
+      .sort((a,b)=>a.y0-b.y0||a.x0-b.x0);
+  }
+  const codeRe=/\b([A-Z]{2,6})\s*[-.]?\s*(\d{2,5})\b/i;
+  const roomRe=/\(?\s*([A-Z])\s*[- ]?\s*(\d{3,4})\s*\)?/i;
+  days.forEach((dy,di)=>slots.forEach((slot,si)=>{
+    const cw=cellWords(di,si); if(!cw.length)return;
+    const text=cw.map(w=>w.text).join(' ').replace(/\s+/g,' ').trim();
+    // Ignore timetable headers/day labels that leak into a cell.
+    const cm=text.match(codeRe); if(!cm)return;
+    const course=(cm[1]+' '+cm[2]).toUpperCase();
+    const rm=text.match(roomRe); let room=rm?(rm[1].toUpperCase()+rm[2]):'';if(!room){const bare=txt.match(/\b(\d{3,4})\b/);if(bare)room=bare[1];}
+    const upper=text.toUpperCase().replace(/[|]/g,'I').replace(/\s+/g,' ');
+    let section='';
+    if(/AIML\s*[I1]\s*[-–]?\s*P/.test(upper))section='AIML I-P';
+    else if(/CS\s*[I1]\s*[-–]?\s*C|CSI\s*[-–]?\s*C/.test(upper))section='CS I-C';
+    else if(/CSE\s*[IVX]+\s*[-–]\s*[A-Z]/.test(upper)){const m=upper.match(/CSE\s*[IVX]+\s*[-–]\s*[A-Z]/);section=m?m[0]:'';}
+    out.push({day:dy.day,start:slot.start,end:slot.end,course,section,room,type:'Regular Class',_slotIndex:si});
+  }));
+  const seen=new Set();
+  return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true;});
+}
+
+
+function parseCoordinateTimetable(ocr){
+  const raw=(ocr?.data?.words||[]).map(w=>({text:cleanOCRText(w.text),x:Number(w.bbox?.x0??w.x0??0),y:Number(w.bbox?.y0??w.y0??0),w:Number(w.bbox?.x1??w.x1??0)-Number(w.bbox?.x0??w.x0??0),h:Number(w.bbox?.y1??w.y1??0)-Number(w.bbox?.y0??w.y0??0),conf:Number(w.confidence??w.conf??0)})).filter(w=>w.text&&Number.isFinite(w.x)&&Number.isFinite(w.y));
+  if(!raw.length)return [];
+  const maxY=Math.max(...raw.map(w=>w.y));
+  const timeTokens=raw.filter(w=>/^\d{1,2}:\d{2}$/.test(w.text)&&w.y>maxY*.25);
+  if(timeTokens.length<8)return [];
+  const headerY=Math.min(...timeTokens.map(w=>w.y));
+  const startTokens=timeTokens.filter(w=>w.y<headerY+35).sort((a,b)=>a.x-b.x);
+  const slotCenters=[];
+  startTokens.forEach(w=>{const cx=w.x+w.w/2;if(!slotCenters.some(x=>Math.abs(x-cx)<45))slotCenters.push(cx)});
+  if(slotCenters.length<4)return [];
+  const endTokens=timeTokens.filter(w=>w.y>=headerY+15&&w.y<headerY+80);
+  const slots=slotCenters.slice(0,8).map(cx=>{
+    const st=startTokens.find(w=>Math.abs(w.x+w.w/2-cx)<45);
+    const en=endTokens.filter(w=>Math.abs(w.x+w.w/2-cx)<45).sort((a,b)=>a.y-b.y)[0];
+    return st&&en?{x:cx,start:normalizeTime(st.text),end:normalizeTime(en.text)}:null;
+  }).filter(Boolean);
+  if(slots.length<4)return [];
+  const dayAnchors=[];
+  raw.forEach(w=>{const d=fuzzyDay(w.text);if(!d)return;const cx=w.x+w.w/2;if(cx<slots[0].x-(slots[1].x-slots[0].x)*.55){const cy=w.y+w.h/2;if(!dayAnchors.some(q=>q.day===d&&Math.abs(q.y-cy)<35))dayAnchors.push({day:d,y:cy})}});
+  dayAnchors.sort((a,b)=>a.y-b.y);
+  if(dayAnchors.length<2)return [];
+  const rows=dayAnchors.map((d,i)=>({...d,top:i===0?d.y-45:(dayAnchors[i-1].y+d.y)/2,bottom:i===dayAnchors.length-1?d.y+55:(d.y+dayAnchors[i+1].y)/2}));
+  function slotIndex(cx){let best=-1,bd=Infinity;slots.forEach((s,i)=>{const d=Math.abs(cx-s.x);if(d<bd){bd=d;best=i}});return bd<Math.max(70,(slots[1]?.x-slots[0].x||140)*.48)?best:-1}
+  const cells=new Map();
+  raw.forEach(w=>{const cx=w.x+w.w/2,cy=w.y+w.h/2;const row=rows.find(r=>cy>=r.top&&cy<=r.bottom);if(!row)return;const si=slotIndex(cx);if(si<0)return;if(cy<headerY+70)return;const key=row.day+'|'+si;if(!cells.has(key))cells.set(key,[]);cells.get(key).push(w)});
+  function parseCell(ws){
+    const text=ws.sort((a,b)=>a.y-b.y||a.x-b.x).map(w=>w.text).join(' ').replace(/[|]/g,' ').replace(/\s+/g,' ').trim();
+    if(!text)return null;
+    let cm=text.match(/\b([A-Z]{2,8})\s*[-.]?\s*(\d{2,5})\b/i);
+    if(!cm){const joined=text.replace(/[^A-Za-z0-9]+/g,' ');cm=joined.match(/\b([A-Z]{2,8})\s+(\d{2,5})\b/i)}
+    if(!cm)return null;
+    const course=(cm[1]+' '+cm[2]).toUpperCase();
+    const rm=text.match(/\(?\s*([SVLAB]{1,4})\s*[- ]?\s*(\d{2,4})\s*\)?/i);
+    let room=rm?(rm[1].toUpperCase()+rm[2]):'';if(!room){const bare=txt.match(/\b(\d{3,4})\b/);if(bare)room=bare[1];}
+    const upper=text.toUpperCase();
+    let section='';
+    const pats=[/\bAIML\s*I\s*[-–]?\s*P\b/i,/\bCS\s*I\s*[-–]?\s*C\b/i,/\b[A-Z]{2,8}\s*[IVX0-9]+\s*[-–]?\s*[A-Z]\b/i];
+    for(const p of pats){const m=upper.match(p);if(m){section=m[0].replace(/\s+/g,' ').trim();break}}
+    if(!section){const m=upper.match(/\b([A-Z]{2,8})\s*I\s*[-–]?\s*([A-Z])\b/);if(m)section=m[1]+' I-'+m[2]}
+    return {course,section,room};
+  }
+  const out=[];rows.forEach(row=>slots.forEach((slot,si)=>{const ws=cells.get(row.day+'|'+si);if(!ws?.length)return;const p=parseCell(ws);if(p)out.push({day:row.day,start:slot.start,end:slot.end,...p,type:'Regular Class'})}));
+  const seen=new Set();return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+}
+
+function parseOCRGrid(ocr){
+  const words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),
+    x0:Number(w.bbox?.x0??w.x0??0), y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0), y1:Number(w.bbox?.y1??w.y1??0),
+    conf:Number(w.confidence??w.conf??0)
+  })).filter(w=>w.text&&Number.isFinite(w.x0));
+  if(!words.length)return [];
+  const maxY=Math.max(...words.map(w=>w.y1));
+
+  // Find the eight timetable period columns from the two-line time header.
+  const timeRe=/^\d{1,2}:\d{2}$/;
+  const tw=words.filter(w=>timeRe.test(w.text)&&w.y0>maxY*.25&&w.y0<maxY*.5);
+  const groups=[];
+  tw.forEach(w=>{
+    const cx=(w.x0+w.x1)/2;
+    let g=groups.find(q=>Math.abs(q.x-cx)<70);
+    if(!g){g={x:cx,items:[]};groups.push(g)}
+    g.items.push(w);
+  });
+  const slots=groups.map(g=>{
+    const ss=g.items.filter(x=>x.y0<Math.min(...g.items.map(q=>q.y0))+45).map(x=>normalizeTime(x.text)).filter(Boolean);
+    const ee=g.items.map(x=>normalizeTime(x.text)).filter(Boolean);
+    if(ss.length<1||ee.length<1)return null;
+    return {x:g.x,start:ss[0],end:ee[ee.length-1]};
+  }).filter(Boolean).sort((a,b)=>a.x-b.x);
+  if(slots.length<2)return [];
+
+  // Find day labels. OCR may return slightly corrupted labels, so use fuzzyDay.
+  const dayCandidates=[];
+  words.forEach(w=>{
+    const d=fuzzyDay(w.text);
+    const cx=(w.x0+w.x1)/2;
+    if(d && cx < Math.min(...slots.map(s=>s.x))-30 && w.y0>maxY*.30 && w.y0<maxY*.85){
+      dayCandidates.push({day:d,y:(w.y0+w.y1)/2});
+    }
+  });
+  const days=[];
+  dayCandidates.sort((a,b)=>a.y-b.y).forEach(d=>{
+    if(!days.some(x=>x.day===d.day && Math.abs(x.y-d.y)<55))days.push(d);
+  });
+  if(!days.length)return [];
+
+  const leftEdge=slots[0].x-(slots[1].x-slots[0].x)/2;
+  const rightEdge=slots[slots.length-1].x+(slots[slots.length-1].x-slots[slots.length-2].x)/2;
+  const out=[];
+
+  function cellText(dayIndex,slotIndex){
+    const y=days[dayIndex].y;
+    const top=dayIndex===0 ? y-45 : (days[dayIndex-1].y+y)/2;
+    const bottom=dayIndex===days.length-1 ? y+48 : (y+days[dayIndex+1].y)/2;
+    const left=slotIndex===0 ? leftEdge : (slots[slotIndex-1].x+slots[slotIndex].x)/2;
+    const right=slotIndex===slots.length-1 ? rightEdge : (slots[slotIndex].x+slots[slotIndex+1].x)/2;
+    return words.filter(w=>{
+      const cx=(w.x0+w.x1)/2, cy=(w.y0+w.y1)/2;
+      return cx>=left && cx<=right && cy>=top && cy<=bottom && w.y0>maxY*.35 && w.y0<maxY*.82;
+    }).sort((a,b)=>a.y0-b.y0||a.x0-b.x0);
+  }
+
+  days.forEach((dy,di)=>slots.forEach((slot,si)=>{
+    const cell=cellText(di,si);
+    if(!cell.length)return;
+    const text=cell.map(w=>w.text).join(' ');
+    // Ignore empty/garbage cells. Course code is the most reliable anchor in this university template.
+    const cm=text.match(/\bCSE\s*[-.]?\s*(\d{2,4})\b/i);
+    if(!cm)return;
+    const course='CSE '+cm[1];
+    const roomMatch=text.match(/\(?\s*([SV])\s*(\d{3})\s*\)?/i);
+    const room=roomMatch ? roomMatch[1].toUpperCase()+roomMatch[2] : '';
+    const upper=text.toUpperCase().replace(/[|]/g,'I').replace(/\s+/g,' ');
+    let section='';
+    if(/AIML\s*I\s*[-–]?\s*P|AIML\s*1\s*[-–]?\s*P/.test(upper))section='AIML I-P';
+    else if(/CS\s*I\s*[-–]?\s*C|CSI\s*[-–]?\s*C/.test(upper))section='CS I-C';
+    out.push({day:dy.day,start:slot.start,end:slot.end,course,section,room,type:'Regular Class',_slotIndex:si});
+  }));
+
+  const seen=new Set();
+  return out.filter(x=>{
+    const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');
+    if(seen.has(k))return false;seen.add(k);return true;
+  });
+}
+
+
+function parseGridRobust(ocr){
+  const words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),
+    x0:Number(w.bbox?.x0??w.x0??0), y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0), y1:Number(w.bbox?.y1??w.y1??0),
+    conf:Number(w.confidence??w.conf??0)
+  })).filter(w=>w.text && Number.isFinite(w.x0) && Number.isFinite(w.y0));
+  if(words.length<15)return [];
+  const cx=w=>(w.x0+w.x1)/2, cy=w=>(w.y0+w.y1)/2;
+  const norm=s=>String(s||'').toUpperCase().replace(/[|]/g,'I').replace(/[–—]/g,'-').replace(/[^A-Z0-9:-]+/g,' ');
+  const timeRe=/^\d{1,2}:\d{2}$/;
+  // Locate the timetable time header. Prefer the largest cluster of time tokens in the upper/middle page.
+  const tw=words.filter(w=>timeRe.test(w.text));
+  if(tw.length<8)return [];
+  const ys=tw.map(w=>cy(w)).sort((a,b)=>a-b);
+  let headerY=ys[Math.floor(Math.max(0,ys.length-1)*0.15)];
+  // Find a y band containing at least 8 distinct x positions (start/end times may form two lines).
+  let best=[];
+  for(const y of ys){
+    const band=tw.filter(w=>Math.abs(cy(w)-y)<85);
+    const xs=[]; band.forEach(w=>{const x=cx(w);if(!xs.some(v=>Math.abs(v-x)<55))xs.push(x)});
+    if(xs.length>best.length)best=xs;
+  }
+  if(best.length<8)return [];
+  best.sort((a,b)=>a-b);
+  // Keep the eight timetable columns, removing header/footer time noise by selecting the densest evenly spaced run.
+  let slotXs=best.slice();
+  if(slotXs.length>8){
+    let bestRun=null;
+    for(let i=0;i<=slotXs.length-8;i++){
+      const run=slotXs.slice(i,i+8); const gaps=run.slice(1).map((x,j)=>x-run[j]);
+      const avg=gaps.reduce((a,b)=>a+b,0)/gaps.length; const spread=Math.max(...gaps)-Math.min(...gaps);
+      const score=spread/Math.max(1,avg);
+      if(!bestRun||score<bestRun.score)bestRun={run,score};
+    }
+    slotXs=bestRun.run;
+  }
+  // Map time tokens to columns and recover start/end times. In this timetable the two header rows are close vertically.
+  const slots=slotXs.map(x=>{
+    const near=tw.filter(w=>Math.abs(cx(w)-x)<60).sort((a,b)=>cy(a)-cy(b));
+    const vals=near.map(w=>normalizeTime(w.text)).filter(Boolean);
+    if(vals.length<2)return null;
+    // first is start, last is end for the column
+    return {x,start:vals[0],end:vals[vals.length-1]};
+  }).filter(Boolean);
+  if(slots.length<6)return [];
+
+  // Find day anchors anywhere in the central page; tolerate OCR typos.
+  const dayAnchors=[];
+  words.forEach(w=>{
+    const d=fuzzyDay(w.text); if(!d)return;
+    const x=cx(w), y=cy(w);
+    const minX=slotXs[0]-Math.abs(slotXs[1]-slotXs[0])*.75;
+    const maxX=slotXs[0]+Math.abs(slotXs[1]-slotXs[0])*.25;
+    if(x<maxX && y>Math.min(...ys)+45){
+      if(!dayAnchors.some(q=>q.day===d && Math.abs(q.y-y)<45))dayAnchors.push({day:d,y});
+    }
+  });
+  dayAnchors.sort((a,b)=>a.y-b.y);
+  if(dayAnchors.length<2)return [];
+  // Determine row boundaries midway between day labels.
+  const rows=dayAnchors.map((d,i)=>({
+    ...d,
+    top:i? (dayAnchors[i-1].y+d.y)/2 : d.y-55,
+    bottom:i===dayAnchors.length-1 ? d.y+70 : (d.y+dayAnchors[i+1].y)/2
+  }));
+  const slotStep=slotXs.length>1?slotXs[1]-slotXs[0]:150;
+  const cells=new Map();
+  words.forEach(w=>{
+    const x=cx(w),y=cy(w); const row=rows.find(r=>y>=r.top&&y<=r.bottom); if(!row)return;
+    let si=-1,dist=Infinity; slotXs.forEach((sx,i)=>{const dd=Math.abs(x-sx);if(dd<dist){dist=dd;si=i}});
+    if(dist>slotStep*.52)return;
+    const key=row.day+'|'+si; if(!cells.has(key))cells.set(key,[]); cells.get(key).push(w);
+  });
+  const out=[];
+  const codeRe=/CSE\s*[-.]?\s*(\d{2,5})/i;
+  const roomRe=/\(?\s*([SV])\s*[- ]?\s*(\d{3,4})\s*\)?/i;
+  cells.forEach((ws,key)=>{
+    const [day,si]=key.split('|');
+    const text=ws.sort((a,b)=>cy(a)-cy(b)||cx(a)-cx(b)).map(w=>w.text).join(' ');
+    const n=norm(text); const cm=n.match(codeRe); if(!cm)return;
+    const course='CSE '+cm[1]; let rm=n.match(roomRe); let room=rm?rm[1]+rm[2]:''; if(!room){const bare=n.match(/\b(\d{3,4})\b/); if(bare) room=bare[1];}
+    let section='';
+    if(/AIML\s*(?:(?:I|1)\s*)?-?\s*P{1,2}\b/.test(n))section='AIML I-P';
+    else if(/CS\s*(?:I|1)?\s*-?\s*C\b/.test(n)||/CSI\s*(?:I|1)?\s*-?\s*C\b/.test(n))section='CS I-C';
+    out.push({day,start:slots[Number(si)]?.start||'',end:slots[Number(si)]?.end||'',course,section,room,type:'Regular Class',_slotIndex:Number(si)});
+  });
+  const seen=new Set(); return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true;});
+}
+
+// Second, more tolerant OCR pass for university grid timetables. It asks Tesseract
+// to preserve individual words and then re-runs the spatial grid detector.
+async 
+function detectTimetableGrid(canvas){
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const {width:w,height:h}=canvas, img=ctx.getImageData(0,0,w,h).data;
+  const grayAt=i=>0.299*img[i]+0.587*img[i+1]+0.114*img[i+2];
+  const y0=Math.floor(h*.28), y1=Math.floor(h*.86), dark=165;
+  const score=new Array(w).fill(0);
+  for(let x=0;x<w;x++){let n=0;for(let y=y0;y<y1;y+=2)if(grayAt((y*w+x)*4)<dark)n++;score[x]=n}
+  const candidates=[], threshold=Math.max(30,Math.floor((y1-y0)/3));
+  for(let x=0;x<w;x++)if(score[x]>=threshold)candidates.push(x);
+  const group=arr=>{const gs=[];for(const x of arr){if(!gs.length||x>gs[gs.length-1][gs[gs.length-1].length-1]+2)gs.push([x]);else gs[gs.length-1].push(x)}return gs.map(g=>Math.round((g[0]+g[g.length-1])/2))};
+  let vl=group(candidates);
+  if(vl.length>10){
+    let best=null;
+    for(let i=0;i<=vl.length-10;i++){
+      const run=vl.slice(i,i+10),g=run.slice(1).map((x,j)=>x-run[j]),avg=g.reduce((a,b)=>a+b,0)/g.length;
+      if(avg<35)continue;
+      const spread=Math.max(...g)-Math.min(...g),score2=spread/avg;
+      if(!best||score2<best.score)best={run,score:score2};
+    }
+    if(best)vl=best.run;
+  }
+  return vl.length>=10?{vertical:vl.slice(0,10)}:null;
+}
+
+async function ocrGridHeaderTimes(canvas, grid, ocr, label){
+  const times=[],words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),x0:Number(w.bbox?.x0??w.x0??0),y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0),y1:Number(w.bbox?.y1??w.y1??0)
+  })).filter(w=>w.text);
+  const dayYs=words.map(w=>fuzzyDay(w.text)?(w.y0+w.y1)/2:null).filter(y=>y!==null).sort((a,b)=>a-b);
+  if(!dayYs.length)return null;
+  const minDayY=dayYs[0],step=grid.vertical[2]-grid.vertical[1];
+  const top=Math.max(0,Math.floor(minDayY-step*1.12)),bottom=Math.min(canvas.height,Math.ceil(minDayY-step*.08));
+  for(let i=0;i<8;i++){
+    const left=grid.vertical[i+1]+2,right=grid.vertical[i+2]-2;
+    const c=document.createElement('canvas');c.width=Math.max(20,right-left);c.height=Math.max(20,bottom-top);
+    c.getContext('2d').drawImage(canvas,left,top,right-left,bottom-top,0,0,c.width,c.height);
+    const up=upscaleForOCR(c);
+    const r=await Tesseract.recognize(up,'eng',{config:{tessedit_pageseg_mode:'6'}});
+    const txt=String(r?.data?.text||'');
+    const found=[...txt.matchAll(/(\d{1,2}:\d{2})\s*(?:-|–|—)?\s*(\d{1,2}:\d{2})/g)];
+    if(found.length)times.push({start:normalizeTime(found[0][1]),end:normalizeTime(found[0][2])});
+    else{
+      const one=[...txt.matchAll(/\d{1,2}:\d{2}/g)].map(m=>normalizeTime(m[0]));
+      times.push(one.length>=2?{start:one[0],end:one[1]}:null);
+    }
+  }
+  return times.length===8&&times.every(Boolean)?times:null;
+}
+
+function parseGridUsingGeometry(ocr,grid,slots){
+  if(!grid||!slots||slots.length!==8)return [];
+  const words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),
+    x0:Number(w.bbox?.x0??w.x0??0),y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0),y1:Number(w.bbox?.y1??w.y1??0)
+  })).filter(w=>w.text);
+  const v=grid.vertical,cx=w=>(w.x0+w.x1)/2,cy=w=>(w.y0+w.y1)/2;
+  const slotStep=v.length>2?v[2]-v[1]:150;
+  const dayAnchors=[];
+  words.forEach(w=>{
+    const d=fuzzyDay(w.text),x=cx(w),y=cy(w);
+    if(!d||x>v[1]+slotStep*.2)return;
+    if(!dayAnchors.some(q=>q.day===d&&Math.abs(q.y-y)<35))dayAnchors.push({day:d,y});
+  });
+  dayAnchors.sort((a,b)=>a.y-b.y);
+  const ordered=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const days=ordered.map(d=>dayAnchors.find(x=>x.day===d)).filter(Boolean);
+  if(days.length<2)return [];
+  const out=[],codeRe=/CSE\s*[-.]?\s*(\d{2,5})/i,roomRe=/\(?\s*([SV])\s*[.:\- ]*\s*(\d{3,4})\s*\)?/i;
+  days.forEach((dy,ri)=>{
+    const prev=ri?days[ri-1].y:dy.y-70,next=ri===days.length-1?dy.y+70:days[ri+1].y;
+    const top=(prev+dy.y)/2,bottom=(dy.y+next)/2;
+    for(let si=0;si<8;si++){
+      const left=v[si+1],right=v[si+2];
+      const cell=words.filter(w=>{const x=cx(w),y=cy(w);return x>left+2&&x<right-2&&y>top+2&&y<bottom-2&&y>days[0].y-75}).sort((a,b)=>a.y0-b.y0||a.x0-b.x0);
+      if(!cell.length)continue;
+      const text=cell.map(w=>w.text).join(' ').replace(/[|]/g,'I').replace(/\s+/g,' ').trim();
+      const cm=text.match(codeRe);if(!cm)continue;
+      const course='CSE '+cm[1],rm=text.match(roomRe),room=rm?(rm[1].toUpperCase()+rm[2]):'';
+      const upper=text.toUpperCase().replace(/\s+/g,' ');
+      let section='';
+      if(/AIML\s*(?:I|1)?\s*[-~–—]?\s*[PC]?\b/.test(upper))section='AIML I-P';
+      else if(/C[S5]I|C[S5]T|CS\s*(?:I|1)?\s*[-~–]?\s*C/.test(upper))section='CS I-C';
+      out.push({day:dy.day,start:slots[si].start,end:slots[si].end,course,section,room,type:'Regular Class'});
+    }
+  });
+  const seen=new Set();return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+}
+
+
+async function parseGridByCellOCR(canvas,grid,slots,ocr){
+  if(!grid||!slots||slots.length!==8)return [];
+  const words=(ocr?.data?.words||[]).map(w=>({
+    text:cleanOCRText(w.text),x0:Number(w.bbox?.x0??w.x0??0),y0:Number(w.bbox?.y0??w.y0??0),
+    x1:Number(w.bbox?.x1??w.x1??0),y1:Number(w.bbox?.y1??w.y1??0)
+  })).filter(w=>w.text);
+  const v=grid.vertical,cx=w=>(w.x0+w.x1)/2,cy=w=>(w.y0+w.y1)/2;
+  const step=v[2]-v[1],dayAnchors=[];
+  words.forEach(w=>{
+    const d=fuzzyDay(w.text),x=cx(w),y=cy(w);
+    if(d&&x<v[1]+step*.2&&!dayAnchors.some(q=>q.day===d&&Math.abs(q.y-y)<35))dayAnchors.push({day:d,y});
+  });
+  const order=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const days=order.map(d=>dayAnchors.find(x=>x.day===d)).filter(Boolean);
+  if(days.length<2)return [];
+  const out=[],codeRe=/CSE\s*[-.]?\s*(\d{2,5})/i,roomRe=/\(?\s*([SV])\s*[.:\- ]*\s*(\d{3,4})\s*\)?/i;
+  for(let ri=0;ri<days.length;ri++){
+    const prev=ri?days[ri-1].y:days[ri].y-step*.7,next=ri===days.length-1?days[ri].y+step*.7:days[ri+1].y;
+    const top=(prev+days[ri].y)/2,bottom=(days[ri].y+next)/2;
+    for(let si=0;si<8;si++){
+      const left=v[si+1]+3,right=v[si+2]-3;
+      const candidates=words.filter(w=>{const x=cx(w),y=cy(w);return x>left&&x<right&&y>top+2&&y<bottom-2&&codeRe.test(w.text)||false});
+      // Occupancy is established from all OCR words in the cell, then the cell itself is OCRed at high scale.
+      const cellWords=words.filter(w=>{const x=cx(w),y=cy(w);return x>left&&x<right&&y>top+2&&y<bottom-2});
+      const broad=cellWords.map(w=>w.text).join(' ');
+      if(!codeRe.test(broad))continue;
+      const c=document.createElement('canvas');
+      c.width=Math.max(30,right-left);c.height=Math.max(30,bottom-top);
+      c.getContext('2d').drawImage(canvas,left,top,right-left,bottom-top,0,0,c.width,c.height);
+      const up=upscaleForOCR(c);
+      let txt='';
+      try{const r=await Tesseract.recognize(up,'eng',{config:{tessedit_pageseg_mode:'6'}});txt=cleanOCRText(r?.data?.text||'')}catch(e){}
+      if(!txt)txt=broad;
+      const cm=txt.match(codeRe)||broad.match(codeRe);if(!cm)continue;
+      const course='CSE '+cm[1];
+      const rm=txt.match(roomRe)||broad.match(roomRe);
+      let room=rm?(rm[1].toUpperCase()+rm[2]):'';
+      if(!room){
+        const bareTxt=txt.match(/\b(\d{3,4})\s*\)?/);
+        const bareBroad=broad.match(/\b(\d{3,4})\s*\)?/);
+        const number=bareTxt?.[1]||bareBroad?.[1]||'';
+        if(number)room=(/CSE\s*\d{2,5}\s*\(?\s*S/i.test(txt)?'S':'')+number;
+      }
+      const upper=txt.toUpperCase().replace(/[|]/g,'I').replace(/\s+/g,' ');
+      let section='';
+      if(/AIML\s*(?:I|1)?\s*[-~–—]?\s*[PC]?\b/.test(upper)||/AIML\s*I\s*[~\-]?\s*CSE/.test(upper))section='AIML I-P';
+      else if(/C[S5]I|C[S5]T|CS\s*(?:I|1)?\s*[-~–]?\s*C/.test(upper))section='CS I-C';
+      out.push({day:days[ri].day,start:slots[si].start,end:slots[si].end,course,section,room,type:'Regular Class'});
+    }
+  }
+  const seen=new Set();return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+}
+
+function darkProjection(canvas, horizontal){
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const w=canvas.width,h=canvas.height,data=ctx.getImageData(0,0,w,h).data;
+  const out=[];
+  if(horizontal){
+    for(let y=0;y<h;y++){
+      let n=0; for(let x=Math.floor(w*.08);x<Math.floor(w*.92);x+=2){const i=(y*w+x)*4,g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<150)n++;}
+      out.push(n);
+    }
+  }else{
+    for(let x=0;x<w;x++){
+      let n=0; for(let y=Math.floor(h*.22);y<Math.floor(h*.82);y+=2){const i=(y*w+x)*4,g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<150)n++;}
+      out.push(n);
+    }
+  }
+  return out;
+}
+function groupProjection(arr, threshold, maxGap=3){
+  const groups=[];
+  for(let i=0;i<arr.length;i++) if(arr[i]>=threshold){
+    if(!groups.length || i-groups[groups.length-1].end>maxGap) groups.push({start:i,end:i});
+    else groups[groups.length-1].end=i;
+  }
+  return groups.map(g=>Math.round((g.start+g.end)/2));
+}
+function detectVerticalRules(canvas){
+  const h=canvas.height,w=canvas.width;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const data=ctx.getImageData(0,0,w,h).data;
+  const score=new Array(w).fill(0);
+  const y0=Math.floor(h*.18),y1=Math.floor(h*.86);
+  for(let x=0;x<w;x++){
+    let n=0;
+    for(let y=y0;y<y1;y+=2){const i=(y*w+x)*4;const g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<165)n+=2}
+    score[x]=n;
+  }
+  const threshold=Math.max(70,Math.floor((y1-y0)*.36));
+  const cand=[];for(let x=0;x<w;x++)if(score[x]>=threshold)cand.push(x);
+  const groups=[];for(const x of cand){if(!groups.length||x-groups[groups.length-1].end>5)groups.push({start:x,end:x});else groups[groups.length-1].end=x}
+  let lines=groups.map(g=>Math.round((g.start+g.end)/2));
+  if(lines.length>10){
+    let best=null;
+    for(let i=0;i<=lines.length-10;i++){
+      const run=lines.slice(i,i+10),gaps=run.slice(1).map((x,j)=>x-run[j]);
+      const avg=gaps.reduce((a,b)=>a+b,0)/gaps.length;
+      const spread=Math.max(...gaps)-Math.min(...gaps);
+      const score2=spread/Math.max(1,avg);
+      if(!best||score2<best.score)best={run,score:score2};
+    }
+    if(best)lines=best.run;
+  }
+  if(lines.length<10)return null;
+  return lines.slice(0,10);
+}
+
+function detectHorizontalRules(canvas,x0,x1){
+  const w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const data=ctx.getImageData(0,0,w,h).data,score=new Array(h).fill(0);
+  const lo=Math.max(0,Math.floor(x0)),hi=Math.min(w,Math.floor(x1));
+  for(let y=0;y<h;y++){
+    let n=0;for(let x=lo;x<hi;x+=2){const i=(y*w+x)*4;const g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<155)n+=2}score[y]=n;
+  }
+  const threshold=Math.max(50,Math.floor((hi-lo)*.55));
+  const cand=[];for(let y=0;y<h;y++)if(score[y]>=threshold)cand.push(y);
+  const groups=[];for(const y of cand){if(!groups.length||y-groups[groups.length-1].end>4)groups.push({start:y,end:y});else groups[groups.length-1].end=y}
+  return groups.map(g=>Math.round((g.start+g.end)/2));
+}
+
+async function detectDayAnchors(canvas){
+  try{
+    const scale=1.8;
+    const ocrCanvas=upscaleForOCR(canvas);
+    const r=await Tesseract.recognize(ocrCanvas,'eng',{config:{tessedit_pageseg_mode:'11'}});
+    // Tesseract reports coordinates on the upscaled canvas. Convert them back
+    // to the original canvas before comparing them with the grid rules.
+    const words=(r?.data?.words||[]).map(w=>({
+      text:cleanOCRText(w.text),
+      x0:Number(w.bbox?.x0??0)/scale, y0:Number(w.bbox?.y0??0)/scale,
+      x1:Number(w.bbox?.x1??0)/scale, y1:Number(w.bbox?.y1??0)/scale
+    }));
+    const wanted=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const found=[];
+    for(const d of wanted){
+      const hit=words.find(w=>fuzzyDay(w.text)===d && w.x0<canvas.width*.28 && w.y0>canvas.height*.20 && w.y1<canvas.height*.88);
+      if(hit)found.push({day:d,y:(hit.y0+hit.y1)/2});
+    }
+    return found.length>=4?found:null;
+  }catch(e){console.warn('day anchor OCR failed',e);return null}
+}
+
+function buildDayBands(dayAnchors,hRules,canvasHeight){
+  const anchors=(dayAnchors||[]).sort((a,b)=>a.y-b.y);
+  if(!anchors.length)return [];
+  const bands=[];
+  for(let i=0;i<anchors.length;i++){
+    const a=anchors[i], prev=anchors[i-1], next=anchors[i+1];
+    const topCandidates=(hRules||[]).filter(y=>y<a.y && (!prev||y>prev.y-120));
+    const botCandidates=(hRules||[]).filter(y=>y>a.y && (!next||y<next.y+120));
+    const top=topCandidates.length?topCandidates[topCandidates.length-1]:Math.max(0,Math.floor(a.y-(next?next.y-a.y:60)*.7));
+    const bottom=botCandidates.length?botCandidates[0]:Math.min(canvasHeight,Math.ceil(a.y+(a.y-(prev?.y??a.y-60))*.7));
+    if(bottom-top>=20)bands.push({day:a.day,top,bottom});
+  }
+  return bands;
+}
+
+function normalizeOCRCellText(txt){
+  return cleanOCRText(String(txt||'').replace(/\r/g,' ').replace(/\n+/g,' | ').replace(/[“”]/g,'"').replace(/[Oo]/g,'0'));
+}
+
+async function ocrCell(canvas,x0,y0,x1,y1){
+  const c=cropCanvas(canvas,x0,y0,x1,y1,7);
+  const tries=[];
+  for(const psm of [6,11]){
+    const t=await ocrCanvasText(c,psm);if(t)tries.push(t);
+  }
+  return tries.sort((a,b)=>b.length-a.length)[0]||'';
+}
+
+function extractCourse(text){
+  const t=String(text||'').replace(/[Il|]/g,'1').replace(/[Oo]/g,'0');
+  const m=t.match(/\b([A-Z]{2,8})\s*[-.]?\s*(\d{2,5})\b/i);
+  return m?(m[1].toUpperCase()+' '+m[2]):'';
+}
+function extractRoom(text){
+  const t=String(text||'').replace(/[Il|]/g,'1');
+  const m=t.match(/\(?\s*([SV])\s*[-.:]?\s*(\d{3,4})\s*\)?/i);
+  return m?(m[1].toUpperCase()+m[2]):'';
+}
+function extractSection(text,course){
+  let t=String(text||'').replace(/B\.\s*Tech\.?[-\s]*CSE/ig,' ').replace(course||/CSE\s*\d+/ig,' ');
+  const norm=t.replace(/[|lI]/g,' ').replace(/\s+/g,' ').toUpperCase();
+  if(/AIML/.test(norm)&&/\bP\b/.test(norm))return 'AIML I-P';
+  if(/C[S5]\s*(?:I|1)?\s*[-–—]?\s*C/.test(norm)||/CS1\s*[-–—]?\s*C/.test(norm))return 'CS I-C';
+  const m=norm.match(/\b([A-Z]{1,8}\s*(?:I|II|III|IV|1|2|3|4)\s*[-–—]?\s*[A-Z])\b/);
+  return m?m[1].replace(/\s+/g,' ').replace(/\s*[-–—]\s*/g,'-').toUpperCase():'';
+}
+
+async function extractGridTimetable(canvas,label){
+  const vertical=detectVerticalRules(canvas); if(!vertical)return [];
+  const hRules=detectHorizontalRules(canvas,vertical[0],vertical[vertical.length-1]);
+  const anchors=await detectDayAnchors(canvas);
+  const bands=buildDayBands(anchors,hRules,canvas.height);
+  if(!bands.length)return [];
+  const slots=defaultPeriodSlots();
+  const rows=[];
+  for(const band of bands){
+    for(let si=0;si<8;si++){
+      const x0=vertical[si+1],x1=vertical[si+2];
+      if(cellInkRatio(canvas,x0,band.top,x1,band.bottom)<0.012)continue;
+      const txt=normalizeOCRCellText(await ocrCell(canvas,x0,band.top,x1,band.bottom));
+      const course=extractCourse(txt); if(!course)continue;
+      const room=extractRoom(txt);
+      rows.push({day:band.day,start:slots[si].start,end:slots[si].end,course,section:extractSection(txt,course),room,type:'Regular Class',_slotIndex:si});
+    }
+  }
+  const seen=new Set();
+  return rows.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+}
+
+function defaultPeriodSlots(){
+  return [
+    {start:'09:00',end:'09:50'},
+    {start:'10:00',end:'10:50'},
+    {start:'11:00',end:'11:50'},
+    {start:'12:00',end:'12:50'},
+    {start:'13:00',end:'13:50'},
+    {start:'14:00',end:'14:50'},
+    {start:'15:00',end:'15:50'},
+    {start:'16:00',end:'17:30'}
+  ];
+}
+async function readPeriodSlots(canvas,grid){
+  const v=grid.vertical,h=grid.horizontal,slots=[];
+  for(let i=0;i<8;i++){
+    const c=cropCanvas(canvas,v[i+1],h.length>=9?h[1]:h[0],v[i+2],h.length>=9?h[2]:h[1],4);
+    const txt=await ocrCanvasText(c,6);
+    const tr=parseTimeRangeText(txt);
+    slots.push(tr||null);
+  }
+  if(slots.filter(Boolean).length===8)return slots;
+  // OCR the complete time-header band as a second pass. This handles PDFs
+  // where each start/end time is returned on a separate OCR line.
+  try{
+    const header=cropCanvas(canvas,v[1],h.length>=9?h[1]:h[0],v[9],h.length>=9?h[2]:h[1],3);
+    const txt=await ocrCanvasText(header,6);
+    const toks=[...String(txt).replace(/[Oo]/g,'0').replace(/[Il]/g,'1').matchAll(/\b(\d{1,2})\s*[:.]\s*(\d{2})\b/g)]
+      .map(m=>normalizeTime(m[1]+':'+m[2]));
+    if(toks.length>=16){
+      const out=[];for(let i=0;i<8;i++)out.push({start:toks[i*2],end:toks[i*2+1]});
+      if(out.every(x=>x.start&&x.end))return out;
+    }
+  }catch(e){}
+  return null;
+}
+function parseTimeRangeText(txt){
+  const t=String(txt||'').replace(/[Oo]/g,'0').replace(/[Il]/g,'1').replace(/[—–~]/g,'-');
+  const m=[...t.matchAll(/(\d{1,2})\s*[:.]\s*(\d{2})\s*-\s*(\d{1,2})\s*[:.]\s*(\d{2})/g)];
+  if(m.length)return {start:normalizeTime(m[0][1]+':'+m[0][2]),end:normalizeTime(m[0][3]+':'+m[0][4])};
+  const a=[...t.matchAll(/\b(\d{1,2})\s*[:.]\s*(\d{2})\b/g)].map(x=>x[1]+':'+x[2]);
+  return a.length>=2?{start:normalizeTime(a[0]),end:normalizeTime(a[1])}:null;
+}
+async function ocrCanvasText(canvas, psm=6){
+  const up=document.createElement('canvas');
+  const scale=Math.min(3,Math.max(2,1800/Math.max(1,canvas.width)));
+  up.width=Math.max(40,Math.round(canvas.width*scale));up.height=Math.max(30,Math.round(canvas.height*scale));
+  const ctx=up.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.drawImage(canvas,0,0,up.width,up.height);
+  try{
+    const r=await Tesseract.recognize(up,'eng',{config:{tessedit_pageseg_mode:String(psm)}});
+    return cleanOCRText(r?.data?.text||'');
+  }catch(e){return '';}
+}
+function cropCanvas(source,x0,y0,x1,y1,pad=5){
+  const left=Math.max(0,Math.floor(x0+pad)),top=Math.max(0,Math.floor(y0+pad));
+  const right=Math.min(source.width,Math.ceil(x1-pad)),bottom=Math.min(source.height,Math.ceil(y1-pad));
+  const c=document.createElement('canvas');c.width=Math.max(20,right-left);c.height=Math.max(20,bottom-top);
+  c.getContext('2d').drawImage(source,left,top,right-left,bottom-top,0,0,c.width,c.height);return c;
+}
+function cellInkRatio(canvas,x0,y0,x1,y1){
+  const c=cropCanvas(canvas,x0,y0,x1,y1,8),d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let dark=0,total=0;
+  for(let i=0;i<d.length;i+=16){const g=.299*d[i]+.587*d[i+1]+.114*d[i+2];if(g<190)dark++;total++;}
+  return total?dark/total:0;
+}
+function extractCourse(text){
+  const m=text.match(/\b([A-Z]{2,8})\s*[-.]?\s*(\d{2,5})\b/i);
+  return m?(m[1].toUpperCase()+' '+m[2]):'';
+}
+function extractRoom(text){
+  const m=text.match(/\(?\s*([SV])\s*[-.:]?\s*(\d{3,4})\s*\)?/i);
+  return m?(m[1].toUpperCase()+m[2]):'';
+}
+function extractSection(text,course){
+  let t=text.replace(/B\.\s*Tech\.?[-\s]*CSE/ig,' ').replace(course||/CSE\s*\d+/ig,' ');
+  const norm=t.replace(/[|lI]/g,' ').replace(/\s+/g,' ').toUpperCase();
+  if(/AIML/.test(norm)&&/\bP\b/.test(norm))return 'AIML I-P';
+  if(/\bCS\b/.test(norm)&&/\bC\b/.test(norm))return 'CS I-C';
+  const m=norm.match(/\b([A-Z]{1,8}\s*(?:I|II|III|IV|1|2|3|4)\s*[-–—]?\s*[A-Z])\b/);
+  if(m)return m[1].replace(/\s+/g,' ').replace(/\s*[-–—]\s*/g,'-').toUpperCase();
+  return '';
+}
+async function extractGridTimetable(canvas,label){
+  const grid=detectGridByLines(canvas);
+  if(!grid)return [];
+  const v=grid.vertical,h=grid.horizontal;
+  let slots=await readPeriodSlots(canvas,grid);
+  // If the timetable uses the common eight-period SRM-style header, the
+  // visible grid still gives us the column order even when OCR misses a token.
+  // Keep this fallback only after attempting OCR.
+  if(!slots)slots=defaultPeriodSlots();
+  const dayNames=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const rows=[];
+  // The SRM-style timetable has two header bands before the first day row:
+  // h[0]=top, h[1]=Hours/Time divider, h[2]=Time/Day divider,
+  // then Monday-Saturday row boundaries follow. Therefore day rows begin at h[2].
+  // For layouts with an extra header rule, fall back to the last six row intervals.
+  const dayStart = h.length >= 9 ? 2 : Math.max(0,h.length-7);
+  for(let ri=0;ri<6;ri++){
+    const y0=h[dayStart+ri],y1=h[dayStart+ri+1];
+    if(!(Number.isFinite(y0)&&Number.isFinite(y1)&&y1>y0))continue;
+    for(let si=0;si<8;si++){
+      const x0=v[si+1],x1=v[si+2];
+      if(cellInkRatio(canvas,x0,y0,x1,y1)<0.012)continue;
+      const c=cropCanvas(canvas,x0,y0,x1,y1,7);
+      let txt=await ocrCanvasText(c,6);
+      if(!txt)continue;
+      const course=extractCourse(txt);
+      if(!course)continue;
+      const room=extractRoom(txt);
+      rows.push({day:dayNames[ri],start:slots[si].start,end:slots[si].end,course,section:extractSection(txt,course),room,type:'Regular Class',_slotIndex:si});
+    }
+  }
+  const seen=new Set();return rows.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true;});
+}
+
+// Primary timetable importer: semantic coordinate extraction. It avoids relying on
+// table-line detection, which is fragile when a PDF is rendered/scanned differently.
+async function extractBySemanticCoordinates(canvas,label){
+  try{
+    const result=await Tesseract.recognize(canvas,'eng',{
+      logger:m=>{if(m?.status && $('modalSub')) $('modalSub').textContent=label+' • '+m.status+(m.progress?' • '+Math.round(m.progress*100)+'%':'')},
+      config:{tessedit_pageseg_mode:'11',preserve_interword_spaces:'1'}
+    });
+    const words=(result?.data?.words||[]).map(w=>({
+      text:cleanOCRText(w.text),
+      x0:Number(w.bbox?.x0??0), y0:Number(w.bbox?.y0??0),
+      x1:Number(w.bbox?.x1??0), y1:Number(w.bbox?.y1??0),
+      conf:Number(w.confidence??w.conf??0)
+    })).filter(w=>w.text && Number.isFinite(w.x0) && Number.isFinite(w.y0));
+    if(!words.length)return [];
+    const cx=w=>(w.x0+w.x1)/2, cy=w=>(w.y0+w.y1)/2;
+    const roomMap={};
+    const ocrOrder=words.slice().sort((a,b)=>a.y0-b.y0||a.x0-b.x0).map(w=>w.text).join(' ');
+    for(const m of ocrOrder.matchAll(/(?:\(|\b)([SV])\s*[-.:]?\s*(\d{3,4})\b/gi)) roomMap[m[2]]=m[1].toUpperCase()+m[2];
+    // Also recover cases such as OCR returning "101(V" and "603)" as two words.
+    for(const m of ocrOrder.matchAll(/([SV])\s*\(?(\d{3,4})/gi)) roomMap[m[2]]=m[1].toUpperCase()+m[2];
+    const W=canvas.width,H=canvas.height;
+    const dayNames=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const dayHits=[];
+    for(const w of words){
+      const d=fuzzyDay(w.text);
+      const y=cy(w),x=cx(w);
+      if(!d || x>W*.35 || y<H*.30)continue;
+      const existing=dayHits.find(a=>a.day===d);
+      if(!existing || w.conf>existing.conf)dayHits.splice(existing?dayHits.indexOf(existing):dayHits.length,1,{day:d,y,conf:w.conf});
+    }
+    dayHits.sort((a,b)=>a.y-b.y);
+    const days=dayNames.map(d=>dayHits.find(x=>x.day===d)).filter(Boolean);
+    if(days.length<2)return [];
+
+    // Find the timetable header time tokens and group them by x-position.
+    // This supports headers such as 09:00-09:50, 10:00-10:50, etc., without
+    // depending on OCR preserving the header as a table.
+    const timeWords=[];
+    for(const w of words){
+      const t=w.text.replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[.]/g,':');
+      const m=t.match(/^(\d{1,2}):(\d{2})$/);
+      if(!m)continue;
+      const y=cy(w),x=cx(w),hh=Number(m[1]);
+      if(y>H*.42 || y<H*.20 || x<W*.18 || hh>23)continue;
+      timeWords.push({x,y,text:normalizeTime(m[1]+':'+m[2]),conf:w.conf});
+    }
+    timeWords.sort((a,b)=>a.x-b.x||a.y-b.y);
+    const timeGroups=[];
+    for(const t of timeWords){
+      let g=timeGroups.find(g=>Math.abs(g.x-t.x)<70);
+      if(!g)timeGroups.push({x:t.x,items:[t]}); else {g.items.push(t);g.x=(g.x*(g.items.length-1)+t.x)/g.items.length;}
+    }
+    timeGroups.sort((a,b)=>a.x-b.x);
+    const usableGroups=timeGroups.filter(g=>g.items.length>=1).slice(0,8);
+    if(usableGroups.length!==8)return [];
+    const periodCenters=usableGroups.map(g=>({x:g.x}));
+    const defaults=defaultPeriodSlots();
+    const slots=usableGroups.map((g,i)=>{
+      const vals=g.items.sort((a,b)=>a.y-b.y).map(v=>v.text);
+      if(vals.length>=2)return {start:vals[0],end:vals[1],x:g.x};
+      return {start:defaults[i].start,end:defaults[i].end,x:g.x};
+    });
+    const xs=periodCenters.map(t=>t.x);
+    const xBounds=[xs[0]-(xs[1]-xs[0])/2];
+    for(let i=1;i<xs.length;i++)xBounds.push((xs[i-1]+xs[i])/2);
+    xBounds.push(xs[xs.length-1]+(xs[xs.length-1]-xs[xs.length-2])/2);
+
+    const ys=days.map(d=>d.y);
+    const yBounds=[ys[0]-(ys[1]-ys[0])/2];
+    for(let i=1;i<ys.length;i++)yBounds.push((ys[i-1]+ys[i])/2);
+    if(ys.length>1)yBounds.push(ys[ys.length-1]+(ys[ys.length-1]-ys[ys.length-2])/2);
+
+    const out=[];
+    const courseRe=/\bCSE\s*[-.]?\s*(\d{2,5})\b/i;
+    const roomRe=/\(?\s*([SV])\s*[-.:]?\s*(\d{3,4})\s*\)?/i;
+    for(let ri=0;ri<days.length;ri++){
+      const top=yBounds[ri],bottom=yBounds[ri+1];
+      for(let si=0;si<8;si++){
+        const left=xBounds[si],right=xBounds[si+1];
+        const cell=words.filter(w=>{const x=cx(w),y=cy(w);return x>left+4&&x<right-4&&y>top+4&&y<bottom-4;});
+        if(!cell.length)continue;
+        const txt=cell.sort((a,b)=>a.y0-b.y0||a.x0-b.x0).map(w=>w.text).join(' ').replace(/\s+/g,' ').trim();
+        const cm=txt.match(courseRe); if(!cm)continue;
+        const course='CSE '+cm[1];
+        const rm=txt.match(roomRe);
+        let room=rm?(rm[1].toUpperCase()+rm[2]):'';
+        if(!room){const bare=txt.match(/(?:CSE\s*\d{2,5}\s*\(?\s*)(\d{3,4})/i);if(bare)room=bare[1];}
+        const upper=txt.toUpperCase().replace(/[|]/g,'I').replace(/\s+/g,' ');
+        let section='';
+        if(/AIML/.test(upper)&&(/\bP{1,2}\b/.test(upper)||/AIML\s*[I1|l]?\s*[-~|]?\s*P/.test(upper)))section='AIML I-P';
+        else if(/\bCS\b/.test(upper)&&/\bC\b/.test(upper))section='CS I-C';
+        else if(/CSI\s*[- ]?C/.test(upper))section='CS I-C';
+        out.push({day:days[ri].day,start:slots[si].start,end:slots[si].end,course,section,room,type:'Regular Class',_slotIndex:si});
+      }
+    }
+    const seen=new Set();
+    return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true;});
+  }catch(e){console.warn('semantic timetable extraction failed',e);return []}
+}
+
+
+function chooseTimetableDayRules(hRules,canvas){
+  const hs=(hRules||[]).filter(y=>y>canvas.height*0.32 && y<canvas.height*0.92).sort((a,b)=>a-b);
+  if(hs.length<7)return null;
+  let best=null;
+  for(let i=0;i<=hs.length-7;i++){
+    const run=hs.slice(i,i+7), gaps=run.slice(1).map((v,j)=>v-run[j]);
+    const inner=gaps.slice(1,5), med=[...inner].sort((a,b)=>a-b)[Math.floor(inner.length/2)]||0;
+    if(!med)continue;
+    const regular=inner.reduce((a,g)=>a+Math.abs(g-med),0)/(med*inner.length);
+    const edgePenalty=(Math.abs(gaps[0]-med*.36)+Math.abs(gaps[5]-med*.36))/Math.max(1,med);
+    const ySpan=run[6]-run[0];
+    const score=regular+edgePenalty*.15-(ySpan/canvas.height)*.02;
+    if(!best||score<best.score)best={run,score};
+  }
+  return best?.run||null;
+}
+async function extractStandardGridTimetable(canvas,label){
+  try{
+    const vertical=detectVerticalRules(canvas);
+    if(!vertical||vertical.length<10)return [];
+    const hAll=detectHorizontalRules(canvas,vertical[0],vertical[vertical.length-1]);
+    const body=chooseTimetableDayRules(hAll,canvas);
+    if(!body||body.length!==7)return [];
+    const slots=defaultPeriodSlots();
+    const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const rows=[];
+    for(let ri=0;ri<6;ri++){
+      for(let si=0;si<8;si++){
+        const x0=vertical[si+1],x1=vertical[si+2],y0=body[ri],y1=body[ri+1];
+        if(x1<=x0||y1<=y0)continue;
+        const txt=normalizeOCRCellText(await ocrCell(canvas,x0,y0,x1,y1));
+        if(!txt)continue;
+        const course=extractCourse(txt);
+        if(!course)continue;
+        const roomMatch=txt.match(/\b([SV])\s*\(?\s*(\d{3,4})\b/i) || txt.match(/\b(\d{3,4})\s*\)?\s*$/);
+        const room=roomMatch?(roomMatch[1]&&roomMatch[2]?roomMatch[1].toUpperCase()+roomMatch[2]:roomMatch[1]):'';
+        const section=extractSection(txt,course);
+        rows.push({day:days[ri],start:slots[si].start,end:slots[si].end,course,section,room,type:'Regular Class',_slotIndex:si});
+      }
+    }
+    const seen=new Set();
+    return rows.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+  }catch(e){console.warn('standard grid extraction failed',e);return []}
+}
+
+async function recognizeTimetableCanvas(canvas,label){
+  // Primary path for grid-style university timetables: detect the printed grid
+  // with pixels, then OCR each cell. This is intentionally independent of OCR
+  // understanding the entire table layout.
+  let rows=[];
+  try{rows=await extractStandardGridTimetable(canvas,label);}catch(e){console.warn('standard grid OCR failed',e)}
+  if(rows.length)return rows;
+  // Secondary path: semantic OCR coordinates for non-standard layouts.
+  try{rows=await extractBySemanticCoordinates(canvas,label);}catch(e){console.warn('semantic OCR failed',e)}
+  if(rows.length)return rows;
+  try{rows=await extractGridTimetable(canvas,label);}catch(e){console.warn('grid OCR failed',e)}
+  if(rows.length)return rows;
+  // Secondary path: full-page OCR for non-grid timetable layouts.
+  try{
+    const work=upscaleForOCR(canvas);
+    let result=await Tesseract.recognize(work,'eng',{logger:m=>{if(m.status)$('modalSub').textContent=label+' • '+m.status+(m.progress?' • '+Math.round(m.progress*100)+'%':'')},config:{tessedit_pageseg_mode:'11'}});
+    rows=parseGridRobust(result)||[];
+    if(!rows.length)rows=parseCoordinateTimetable(result)||[];
+    if(!rows.length)rows=parseSRMStyleGrid(result)||[];
+    if(!rows.length)rows=parseOCRGrid(result)||[];
+    if(!rows.length)rows=parsePlainTimetableText(result?.data?.text||'');
+    const defaults=defaultPeriodSlots();
+    rows=(rows||[]).map(r=>r._slotIndex!=null&&(!r.start||!r.end)?({...r,start:defaults[r._slotIndex]?.start||'',end:defaults[r._slotIndex]?.end||''}):r)
+      .filter(r=>r.start&&r.end&&DAYS.includes(r.day)&&r.course);
+    return rows;
+  }catch(e){console.warn('full OCR fallback failed',e);return []}
+}
+function parsePlainTimetableText(text){
+  const lines=String(text||'').split(/\r?\n/).map(x=>cleanOCRText(x)).filter(Boolean);
+  const out=[]; let currentDay='';
+  const dayRe=/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)$/i;
+  const rangeRe=/(\d{1,2}:\d{2})\s*(?:-|–|—|to)\s*(\d{1,2}:\d{2})/i;
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i]; const d=fuzzyDay(line);
+    if(dayRe.test(line)||d){currentDay=d||line[0].toUpperCase()+line.slice(1).toLowerCase();continue}
+    const m=line.match(rangeRe); if(!m||!currentDay)continue;
+    const tail=line.slice(m.index+m[0].length).replace(/^\s*[•·|:-]\s*/,'').trim();
+    const context=(tail+' '+(lines[i+1]||'')+' '+(lines[i+2]||'')).trim();
+    const cm=context.match(/\bCSE\s*[-.]?\s*\d{2,4}\b/i);
+    if(!cm)continue;
+    const course=cm[0].replace(/\s*[-.]?\s*/,' ').trim().replace(/^cse/i,'CSE');
+    const rm=context.match(/\(?\s*([SV])\s*(\d{3})\s*\)?/i);
+    let room=rm?(rm[1].toUpperCase()+rm[2]):'';if(!room){const bare=txt.match(/\b(\d{3,4})\b/);if(bare)room=bare[1];}
+    const sec=context.match(/(AIML\s*[I1]\s*[-–]?\s*P|CS\s*[I1]\s*[-–]?\s*C)/i);
+    out.push({day:currentDay,start:normalizeTime(m[1]),end:normalizeTime(m[2]),course,section:sec?sec[1].replace(/\s+/g,' ').toUpperCase():'',room,type:'Regular Class'});
+  }
+  const seen=new Set();return out.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+}
+function upscaleForOCR(sourceCanvas){
+  const scale=1.8, c=document.createElement('canvas'); c.width=Math.ceil(sourceCanvas.width*scale); c.height=Math.ceil(sourceCanvas.height*scale);
+  const ctx=c.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingEnabled=false;ctx.drawImage(sourceCanvas,0,0,c.width,c.height);
+  const img=ctx.getImageData(0,0,c.width,c.height), d=img.data;
+  for(let i=0;i<d.length;i+=4){let g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];g=g>205?255:g<125?0:Math.round((g-125)*255/80);d[i]=d[i+1]=d[i+2]=g}
+  ctx.putImageData(img,0,0);return c;
+}
+async function handlePDF(file){
+  if(!window.pdfjsLib||!window.Tesseract){toast('PDF/OCR engine is still loading. Refresh once and try again.');return}
+  openModal('Reading timetable PDF','Checking the PDF and preparing the timetable…');
+  try{
+    const buf=await file.arrayBuffer(),pdf=await window.pdfjsLib.getDocument({data:buf}).promise; let all=[];
+    // First try the PDF text layer. This handles true text PDFs without OCR.
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p), tc=await page.getTextContent();
+      const text=tc.items.map(x=>x.str).join('\n'); const parsed=parsePlainTimetableText(text); all.push(...parsed);
+    }
+    if(!all.length){
+      for(let p=1;p<=pdf.numPages;p++){
+        const page=await pdf.getPage(p),viewport=page.getViewport({scale:2.5});
+        const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+        await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+        all.push(...await recognizeTimetableCanvas(canvas,'Scanning PDF page '+p+' of '+pdf.numPages));
+      }
+    }
+    closeModal();const seen=new Set();const parsed=all.filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true});
+    if(parsed.length){previewRows=parsed;showPreview();toast(parsed.length+' timetable classes detected. Please review before saving.');}
+    else{toast('Timetable could not be identified automatically. Please use Manual entry or Excel/CSV.');showManualEditor();}
+  }catch(err){closeModal();console.error(err);toast('Could not process this PDF. Please try again.');}
+}
+async function extractImageCoordinateTimetable(canvas,label){
+  try{
+    const scale=1.8;
+    const work=upscaleForOCR(canvas);
+    const result=await Tesseract.recognize(work,'eng',{
+      logger:m=>{if(m?.status && $('modalSub')) $('modalSub').textContent=label+' • '+m.status+(m.progress?' • '+Math.round(m.progress*100)+'%':'')},
+      config:{tessedit_pageseg_mode:'11',preserve_interword_spaces:'1'}
+    });
+    const words=(result?.data?.words||[]).map(w=>({
+      text:cleanOCRText(w.text),
+      x0:Number(w.bbox?.x0||0)/scale,y0:Number(w.bbox?.y0||0)/scale,
+      x1:Number(w.bbox?.x1||0)/scale,y1:Number(w.bbox?.y1||0)/scale,
+      conf:Number(w.confidence??w.conf??0)
+    })).filter(w=>w.text);
+    if(!words.length)return [];
+    const cx=w=>(w.x0+w.x1)/2, cy=w=>(w.y0+w.y1)/2;
+    const W=canvas.width,H=canvas.height;
+    const dayNames=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const dayHits=[];
+    for(const w of words){
+      const d=fuzzyDay(w.text), x=cx(w), y=cy(w);
+      if(!d || x>W*.32 || y<H*.28)continue;
+      const old=dayHits.find(a=>a.day===d);
+      if(!old || w.conf>old.conf){
+        if(old)dayHits.splice(dayHits.indexOf(old),1);
+        dayHits.push({day:d,y,conf:w.conf});
+      }
+    }
+    dayHits.sort((a,b)=>a.y-b.y);
+    if(dayHits.length<2)return [];
+
+    // Time-period start tokens. Image OCR often splits the range into two words,
+    // so we only need the start token and use the timetable's standard periods.
+    const timeHits=[];
+    for(const w of words){
+      let s=w.text.replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[.]/g,':');
+      const m=s.match(/^(\d{1,2}):(\d{2})$/); if(!m)continue;
+      const x=cx(w),y=cy(w),hh=Number(m[1]);
+      if(x<W*.18 || y<H*.28 || y>H*.45 || hh>23)continue;
+      timeHits.push({x,y});
+    }
+    timeHits.sort((a,b)=>a.x-b.x);
+    const times=[];
+    for(const h of timeHits){
+      if(!times.length || Math.abs(h.x-times[times.length-1].x)>45)times.push(h);
+    }
+    const defaults=defaultPeriodSlots();
+    let xs=times.slice(0,8).map(a=>a.x);
+    if(xs.length<8){
+      // Recover missing header OCR by estimating the regular column centers
+      // from the leftmost/rightmost detected period starts.
+      if(xs.length>=2){
+        const min=xs[0],max=xs[xs.length-1],step=(max-min)/7;
+        xs=Array.from({length:8},(_,i)=>min+step*i);
+      }else return [];
+    }
+    if(xs.length>8)xs=xs.slice(0,8);
+    const xBounds=[xs[0]-(xs[1]-xs[0])/2];
+    for(let i=1;i<8;i++)xBounds.push((xs[i-1]+xs[i])/2);
+    xBounds.push(xs[7]+(xs[7]-xs[6])/2);
+
+    const ys=dayHits.map(d=>d.y);
+    const yBounds=[Math.max(0,ys[0]-(ys[1]-ys[0])/2)];
+    for(let i=1;i<ys.length;i++)yBounds.push((ys[i-1]+ys[i])/2);
+    yBounds.push(Math.min(H,ys[ys.length-1]+(ys[ys.length-1]-ys[ys.length-2])/2));
+
+    const courseRe=/\bCSE\s*[-.]?\s*(\d{2,5})\b/i;
+    const roomRe=/\(?\s*([SV])\s*[-.:]?\s*(\d{3,4})\s*\)?/i;
+    const out=[];
+    const candidates=words.filter(w=>/\bCSE\b/i.test(w.text)||/\bCSE\s*[-.]?\s*\d/i.test(w.text));
+    for(const w of candidates){
+      const x=cx(w),y=cy(w);
+      let ri=0, bestY=Infinity;
+      for(let i=0;i<dayHits.length;i++){const dy=Math.abs(y-dayHits[i].y);if(dy<bestY){bestY=dy;ri=i;}}
+      if(bestY>H*.12)continue;
+      let si=0,bestX=Infinity;
+      for(let i=0;i<8;i++){const dx=Math.abs(x-xs[i]);if(dx<bestX){bestX=dx;si=i;}}
+      if(bestX>Math.abs(xs[1]-xs[0])*.48)continue;
+      const top=yBounds[ri],bottom=yBounds[ri+1],left=xBounds[si],right=xBounds[si+1];
+      const cell=words.filter(q=>{const qx=cx(q),qy=cy(q);return qx>left+2&&qx<right-2&&qy>top+2&&qy<bottom-2;})
+        .sort((a,b)=>a.y0-b.y0||a.x0-b.x0);
+      const txt=cell.map(q=>q.text).join(' ').replace(/\s+/g,' ').trim();
+      const cm=txt.match(courseRe); if(!cm)continue;
+      const course='CSE '+cm[1];
+      const rm=txt.match(roomRe);
+      let room=rm?rm[1].toUpperCase()+rm[2]:'';
+      if(!room){const bare=txt.match(/CSE\s*\d{2,5}\s*\(?\s*(\d{3,4})/i);if(bare)room=bare[1];}
+      const upper=txt.toUpperCase().replace(/[|]/g,'I').replace(/\s+/g,' ');
+      let section='';
+      if(/AIML/.test(upper)&&/P/.test(upper))section='AIML I-P';
+      else if(/CS/.test(upper)&&/C/.test(upper))section='CS I-C';
+      const row={day:dayHits[ri].day,start:defaults[si].start,end:defaults[si].end,course,section,room,type:'Regular Class',_slotIndex:si};
+      const key=[row.day,row.start,row.end,row.course,row.section,row.room].join('|');
+      if(!out.some(x=>[x.day,x.start,x.end,x.course,x.section,x.room].join('|')===key))out.push(row);
+    }
+    return out;
+  }catch(e){console.warn('image coordinate OCR failed',e);return []}
+}
+
+async function handleImage(file){
+  if(!window.Tesseract){toast('Image OCR engine is still loading. Refresh once and try again.');return}
+  openModal('Reading timetable image','Preparing high-resolution OCR for '+file.name+'…');
+  try{
+    const bitmap=await createImageBitmap(file),canvas=document.createElement('canvas');
+    const max=2200,scale=Math.min(max/bitmap.width,max/bitmap.height,3);canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);
+    const parsed=await extractImageCoordinateTimetable(canvas,'Reading timetable image');
+    closeModal();
+    if(parsed.length){previewRows=parsed;showPreview();toast(parsed.length+' timetable classes detected. Please review before saving.');}
+    else{toast('The image was read, but no timetable rows were recognized. You can use Manual entry or Excel/CSV.');showManualEditor();}
+  }catch(err){closeModal();console.error(err);toast('Could not read this timetable image. Please try a clearer image or PDF/Excel.');}
+}
+$('closeModal').onclick=closeModal;$('modalBackdrop').onclick=e=>{if(e.target===$('modalBackdrop'))closeModal()};
+function exportBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='FacultyFlow_Backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+setInterval(()=>{renderHeader();renderHome();renderSchedule();if($('live').classList.contains('active'))renderLive()},1000);
+renderAll();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+(function(){
+  const exportBtn=document.getElementById('exportData');
+  const importBtn=document.getElementById('importDataBtn');
+  const fileInput=document.getElementById('importDataFile');
+  if(!exportBtn||!importBtn||!fileInput)return;
+  exportBtn.onclick=()=>{
+    const payload={version:'facultyflow-v34',exportedAt:new Date().toISOString()};
+    for(const k of Object.keys(localStorage)){
+      if(k.toLowerCase().includes('facultyflow')) payload[k]=localStorage.getItem(k);
+    }
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='facultyflow-my-data.json'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  };
+  importBtn.onclick=()=>fileInput.click();
+  fileInput.onchange=async()=>{
+    const f=fileInput.files?.[0]; if(!f)return;
+    try{
+      const payload=JSON.parse(await f.text()); let count=0;
+      Object.entries(payload).forEach(([k,v])=>{
+        if(k.toLowerCase().includes('facultyflow')&&typeof v==='string'){localStorage.setItem(k,v);count++;}
+      });
+      alert(count?`Imported ${count} FacultyFlow data item(s). Reloading…`:'No FacultyFlow data was found.');
+      if(count)location.reload();
+    }catch(e){alert('Invalid FacultyFlow data file.');}
+    fileInput.value='';
+  };
+})();
+
+</script>
+</body>
+</html>
