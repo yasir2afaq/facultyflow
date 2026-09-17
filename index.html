@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#071f3d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FacultyFlow">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>FacultyFlow | Faculty Teaching Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#182a44;--ink-soft:#5b6a80;--navy:#0f2743;--navy2:#173a5e;
+  --paper:#f6f2e7;--card:#fffdf8;--line:#e6dcc4;--line-soft:#efe6d3;
+  --brass:#9c7a2e;--brass-deep:#7d611f;--brass-soft:#f2e6c4;
+  --forest:#1f6f52;--forest-soft:#e6f2ea;
+  --claret:#9c3b3b;--claret-soft:#f8ecea;
+  --azure:#2f6fa8;--azure-soft:#e9f1f9;
+  --text:var(--ink);--muted:var(--ink-soft);--bg:var(--paper);
+  --blue:var(--brass);--blue2:var(--brass-soft);--gold:var(--brass);--green:var(--forest);--green2:var(--forest-soft);--red:var(--claret);--purple:#6a5aa8;
+  --shadow:0 14px 34px rgba(35,28,10,.09);--shadow-lg:0 24px 60px rgba(20,16,8,.16);
+  --radius:22px;--radius-sm:12px;
+  --serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--paper);overflow-x:hidden;touch-action:pan-y}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);overflow-x:hidden;overscroll-behavior-x:none;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+input,select,textarea{font-size:16px}
+.tabular,.time,.status-main,.countdown,.stat strong,.tracker-stat strong,.class-title,.status-time{font-variant-numeric:tabular-nums}
+
+/* ---------- app shell ---------- */
+.app{width:100%;max-width:560px;min-height:100vh;margin:auto;padding-bottom:96px;overflow-x:hidden}
+.top{background:linear-gradient(165deg,var(--navy) 0%,var(--navy2) 78%,#1f4d78 100%);color:#fff;padding:16px 18px 22px;border-radius:0 0 28px 28px;position:relative;overflow:hidden}
+.top:after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,rgba(156,122,46,.22),transparent 60%);pointer-events:none}
+.brand{display:flex;align-items:center;gap:11px;position:relative}
+.srm-logo{width:56px;height:40px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}
+.brand-title{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.3px}.brand-title span{color:#d9b968}.brand-sub{font-size:10px;opacity:.72;margin-top:2px;letter-spacing:.2px}
+.identity{margin-top:18px;position:relative}.identity h1{font-family:var(--serif);font-weight:600;font-style:italic;margin:0 0 4px;font-size:27px;line-height:1.08}.identity p{margin:3px 0;font-size:11px;opacity:.86;line-height:1.4}.semester-pill{display:inline-block;margin-top:9px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.14);font-size:10px;letter-spacing:.2px}
+
+.content{padding:15px 14px 8px}.screen{display:none}.screen.active{display:block;animation:screenIn .22s cubic-bezier(.2,.7,.3,1)}
+@keyframes screenIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ---------- cards & primitives ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:13px;box-shadow:var(--shadow)}
+.card h2{font-family:var(--serif);font-weight:600;font-size:18px;margin:0 0 12px;color:var(--navy)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;min-width:0}
+.muted{color:var(--muted)}.small{font-size:11px}.tiny{font-size:10px}
+
+.datebar{display:flex;align-items:center;justify-content:space-between;background:var(--brass-soft);border:1px solid #e9d9a8;border-radius:14px;padding:7px 9px;margin-bottom:12px}
+.datebar button{border:0;background:transparent;color:var(--brass-deep);font-size:22px;min-width:42px;min-height:42px;border-radius:9px;transition:background .12s}
+.datebar button:hover{background:rgba(124,97,31,.1)}
+.datebar b{font-size:12px;text-align:center;color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 7px;text-align:center}
+.stat strong{display:block;font-size:20px;line-height:1.1;color:var(--navy);font-weight:700}
+.stat span{display:block;font-size:9px;color:var(--muted);margin-top:4px}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-head h2{margin:0}
+
+.class{border:1px solid var(--line);border-left:4px solid var(--azure);border-radius:15px;padding:12px;margin:9px 0;background:#fefdfa}
+.class.current{border-left-color:var(--claret);background:linear-gradient(100deg,var(--claret-soft),#fefdfa 55%)}
+.class.completed{border-left-color:var(--forest);background:linear-gradient(100deg,var(--forest-soft),#fefdfa 55%)}
+.class.adjustment{border-left-color:var(--brass);background:linear-gradient(100deg,var(--brass-soft),#fefdfa 55%)}
+.class-title{font-size:13px;font-weight:700;color:var(--ink)}.time{font-size:12px;font-weight:700;color:var(--navy)}.meta{font-size:10px;color:var(--muted);margin-top:4px}
+
+.tag{font-size:9px;font-weight:700;padding:5px 9px;border-radius:999px;background:var(--azure-soft);color:var(--azure);white-space:nowrap}
+.tag.green{background:var(--forest-soft);color:var(--forest)}.tag.gold{background:var(--brass-soft);color:var(--brass-deep)}.tag.red{background:var(--claret-soft);color:var(--claret)}.tag.gray{background:#eee9dc;color:#6b6152}
+
+.btn{border:0;border-radius:12px;min-height:43px;padding:9px 14px;background:var(--navy);color:#fff;font-weight:700;font-size:12px;transition:transform .12s ease,box-shadow .12s ease,opacity .12s ease;box-shadow:0 6px 16px rgba(15,39,67,.18)}
+.btn.secondary{background:var(--brass-soft);color:var(--brass-deep);box-shadow:none;border:1px solid #e9d9a8}
+.btn.success{background:var(--forest);box-shadow:0 6px 16px rgba(31,111,82,.2)}
+.btn.danger{background:var(--claret);box-shadow:0 6px 16px rgba(156,59,59,.2)}
+.btn.gold{background:var(--brass);box-shadow:0 6px 16px rgba(156,122,46,.22)}
+.btn.block{width:100%}.btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn:active:not(:disabled){transform:scale(.97)}
+.btn:focus-visible,.upload-tile:focus-within,.datebar button:focus-visible,.nav button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick{min-height:46px}
+
+.notice{padding:11px 12px;border-radius:13px;background:var(--azure-soft);border:1px solid #d5e4f0;color:#22516f;font-size:11px;line-height:1.5}
+.notice.success{background:var(--forest-soft);border-color:#cbe6d7;color:#155440}
+.notice.warn{background:var(--brass-soft);border-color:#e9d9a8;color:var(--brass-deep)}
+
+.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:700;margin-bottom:5px;color:var(--navy)}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d9cea8;border-radius:12px;background:#fff;color:var(--text);padding:11px;outline:none;transition:border-color .12s,box-shadow .12s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(156,122,46,.14)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+.hero-next{background:linear-gradient(150deg,var(--navy) 0%,#1c3f63 60%,#28557f 100%);color:#fff;border:0;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.hero-next:before{content:"";position:absolute;inset:0;background:radial-gradient(90% 70% at 100% 100%,rgba(156,122,46,.25),transparent 60%)}
+.hero-next .next-label{font-size:10px;font-weight:700;color:#d9b968;text-transform:uppercase;letter-spacing:.8px;position:relative}
+.hero-next .muted,.hero-next .meta{color:rgba(255,255,255,.72)}
+.hero-next .time,.hero-next .class-title{color:#fff}
+.hero-next .btn.secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.2);color:#fff}
+.next-label{font-size:10px;font-weight:700;color:var(--brass);text-transform:uppercase;letter-spacing:.8px}
+
+.course-line{display:flex;align-items:center;gap:10px;margin:10px 0}
+.course-icon{width:38px;height:38px;border-radius:12px;background:var(--azure-soft);display:grid;place-items:center;color:var(--azure);font-weight:700}
+.course-icon.green{background:var(--forest-soft);color:var(--forest)}.course-icon.gold{background:var(--brass-soft);color:var(--brass-deep)}
+
+.empty{text-align:center;padding:26px 10px;color:var(--muted);font-size:12px}.empty strong{display:block;color:var(--text);margin-bottom:5px;font-family:var(--serif);font-size:15px;font-weight:600}
+
+.live-head{background:linear-gradient(150deg,#fff,var(--claret-soft) 130%)}
+.timer-ring{width:190px;height:190px;border-radius:50%;margin:18px auto;border:12px solid var(--claret-soft);border-top-color:var(--claret);border-right-color:var(--claret);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.timer-ring b{font-size:34px;color:var(--navy);font-family:var(--serif)}
+.live-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+.check{width:74px;height:74px;border-radius:50%;background:var(--forest-soft);color:var(--forest);display:grid;place-items:center;font-size:38px;margin:2px auto 11px}
+
+.listline{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:12px}.listline:last-child{border-bottom:0}.listline span{min-width:0}.listline b{white-space:nowrap;color:var(--navy)}
+
+.bar{height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--forest));border-radius:99px;transition:width .3s ease}
+
+.tracker-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tracker-stat{padding:14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(180deg,#fff,#fbf8f0)}
+.tracker-stat strong{font-size:21px;display:block;color:var(--navy);font-family:var(--serif)}.tracker-stat span{font-size:10px;color:var(--muted)}
+
+.segment{display:grid;grid-template-columns:1fr 1fr;background:var(--line-soft);padding:3px;border-radius:12px;margin-bottom:12px}
+.segment button{border:0;background:transparent;border-radius:10px;padding:9px;color:var(--muted);font-weight:700;font-size:11px;transition:background .12s,color .12s}
+.segment button.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(20,16,8,.08)}
+
+.profile-card{display:flex;gap:12px;align-items:center}
+.photo{width:62px;height:62px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 15px rgba(20,16,8,.16)}
+
+.import-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.upload-tile{position:relative;border:1px solid var(--line);border-radius:16px;padding:15px 10px;text-align:center;background:linear-gradient(180deg,#fff,#fbf8f0);min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.upload-tile:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,16,8,.1)}
+.upload-tile:active{transform:scale(.98)}
+.upload-tile input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.upload-icon{width:40px;height:40px;border-radius:12px;background:var(--azure-soft);color:var(--azure);display:grid;place-items:center;font-size:18px;font-weight:700;margin-bottom:7px}
+.upload-tile.excel .upload-icon{background:var(--forest-soft);color:var(--forest)}
+.upload-tile.pdf .upload-icon{background:var(--claret-soft);color:var(--claret)}
+.upload-tile.image .upload-icon{background:#eeeafb;color:#6a5aa8}
+.upload-tile b{font-size:12px;color:var(--ink)}.upload-tile span{font-size:9px;color:var(--muted);margin-top:3px}
+
+.import-status{display:none;margin-top:10px}.import-status.show{display:block}
+
+.preview-table{width:100%;border-collapse:collapse;font-size:10px}
+.preview-table th,.preview-table td{border-bottom:1px solid var(--line-soft);padding:8px 5px;text-align:left;vertical-align:top}
+.preview-table th{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;background:#fbf8f0}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:13px}
+
+.manual-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--line-soft)}.manual-row:last-child{border-bottom:0}
+
+.nav{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:0;width:min(560px,100%);background:rgba(255,253,248,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 8px calc(7px + env(safe-area-inset-bottom));}
+.nav button{border:0;background:transparent;color:var(--muted);font-size:10px;min-height:48px;padding:3px;border-radius:10px}
+.nav button.active{color:var(--brass-deep);font-weight:700}
+.nav .plus{width:46px;height:46px;min-height:46px;background:var(--navy);color:#fff;border-radius:50%;margin:auto;font-size:22px}
+
+.footer{text-align:center;color:var(--muted);font-size:9px;padding:4px 15px 15px}
+
+.toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:50;background:var(--navy);color:#fff;padding:11px 15px;border-radius:13px;font-size:11px;max-width:calc(100% - 30px);box-shadow:0 10px 26px rgba(15,20,10,.28);display:none}.toast.show{display:block}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(20,16,8,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}.modal-backdrop.show{display:flex}
+.modal{width:min(560px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+.modal h2{margin:0 0 6px;font-family:var(--serif);color:var(--navy)}.modal .close{border:0;background:var(--line-soft);border-radius:50%;width:38px;height:38px;font-size:18px}
+
+@media(min-width:700px){body{padding:20px 0}.app{box-shadow:var(--shadow-lg);border-radius:30px;overflow:hidden}.top{border-radius:0}.nav{border-radius:0 0 30px 30px}}
+@media(max-width:360px){.stats{grid-template-columns:1fr 1fr}.import-grid{grid-template-columns:1fr}.brand-title{font-size:19px}.identity h1{font-size:23px}}
+
+.file-action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:12px;border:1px solid var(--line);background:#fbf8f0;border-radius:14px}
+.file-action strong{display:block;font-size:12px;word-break:break-word;color:var(--navy)}.file-action .btn{min-width:145px}
+.upload-tile input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+@media(max-width:430px){.file-action{align-items:stretch;flex-direction:column}.file-action .btn{width:100%}}
+
+/* ---------- home dashboard ---------- */
+.home-command{display:grid;grid-template-columns:1.25fr .9fr .9fr;gap:14px;margin-top:14px}
+.status-panel{min-height:210px;border-radius:20px;padding:18px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.status-panel.ongoing{background:linear-gradient(150deg,var(--claret-soft),#fff);border-color:#ecc9c9}
+.status-panel.upcoming{background:linear-gradient(150deg,var(--azure-soft),#fff);border-color:#d5e4f0}
+.status-panel.completed{background:linear-gradient(150deg,var(--forest-soft),#fff);border-color:#cbe6d7}
+.status-kicker{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.status-panel.ongoing .status-kicker{color:var(--claret)}
+.status-panel.upcoming .status-kicker{color:var(--azure)}
+.status-panel.completed .status-kicker{color:var(--forest)}
+.status-main{font-size:21px;font-weight:700;margin:9px 0 4px;color:var(--navy);font-family:var(--serif)}
+.status-time{font-size:13px;font-weight:600;color:var(--muted)}
+.live-mini{display:flex;align-items:center;gap:9px;margin:13px 0}
+.live-dot{width:9px;height:9px;background:var(--claret);border-radius:50%;box-shadow:0 0 0 5px rgba(156,59,59,.14);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.countdown{font-size:29px;font-weight:700;color:var(--claret);letter-spacing:-.5px;font-family:var(--serif)}
+.dashboard-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.quick-action{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:14px;text-align:left;transition:transform .12s,box-shadow .12s}
+.quick-action:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(20,16,8,.08)}
+.quick-action:active{transform:scale(.98)}
+.quick-action b{display:block;font-size:12px;color:var(--ink)}.quick-action span{font-size:9px;color:var(--muted)}
+
+#homeToday .status-panel.ongoing .class{background:#fff;border-left:4px solid var(--claret);border-color:var(--line)}
+#homeToday .status-panel.ongoing .class,
+#homeToday .status-panel.ongoing .class *{color:var(--ink);opacity:1}
+#homeToday .status-panel.ongoing .class .tag{color:var(--claret);background:var(--claret-soft)}
+#homeToday .status-panel.ongoing .class .meta,
+#homeToday .status-panel.ongoing .class .muted{color:var(--muted)}
+#homeToday .status-panel.ongoing .class .time,
+#homeToday .status-panel.ongoing .class-title{color:var(--navy);font-weight:700}
+
+.sync-panel{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sync-note{font-size:11px;line-height:1.55;color:var(--muted);background:#fbf8f0;border:1px solid var(--line);border-radius:13px;padding:11px}
+
+/* ---------- laptop / desktop: fixed ledger-spine sidebar ---------- */
+@media(min-width:761px){
+  html,body{background:linear-gradient(180deg,#f2ecdc 0%,#f7f3e8 45%,#f2ecdc 100%)}
+  body{min-height:100vh}
+  .app{max-width:1440px;min-height:100vh;margin:0 auto;padding:0 0 32px 256px;overflow-x:hidden;box-shadow:none;border-radius:0}
+  .top{position:sticky;top:0;z-index:20;height:78px;padding:14px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-radius:0;background:rgba(255,253,248,.88);color:var(--text);border-bottom:1px solid var(--line);backdrop-filter:blur(18px);box-shadow:0 4px 22px rgba(20,16,8,.05)}
+  .top:after{display:none}
+  .brand{gap:12px;min-width:230px}
+  .srm-logo{width:54px;height:42px}
+  .brand-title{font-size:23px;color:var(--navy);letter-spacing:-.4px}
+  .brand-title span{color:var(--brass)}
+  .brand-sub{font-size:10px;color:var(--muted)}
+  .identity{margin:0;display:flex;align-items:center;gap:12px;flex:1;justify-content:flex-end}
+  .identity h1{margin:0;font-size:18px;line-height:1.1;color:var(--navy);font-style:normal}
+  .identity p{margin:0;font-size:10px;color:var(--muted)}
+  .semester-pill{margin:0;padding:7px 11px;background:var(--brass-soft);color:var(--brass-deep);border:1px solid #e9d9a8}
+  .content{padding:26px 32px 12px;max-width:1180px}
+  .card{padding:20px;margin-bottom:16px}
+  .datebar{background:#fff;padding:6px 10px}
+  .datebar button{min-width:38px;min-height:38px}
+  .stats{grid-template-columns:repeat(4,1fr);gap:12px}
+  .quick-grid{grid-template-columns:repeat(4,1fr)}
+  .tracker-grid{grid-template-columns:repeat(4,1fr)}
+  .import-grid{grid-template-columns:repeat(4,1fr)}
+  .preview-table{font-size:11px}.preview-table th{position:sticky;top:0}
+  .profile-card{padding:4px 0}
+  .photo{width:56px;height:56px}
+  .footer{padding:15px 30px;font-size:10px}
+  .toast{bottom:28px}
+  .modal-backdrop{backdrop-filter:blur(5px)}
+
+  /* The sidebar reads as a bound ledger spine: deep navy, a brass rule marks
+     the active section instead of a filled pill, so it stays quiet until used. */
+  .nav{position:fixed;z-index:40;left:0;top:0;bottom:0;width:256px;transform:none;padding:20px 14px;display:flex;flex-direction:column;justify-content:flex-start;gap:3px;background:linear-gradient(180deg,var(--navy) 0%,#0c2038 100%);border:0;border-right:1px solid rgba(255,255,255,.06);box-shadow:14px 0 34px rgba(10,15,8,.14);border-radius:0}
+  .nav:before{content:"FacultyFlow";display:block;font-family:var(--serif);font-style:italic;color:#fff;font-size:22px;font-weight:600;padding:6px 12px 24px;letter-spacing:-.2px}
+  .nav button{width:100%;min-height:46px;border-radius:10px;text-align:left;padding:9px 13px;color:rgba(255,255,255,.62);font-size:12px;display:flex;align-items:center;gap:11px;position:relative;border-left:2px solid transparent}
+  .nav button br{display:none}
+  .nav button.active{background:rgba(156,122,46,.16);color:#fff;font-weight:700;border-left:2px solid #d9b968}
+  .nav .plus{width:100%;height:46px;border-radius:11px;margin:8px 0 10px;background:linear-gradient(135deg,var(--brass),var(--brass-deep));font-size:16px;text-align:left;color:#fff;box-shadow:0 8px 18px rgba(124,97,31,.28)}
+  .nav .plus:after{content:"Add / Adjust Class";font-size:12px;font-weight:700;margin-left:8px}
+
+  .hero-next{box-shadow:var(--shadow-lg)}
+}
+@media(min-width:761px) and (max-width:1100px){
+  .app{padding-left:220px}.nav{width:220px}.content{padding-left:20px;padding-right:20px}
+  .home-command{grid-template-columns:1fr 1fr}.home-command .completed{grid-column:1/-1}
+  .quick-actions{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .home-command,.dashboard-grid{grid-template-columns:1fr}
+  .home-command .completed{grid-column:auto}
+  .quick-grid,.quick-actions{grid-template-columns:1fr 1fr}
+  .tracker-grid{grid-template-columns:1fr 1fr}
+  .import-grid{grid-template-columns:1fr 1fr}
+  .preview-table{min-width:600px}
+}
+@media(max-width:430px){
+  .import-grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr 1fr}
+  .status-main{font-size:19px}.countdown{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand">
+    <img class="srm-logo" src="https://www.srmap.edu.in/wp-content/uploads/2025/06/SRMAP-Logo-Main.png" alt="SRM University-AP">
+    <div><div class="brand-title">Faculty<span>Flow</span></div><div class="brand-sub">Plan • Teach • Track • Grow</div></div>
+  </div>
+  <div class="identity">
+    <h1 id="greeting">Good Morning 👋</h1>
+    <p id="facultyLine">Faculty Member</p>
+    <p id="orgLine">University • School • Department</p>
+    <span class="semester-pill" id="semesterLine">Academic Year / Semester</span>
+  </div>
+</header>
+
+<main class="content">
+<section id="home" class="screen active">
+  <div class="card">
+    <div class="datebar"><button type="button" id="prevDay">‹</button><b id="homeDate"></b><button type="button" id="nextDay">›</button></div>
+    <div class="stats" id="homeStats"></div>
+  </div>
+  <div class="card hero-next" id="nextCard"></div>
+  <div class="card">
+    <div class="section-head"><h2>Today’s Classes</h2><button class="btn secondary" id="openSchedule">View schedule</button></div>
+    <div id="homeToday"></div>
+  </div>
+</section>
+
+<section id="schedule" class="screen">
+  <div class="card"><div class="section-head"><h2>Today’s Schedule</h2><span class="tag" id="scheduleDate"></span></div><div id="todayList"></div></div>
+</section>
+
+<section id="live" class="screen">
+  <div class="card live-head" id="liveCard"></div>
+</section>
+
+<section id="complete" class="screen">
+  <div class="card center" id="completeCard"></div>
+</section>
+
+<section id="tracker" class="screen">
+  <div class="card">
+    <div class="section-head"><h2>Semester Tracker</h2><span class="tag" id="trackerSemester"></span></div>
+    <div class="tracker-grid" id="trackerStats"></div>
+    <div style="margin-top:13px"><div class="row tiny"><span>Teaching progress</span><b id="completionPct">0%</b></div><div class="bar" style="margin-top:5px"><i id="completionBar" style="width:0%"></i></div></div>
+  </div>
+  <div class="card">
+    <div class="segment"><button id="recentTab" class="active">Recent Lectures</button><button id="courseTab">Course-wise</button></div>
+    <div id="recentPanel"></div><div id="coursePanel" class="hidden"></div>
+  </div>
+  <div class="card">
+    <div class="section-head"><h2>Quick Stats</h2><button class="btn secondary" id="exportCsv">Export CSV</button></div>
+    <div id="quickStats"></div>
+  </div>
+</section>
+
+<section id="adjust" class="screen">
+  <div class="card">
+    <h2>Add Adjustment Class</h2>
+    <div class="notice success">Use this for a class assigned outside your regular timetable. It will appear on the selected date and can be timed and completed like a regular class.</div>
+    <div class="two"><div class="field"><label>Date</label><input id="adDate" type="date"></div><div class="field"><label>Day</label><input id="adDay" readonly></div></div>
+    <div class="two"><div class="field"><label>Start Time</label><input id="adStart" type="time"></div><div class="field"><label>End Time</label><input id="adEnd" type="time"></div></div>
+    <div class="field"><label>Course / Subject</label><input id="adCourse" placeholder="e.g. CSE 101"></div>
+    <div class="two"><div class="field"><label>Batch / Section</label><input id="adBatch" placeholder="e.g. CSE I-C"></div><div class="field"><label>Room</label><input id="adRoom" placeholder="e.g. V101"></div></div>
+    <div class="field"><label>Notes</label><textarea id="adNotes" rows="2" placeholder="Optional teaching note"></textarea></div>
+    <button class="btn block" id="saveAdjust">Add Adjustment Class</button>
+  </div>
+  <div class="card"><h2>Saved Adjustments</h2><div id="adjustList"></div></div>
+</section>
+
+<section id="import" class="screen">
+  <div class="card">
+    <div class="section-head"><h2>Faculty Profile</h2><span class="tag">Personal setup</span></div>
+    <div class="profile-card"><img id="profilePreview" class="photo" src="" alt="Faculty profile"><div><b id="profileName">Faculty Member</b><div class="muted small" id="profileDept">Department</div></div></div>
+    <div class="field"><label>Faculty Photo</label><input id="photoInput" type="file" accept="image/*"></div>
+    <div class="field"><label>University / Institution</label><input id="university" placeholder="Enter university name"></div>
+    <div class="field"><label>School / College</label><input id="school" placeholder="Enter school or college"></div>
+    <div class="field"><label>Department</label><input id="department" placeholder="Enter department"></div>
+    <div class="two"><div class="field"><label>Faculty Name</label><input id="faculty" placeholder="Enter faculty name"></div><div class="field"><label>Employee ID</label><input id="empId" placeholder="Enter employee ID" autocomplete="off"></div></div>
+    <div class="two"><div class="field"><label>Designation</label><select id="designation"><option value="Assistant Professor">Assistant Professor</option><option value="Associate Professor">Associate Professor</option><option value="Professor">Professor</option><option value="PhD Scholar">PhD Scholar</option></select></div><div class="field"><label>Academic Year / Semester</label><input id="semester" placeholder="2026–27 • Odd Semester"></div></div>
+    <button class="btn block" id="saveProfile">Save Faculty Profile</button>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><h2>Import Timetable</h2><span class="tag green">Your schedule</span></div>
+    <div class="notice">Upload your own timetable. FacultyFlow reads the timetable, prepares a review table, and only replaces your schedule after you confirm it.</div>
+    <div class="import-grid" style="margin-top:11px">
+      <label class="upload-tile excel"><input id="excelInput" type="file" accept=".xlsx,.xls,.csv"><div class="upload-icon">▦</div><b>Excel / CSV</b><span>Best for structured timetables</span></label>
+      <label class="upload-tile pdf"><input id="pdfInput" type="file" accept=".pdf"><div class="upload-icon">PDF</div><b>PDF timetable</b><span>Upload and extract</span></label>
+      <label class="upload-tile image"><input id="imageInput" type="file" accept="image/png,image/jpeg"><div class="upload-icon">⌁</div><b>Timetable image</b><span>JPG / PNG + OCR</span></label>
+      <button class="upload-tile" type="button" id="manualImport"><div class="upload-icon">＋</div><b>Enter manually</b><span>Create your schedule</span></button>
+    </div>
+    <div id="importStatus" class="import-status"></div>
+    <div id="fileAction" class="file-action hidden">
+      <div><strong id="selectedFileName">No file selected</strong><div class="muted tiny" id="selectedFileMeta">Choose a timetable file above.</div></div>
+      <button class="btn" id="processFile" type="button">Upload &amp; Extract</button>
+    </div>
+    <div id="manualEditor" class="hidden" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card hidden" id="previewCard">
+    <div class="section-head"><h2>Review Imported Timetable</h2><span class="tag" id="previewCount">0 classes</span></div>
+    <div class="notice warn">Review the detected rows before applying. You can edit any field that was interpreted incorrectly.</div>
+    <div class="table-wrap" style="margin-top:10px"><table class="preview-table"><thead><tr><th>Day</th><th>Start</th><th>End</th><th>Course / Section</th><th>Room</th></tr></thead><tbody id="previewBody"></tbody></table></div>
+    <div class="two" style="margin-top:11px"><button class="btn secondary" id="cancelPreview">Cancel</button><button class="btn" id="applyPreview">Use This Timetable</button></div>
+  </div>
+
+  <div class="card"><div class="section-head"><h2>Current Timetable</h2><span class="tag" id="classCount"></span></div><div id="timetableList"></div></div>
+</section>
+
+<section id="more" class="screen">
+  <div class="card"><div class="profile-card"><img id="morePhoto" class="photo" src="" alt=""><div><b id="moreFaculty">Faculty Member</b><div class="muted small" id="moreDept">Department</div><div class="muted tiny" id="moreSchool">School</div></div></div></div>
+  <div class="card"><h2>Manage</h2><button class="btn secondary block" id="goImport">Profile & Timetable</button><button class="btn secondary block" style="margin-top:8px" id="goAdjust">Adjustment Classes</button><button class="btn secondary block" style="margin-top:8px" id="goTracker">Semester Tracker & Reports</button></div>
+  <div class="card"><h2>Application</h2><div class="listline"><span>Platform</span><b>FacultyFlow PWA</b></div><div class="listline"><span>Data storage</span><b>On this device</b></div><div class="listline"><span>Timetable source</span><b id="moreTimetable">—</b></div><button class="btn danger block" style="margin-top:10px" id="reset">Reset App Data</button></div>
+</section>
+</main>
+
+
+<div class="card">
+  <div class="section-head"><h2>Device Sync</h2></div>
+  <div class="sync-note">
+    FacultyFlow stores your timetable, faculty profile, lecture history and adjustments on this device.
+    GitHub Pages publishes the application but does not synchronize personal data between devices.
+    Export your data on one device and import it on another, or connect a cloud database for automatic synchronization.
+  </div>
+  <div class="sync-panel" style="margin-top:10px">
+    <button class="btn secondary" id="exportData">Export My Data</button>
+    <button class="btn secondary" id="importDataBtn">Import My Data</button>
+  </div>
+  <input id="importDataFile" type="file" accept=".json,application/json" hidden>
+</div>
+
+<div class="footer">SRM University-AP • FacultyFlow • Plan Smarter • Teach Better • Track Effort • Achieve More</div>
+<nav class="nav"><button data-nav="home" class="active">⌂<br>Home</button><button data-nav="schedule">▣<br>Schedule</button><button id="plus" class="plus">+</button><button data-nav="tracker">▥<br>Tracker</button><button data-nav="more">☰<br>More</button></nav>
+<div id="toast" class="toast" aria-live="polite"></div>
+<div id="modalBackdrop" class="modal-backdrop"><div class="modal"><div class="row"><div><h2 id="modalTitle">Importing</h2><div class="muted small" id="modalSub">Please wait…</div></div><button class="close" id="closeModal">×</button></div><div id="modalBody" style="margin-top:13px"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script>
+const KEY='facultyflow_v33';
+const LEGACY='facultyflow_v27';
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+let state=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!state){state=JSON.parse(localStorage.getItem(LEGACY)||'null')}
+const DEFAULT_TIMETABLE=[
+  {day:'Tuesday',start:'09:00',end:'09:50',course:'CSE 101',section:'AIML I-P',room:'V603',type:'Regular Class'},
+  {day:'Tuesday',start:'10:00',end:'10:50',course:'CSE 101',section:'AIML I-P',room:'V603',type:'Regular Class'},
+  {day:'Tuesday',start:'15:00',end:'15:50',course:'CSE 101',section:'CS I-C',room:'V403',type:'Regular Class'},
+  {day:'Tuesday',start:'16:00',end:'17:30',course:'CSE 101',section:'CS I-C',room:'V403',type:'Regular Class'},
+  {day:'Wednesday',start:'11:00',end:'11:50',course:'CSE 101',section:'CS I-C',room:'V101',type:'Regular Class'},
+  {day:'Wednesday',start:'12:00',end:'12:50',course:'CSE 101',section:'CS I-C',room:'V101',type:'Regular Class'},
+  {day:'Thursday',start:'09:00',end:'09:50',course:'CSE 101',section:'AIML I-P',room:'V601',type:'Regular Class'},
+  {day:'Thursday',start:'10:00',end:'10:50',course:'CSE 101',section:'AIML I-P',room:'V601',type:'Regular Class'},
+  {day:'Thursday',start:'15:00',end:'15:50',course:'CSE 101',section:'CS I-C',room:'S307',type:'Regular Class'},
+  {day:'Friday',start:'09:00',end:'09:50',course:'CSE 101',section:'CS I-C',room:'S307',type:'Regular Class'},
+  {day:'Friday',start:'10:00',end:'10:50',course:'CSE 101',section:'CS I-C',room:'S307',type:'Regular Class'}
+];
+// First-run only: pre-loads your real timetable and profile so the app is
+// useful immediately. Once any data exists (saved state), this is never
+// applied again — use Import Timetable or the profile form any time to
+// replace or edit it.
+if(!state)state={profile:{university:'SRM University-AP',school:'School of Engineering and Sciences',department:'',faculty:'Dr. Yasir Afaq',empId:'',designation:'Assistant Professor',semester:''},timetable:DEFAULT_TIMETABLE.map(x=>({...x})),adjustments:[],history:[],photo:''};
+state.profile=state.profile||{};state.profile.empId=state.profile.empId||'';state.timetable=Array.isArray(state.timetable)?state.timetable:[];state.adjustments=Array.isArray(state.adjustments)?state.adjustments:[];state.history=Array.isArray(state.history)?state.history:[];
+let selectedDate=new Date(),lastCompletion=null,previewRows=[];
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function dayName(n){return ['Sunday',...DAYS,'Sunday'][n]||'Sunday'}
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmt(d){return d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'})}
+function mins(t){const p=String(t||'').split(':').map(Number);return p.length===2?p[0]*60+p[1]:0}
+function dur(a,b){return Math.max(0,mins(b)-mins(a))}
+function time12(t){const p=String(t).split(':').map(Number);let h=p[0]||0;const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(p[1]||0).padStart(2,'0')+' '+ap}
+function safe(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function keyFor(x,date){return `${date||x.date||''}|${x.day||''}|${x.start}|${x.end}|${x.course}|${x.section}|${x.room}`}
+function classesFor(d){const day=dayName(d.getDay()),date=iso(d);return [...state.timetable.filter(x=>x.day===day).map(x=>({...x,date,source:'Regular'})),...state.adjustments.filter(x=>x.date===date).map(x=>({...x,source:'Adjustment',type:'Adjustment Class'}))].sort((a,b)=>mins(a.start)-mins(b.start))}
+function hist(x,d){return state.history.find(h=>h.key===keyFor(x,iso(d)))}
+function classStatus(x,d){const now=new Date(),date=x.date||iso(d);if(date!==iso(now))return 'upcoming';const n=mins(String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));if(n<mins(x.start))return 'upcoming';if(n<mins(x.end))return 'current';return 'passed'}
+function currentRunning(){return state.history.find(h=>h.status==='running')}
+function fmtMinutes(n){n=Math.max(0,Math.round(Number(n)||0));return Math.floor(n/60)+'h '+String(n%60).padStart(2,'0')+'m'}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function openModal(title,sub,body=''){ $('modalTitle').textContent=title;$('modalSub').textContent=sub||'';$('modalBody').innerHTML=body;$('modalBackdrop').classList.add('show')}
+function closeModal(){$('modalBackdrop').classList.remove('show')}
+function renderHeader(){const p=state.profile,h=new Date().getHours();$('greeting').textContent=(h<12?'Good Morning':h<17?'Good Afternoon':'Good Evening')+' 👋';$('facultyLine').textContent=(p.faculty||'Faculty Member')+' • '+(p.designation||'Faculty')+(p.empId?' • '+p.empId:'');$('orgLine').textContent=[p.university,p.school,p.department].filter(Boolean).join(' • ');$('semesterLine').textContent=p.semester||'Academic Year / Semester'}
+function renderProfile(){const p=state.profile;['university','school','department','faculty','empId','designation','semester'].forEach(k=>$(k).value=p[k]||'');$('profileName').textContent=p.faculty||'Faculty Member';$('profileDept').textContent=p.department||'Department';$('moreFaculty').textContent=(p.faculty||'Faculty Member')+(p.empId?' • '+p.empId:'');$('moreDept').textContent=p.department||'Department';$('moreSchool').textContent=p.school||'School';$('moreTimetable').textContent=state.timetable.length?state.timetable.length+' classes loaded':'Not configured';if(state.photo){$('profilePreview').src=state.photo;$('morePhoto').src=state.photo}}
+function renderHome(){
+  const d=selectedDate,cs=classesFor(d);
+  const done=cs.filter(x=>hist(x,d)?.status==='completed');
+  const running=cs.find(x=>hist(x,d)?.status==='running');
+  const upcoming=cs.filter(x=>!hist(x,d)||hist(x,d)?.status!=='completed').filter(x=>!running||keyFor(x,iso(d))!==running.key);
+  const actual=done.reduce((s,x)=>s+(hist(x,d)?.actualMinutes||0),0);
+  $('homeDate').textContent=fmt(d);
+  $('homeStats').innerHTML=
+    `<div class="stat"><strong>${cs.length}</strong><span>Today's Classes</span></div>
+     <div class="stat"><strong>${fmtMinutes(actual)}</strong><span>Teaching Time</span></div>
+     <div class="stat"><strong>${done.length}</strong><span>Completed</span></div>
+     <div class="stat"><strong>${cs.filter(x=>x.source==='Adjustment').length}</strong><span>Adjustments</span></div>`;
+
+  const next=running||upcoming[0];
+  $('nextCard').innerHTML=next ? `
+    <div class="next-label">${running?'ONGOING NOW':'NEXT CLASS'}</div>
+    ${classCard(next,d,true)}
+  ` : `<div class="empty"><strong>You're done for today</strong>No remaining classes on ${fmt(d)}.</div>`;
+
+  const ongoingHtml=running ? `
+    <div class="status-panel ongoing">
+      <div class="status-kicker">🔴 Ongoing now</div>
+      <div class="status-main">${safe(running.course)}${running.section?' • '+safe(running.section):''}</div>
+      <div class="status-time">${time12(running.start)} – ${time12(running.end)} • ${safe(running.room||'Room not set')}</div>
+      <div class="live-mini"><span class="live-dot"></span><span class="countdown" id="homeLiveCountdown">LIVE</span></div>
+      <button class="btn danger block" id="homeCompleteLive">✓ Complete Lecture</button>
+    </div>` :
+    `<div class="status-panel ongoing">
+      <div class="status-kicker">● No lecture in progress</div>
+      <div class="status-main">You're between classes</div>
+      <div class="status-time">FacultyFlow will highlight the next class automatically.</div>
+      <div style="margin-top:24px"><button class="btn secondary block" id="homeOpenSchedule">View Today's Schedule</button></div>
+    </div>`;
+
+  const up=upcoming.slice(0,3);
+  const upcomingHtml=`<div class="status-panel upcoming">
+    <div class="status-kicker">🔵 Upcoming classes</div>
+    ${up.length?up.map((x,i)=>`<div class="class" style="margin:${i?'8px 0 0':'10px 0 0'}">
+      <div class="row"><div><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div><div class="meta">⌖ ${safe(x.room||'Room not set')}</div></div><span class="tag">${i===0?'NEXT':'UPCOMING'}</span></div>
+    </div>`).join(''):`<div class="empty">No upcoming classes.</div>`}
+  </div>`;
+
+  const completedHtml=`<div class="status-panel completed">
+    <div class="status-kicker">✓ Completed today</div>
+    ${done.length?done.slice(-3).reverse().map(x=>`<div class="class completed">
+      <div class="row"><div><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div></div><span class="tag green">✓ ${hist(x,d)?.actualMinutes||0}m</span></div>
+    </div>`).join(''):`<div class="empty">No completed lectures yet.</div>`}
+    <div class="listline"><span>Today's teaching</span><b>${fmtMinutes(actual)}</b></div>
+  </div>`;
+
+  $('homeToday').innerHTML=`
+    <div class="home-command">${ongoingHtml}${upcomingHtml}${completedHtml}</div>
+    <div class="card" style="margin-top:14px;margin-bottom:0;background:linear-gradient(135deg,#f7fbff,#fff)">
+      <div class="section-head"><h2>Quick Actions</h2></div>
+      <div class="quick-actions">
+        <button class="quick-action" id="qaImport"><b>📥 Import Timetable</b><span>PDF • Image • Excel • CSV</span></button>
+        <button class="quick-action" id="qaAdjust"><b>＋ Adjustment Class</b><span>Add make-up or substitution</span></button>
+        <button class="quick-action" id="qaTracker"><b>📊 Teaching Tracker</b><span>Semester hours & progress</span></button>
+        <button class="quick-action" id="qaSchedule"><b>▦ Full Schedule</b><span>View your complete timetable</span></button>
+      </div>
+    </div>`;
+  $('homeOpenSchedule')?.addEventListener('click',()=>nav('schedule'));
+  $('homeCompleteLive')?.addEventListener('click',completeRunning);
+  $('qaImport')?.addEventListener('click',()=>nav('import'));
+  $('qaAdjust')?.addEventListener('click',()=>nav('adjust'));
+  $('qaTracker')?.addEventListener('click',()=>nav('tracker'));
+  $('qaSchedule')?.addEventListener('click',()=>nav('schedule'));
+}
+function classCard(x,d,primary){const h=hist(x,d),status=h?.status==='completed'?'completed':classStatus(x,d)==='current'?'current':'';let action='';if(h?.status==='completed')action=`<span class="tag green">✓ ${h.actualMinutes} min</span>`;else if(h?.status==='running')action=`<button class="btn danger" data-complete>Complete</button>`;else action=`<button class="btn" data-start="${encodeURIComponent(keyFor(x,iso(d)))}">▶ Start</button>`;return `<div class="class ${status} ${x.source==='Adjustment'?'adjustment':''}"><div class="row"><div style="min-width:0"><div class="time">${time12(x.start)} – ${time12(x.end)}</div><div class="class-title">${safe(x.course)}${x.section?' — '+safe(x.section):''}</div><div class="meta">⌖ ${safe(x.room||'Room not set')} • ${safe(x.type||'Regular Class')}</div>${h?.status==='running'?'<div class="meta" style="color:var(--green);font-weight:800">Lecture in progress</div>':''}</div><div>${action}</div></div></div>`}
+function renderSchedule(){$('scheduleDate').textContent=fmt(selectedDate);const cs=classesFor(selectedDate);$('todayList').innerHTML=cs.length?cs.map(x=>classCard(x,selectedDate,false)).join(''):'<div class="empty"><strong>No classes scheduled</strong>There are no classes on this day.</div>'}
+function renderLive(){const h=currentRunning(),el=$('liveCard');if(!h){el.innerHTML='<div class="empty"><strong>No lecture in progress</strong>Start a lecture from Today’s Schedule when you enter the classroom.<br><br><button class="btn" id="liveGoSchedule">Go to Today’s Schedule</button></div>';return}const end=new Date(h.date+'T'+h.end+':00');const remaining=Math.max(0,end.getTime()-Date.now()),sec=Math.floor(remaining/1000),m=Math.floor(sec/60),s=sec%60,elapsed=Math.max(0,Math.floor((Date.now()-h.startedAt)/60000));el.innerHTML=`<div class="smallcaps" style="font-size:9px;font-weight:900;color:var(--green);letter-spacing:.8px">LIVE LECTURE</div><div class="course-line"><div class="course-icon green">▣</div><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="muted small">${safe(h.room||'Room not set')} • ${safe(h.type)}</div></div></div><div class="notice"><b>Scheduled:</b> ${time12(h.start)} – ${time12(h.end)} (${dur(h.start,h.end)} minutes)</div><div class="timer-ring"><span class="small">${remaining?'remaining':'time over'}</span><b>${remaining?m+':'+String(s).padStart(2,'0'):'00:00'}</b><span class="small">Actual so far: ${elapsed} min</span></div><div class="live-actions"><button class="btn danger" id="liveComplete">✓ Mark Complete</button><button class="btn secondary" id="liveSchedule">View Schedule</button></div><div class="notice" style="margin-top:11px">Started at ${new Date(h.startedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}. Actual teaching time is counted until you mark the lecture complete.</div>`;$('liveComplete').onclick=completeRunning;$('liveSchedule').onclick=()=>nav('schedule')}
+function startByKey(encoded){if(currentRunning()){toast('A lecture is already running. Complete it before starting another.');return}const key=decodeURIComponent(encoded);const cs=classesFor(selectedDate),x=cs.find(v=>keyFor(v,iso(selectedDate))===key);if(!x)return;const h=hist(x,selectedDate);if(h?.status==='completed')return;const rec={key,date:iso(selectedDate),...x,status:'running',startedAt:Date.now()};state.history=state.history.filter(v=>v.key!==key);state.history.push(rec);save();nav('live');toast('Lecture timer started')}
+function completeRunning(){const h=currentRunning();if(!h)return;h.completedAt=Date.now();h.actualMinutes=Math.max(1,Math.round((h.completedAt-h.startedAt)/60000));h.status='completed';lastCompletion=h;save();nav('complete');toast('Lecture recorded successfully')}
+function renderComplete(){const el=$('completeCard'),h=lastCompletion||state.history.filter(x=>x.status==='completed').slice(-1)[0];if(!h){el.innerHTML='<div class="empty"><strong>No completed lecture yet</strong>Your completed lecture record will appear here.</div>';return}el.innerHTML=`<div class="check">✓</div><h2 style="text-align:center">Lecture Completed</h2><p class="muted small" style="text-align:center">Teaching activity has been recorded.</p><div class="class current" style="text-align:left"><div class="course-line"><div class="course-icon green">▣</div><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="muted small">${safe(h.room||'Room not set')} • ${safe(h.type)}</div></div></div><div class="listline"><span>Planned duration</span><b>${dur(h.start,h.end)} min</b></div><div class="listline"><span>Actual duration</span><b>${h.actualMinutes} min</b></div><div class="listline"><span>Started</span><b>${new Date(h.startedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</b></div><div class="listline"><span>Completed</span><b>${new Date(h.completedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</b></div></div><button class="btn block" id="viewTrackerAfter">View Semester Tracker</button>`;$('viewTrackerAfter').onclick=()=>nav('tracker')}
+function renderTracker(){const done=state.history.filter(h=>h.status==='completed'),actual=done.reduce((s,h)=>s+(h.actualMinutes||0),0),planned=done.reduce((s,h)=>s+dur(h.start,h.end),0),pct=planned?Math.round(actual/planned*100):0;$('trackerSemester').textContent=state.profile.semester||'Semester';$('trackerStats').innerHTML=`<div class="tracker-stat"><strong>${done.length}</strong><span>Lectures Completed</span></div><div class="tracker-stat"><strong>${fmtMinutes(actual)}</strong><span>Actual Teaching Time</span></div><div class="tracker-stat"><strong>${fmtMinutes(planned)}</strong><span>Planned Time</span></div><div class="tracker-stat"><strong>${pct}%</strong><span>Completion</span></div>`;$('completionPct').textContent=pct+'%';$('completionBar').style.width=Math.min(100,pct)+'%';$('recentPanel').innerHTML=done.length?done.slice().reverse().map(h=>`<div class="class ${h.type==='Adjustment Class'?'adjustment':''}"><div class="row"><div><b>${safe(h.course)}${h.section?' — '+safe(h.section):''}</b><div class="meta">${new Date(h.completedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} • ${safe(h.room||'Room not set')}</div></div><b>${h.actualMinutes} min</b></div><div class="meta">✓ ${h.actualMinutes} min actual / ${dur(h.start,h.end)} min planned</div></div>`).join(''):'<div class="empty">No completed lectures yet. Start and complete your first class to build your semester record.</div>';const by={};done.forEach(h=>{const k=h.course||'Unspecified';by[k]=(by[k]||0)+(h.actualMinutes||0)});const entries=Object.entries(by).sort((a,b)=>b[1]-a[1]);$('coursePanel').innerHTML=entries.length?entries.map(([c,v])=>`<div class="listline"><span><b>${safe(c)}</b><br><span class="muted tiny">Actual teaching time</span></span><b>${fmtMinutes(v)}</b></div>`).join(''):'<div class="empty">Course-wise statistics appear after completed lectures.</div>';const avg=done.length?Math.round(actual/done.length):0;$('quickStats').innerHTML=`<div class="listline"><span>Total completed lectures</span><b>${done.length}</b></div><div class="listline"><span>Total actual teaching time</span><b>${fmtMinutes(actual)}</b></div><div class="listline"><span>Total planned teaching time</span><b>${fmtMinutes(planned)}</b></div><div class="listline"><span>Average actual time per lecture</span><b>${fmtMinutes(avg)}</b></div>`}
+function renderAdjust(){$('adjustList').innerHTML=state.adjustments.length?state.adjustments.slice().reverse().map((x,i)=>`<div class="class adjustment"><div class="row"><div><b>${safe(x.course)}${x.section?' — '+safe(x.section):''}</b><div class="meta">${x.date} • ${time12(x.start)}–${time12(x.end)} • ${safe(x.room||'Room not set')}</div></div><button class="btn danger" data-del="${state.adjustments.length-1-i}">Delete</button></div></div>`).join(''):'<div class="empty">No adjustment classes added.</div>'}
+function renderTimetable(){$('classCount').textContent=state.timetable.length+' classes';const by={};state.timetable.forEach(x=>(by[x.day]??=[]).push(x));$('timetableList').innerHTML=state.timetable.length?DAYS.filter(d=>by[d]).map(d=>`<div class="listline"><span><b>${d}</b><br><span class="muted tiny">${by[d].sort((a,b)=>mins(a.start)-mins(b.start)).map(x=>time12(x.start)+'–'+time12(x.end)+' • '+safe(x.course)+' • '+safe(x.room||'—')).join('<br>')}</span></span><b>${by[d].length}</b></div>`).join(''):'<div class="empty"><strong>No timetable loaded</strong>Use Import Timetable above to configure your schedule.</div>'}
+function setFields(){renderProfile()}
+function renderAll(){renderHeader();setFields();renderHome();renderSchedule();renderLive();renderComplete();renderTracker();renderAdjust();renderTimetable()}
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav [data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));renderAll();window.scrollTo(0,0)}
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('plus').onclick=()=>nav('adjust');$('openSchedule').onclick=()=>nav('schedule');$('goImport').onclick=()=>nav('import');$('goAdjust').onclick=()=>nav('adjust');$('goTracker').onclick=()=>nav('tracker');$('prevDay').onclick=()=>{selectedDate.setDate(selectedDate.getDate()-1);renderAll()};$('nextDay').onclick=()=>{selectedDate.setDate(selectedDate.getDate()+1);renderAll()};
+$('saveProfile').onclick=()=>{['university','school','department','faculty','empId','designation','semester'].forEach(k=>state.profile[k]=$(k).value.trim());save();renderAll();toast('Faculty profile updated')};
+$('photoInput').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.photo=r.result;save();renderAll();toast('Profile photo updated')};r.readAsDataURL(f)};
+$('adDate').onchange=e=>{if(e.target.value){const d=new Date(e.target.value+'T00:00:00');$('adDay').value=dayName(d.getDay())}};
+$('saveAdjust').onclick=()=>{const x={date:$('adDate').value,start:$('adStart').value,end:$('adEnd').value,course:$('adCourse').value.trim(),section:$('adBatch').value.trim(),room:$('adRoom').value.trim(),notes:$('adNotes').value.trim(),day:$('adDay').value,type:'Adjustment Class'};if(!x.date||!x.start||!x.end||!x.course){toast('Enter date, time and course/subject');return}if(mins(x.end)<=mins(x.start)){toast('End time must be after start time');return}state.adjustments.push(x);['adDate','adStart','adEnd','adCourse','adBatch','adRoom','adNotes','adDay'].forEach(id=>$(id).value='');save();renderAll();toast('Adjustment class added')};
+$('adjustList').onclick=e=>{const b=e.target.closest('[data-del]');if(!b)return;const i=Number(b.dataset.del);if(confirm('Delete this adjustment class?')){const x=state.adjustments[i];state.history=state.history.filter(h=>h.key!==keyFor(x,x.date));state.adjustments.splice(i,1);save();renderAll();toast('Adjustment class deleted')}};
+document.addEventListener('click',e=>{const s=e.target.closest('[data-start]');if(s){startByKey(s.dataset.start);return}if(e.target.closest('[data-complete]')){completeRunning();return}});
+$('recentTab').onclick=()=>{$('recentTab').classList.add('active');$('courseTab').classList.remove('active');$('recentPanel').classList.remove('hidden');$('coursePanel').classList.add('hidden')};$('courseTab').onclick=()=>{$('courseTab').classList.add('active');$('recentTab').classList.remove('active');$('coursePanel').classList.remove('hidden');$('recentPanel').classList.add('hidden')};
+$('exportCsv').onclick=()=>{const rows=[['Date','Type','Course','Section','Room','Start','End','Planned Minutes','Actual Minutes'],...state.history.filter(h=>h.status==='completed').map(h=>[new Date(h.completedAt).toLocaleDateString('en-IN'),h.type,h.course,h.section,h.room,h.start,h.end,dur(h.start,h.end),h.actualMinutes||0])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='FacultyFlow_Semester_Report.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('reset').onclick=()=>{if(confirm('Reset FacultyFlow data on this device? This removes the profile, timetable, adjustments and lecture history.')){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY);location.reload()}};
+$('manualImport').onclick=()=>showManualEditor();
+function showManualEditor(){const rows=previewRows.length?previewRows.map(x=>({...x})):[{day:'Monday',start:'09:00',end:'09:50',course:'',section:'',room:'',type:'Regular Class'}];$('manualEditor').classList.remove('hidden');$('manualEditor').innerHTML=`<div class="notice">Enter classes below. Add as many rows as needed, then use <b>Review timetable</b>.</div><div id="manualRows">${rows.map((x,i)=>manualRow(x,i)).join('')}</div><button class="btn secondary block" id="addManualRow" style="margin-top:9px">＋ Add another class</button><button class="btn block" id="reviewManual" style="margin-top:8px">Review Timetable</button>`;$('addManualRow').onclick=()=>{$('manualRows').insertAdjacentHTML('beforeend',manualRow({day:'Monday',start:'09:00',end:'09:50',course:'',section:'',room:'',type:'Regular Class'},$('manualRows').children.length))};$('reviewManual').onclick=()=>{const arr=[...$('manualRows').children].map(r=>({day:r.querySelector('[data-f="day"]').value,start:r.querySelector('[data-f="start"]').value,end:r.querySelector('[data-f="end"]').value,course:r.querySelector('[data-f="course"]').value.trim(),section:r.querySelector('[data-f="section"]').value.trim(),room:r.querySelector('[data-f="room"]').value.trim(),type:r.querySelector('[data-f="type"]').value||'Regular Class'})).filter(x=>x.course&&DAYS.includes(x.day)&&mins(x.end)>mins(x.start));if(!arr.length){toast('Add at least one valid class row');return}previewRows=arr;showPreview()}}
+function manualRow(x,i){return `<div class="manual-row" data-row="${i}"><div class="field"><label>Day</label><select data-f="day">${DAYS.map(d=>`<option ${d===x.day?'selected':''}>${d}</option>`).join('')}</select></div><div class="field"><label>Course / Section</label><input data-f="course" value="${safe(x.course)}" placeholder="CSE 101"><input data-f="section" value="${safe(x.section)}" placeholder="Section" style="margin-top:6px"></div><div class="field"><label>Start</label><input data-f="start" type="time" value="${x.start||'09:00'}"></div><div class="field"><label>End</label><input data-f="end" type="time" value="${x.end||'09:50'}"></div><div class="field"><label>Room</label><input data-f="room" value="${safe(x.room)}" placeholder="V101"></div><div class="field"><label>Type</label><select data-f="type"><option ${x.type==='Regular Class'?'selected':''}>Regular Class</option><option ${x.type==='Lab'?'selected':''}>Lab</option><option ${x.type==='Tutorial'?'selected':''}>Tutorial</option></select></div></div>`}
+function repairPreviewTimes(rows){
+  const defaults=defaultPeriodSlots();
+  return (rows||[]).map((x,idx)=>{
+    let start=x.start||'',end=x.end||'';
+    if((!/^\d{2}:\d{2}$/.test(start)||!/^\d{2}:\d{2}$/.test(end)) && Number.isInteger(x._slotIndex) && defaults[x._slotIndex]){
+      start=defaults[x._slotIndex].start; end=defaults[x._slotIndex].end;
+    }
+    return {...x,start,end};
+  });
+}
+function showPreview(){previewRows=repairPreviewTimes(previewRows);const body=$('previewBody');$('previewCard').classList.remove('hidden');$('previewCount').textContent=previewRows.length+' classes';body.innerHTML=previewRows.map((x,i)=>`<tr><td><select data-p="day" data-i="${i}">${DAYS.map(d=>`<option ${d===x.day?'selected':''}>${d}</option>`).join('')}</select></td><td><input data-p="start" data-i="${i}" type="time" value="${x.start}"></td><td><input data-p="end" data-i="${i}" type="time" value="${x.end}"></td><td><input data-p="course" data-i="${i}" value="${safe(x.course)}"><input data-p="section" data-i="${i}" value="${safe(x.section)}" placeholder="Section" style="margin-top:4px"></td><td><input data-p="room" data-i="${i}" value="${safe(x.room)}"></td></tr>`).join('');document.querySelectorAll('[data-p]').forEach(el=>el.onchange=()=>{const i=Number(el.dataset.i),k=el.dataset.p;previewRows[i][k]=el.value})}
+$('cancelPreview').onclick=()=>{$('previewCard').classList.add('hidden');previewRows=[]};
+$('applyPreview').onclick=()=>{
+  const trs=[...document.querySelectorAll('#previewBody tr')];
+  const current=trs.map((tr,i)=>{
+    const get=k=>tr.querySelector(`[data-p=\"${k}\"][data-i=\"${i}\"]`)?.value?.trim()||'';
+    return {...(previewRows[i]||{}),day:get('day'),start:get('start'),end:get('end'),course:get('course'),section:get('section'),room:get('room')};
+  });
+  previewRows=current.length?current:previewRows;
+  const valid=previewRows.filter(x=>DAYS.includes(x.day)&&x.course&&/^\d{2}:\d{2}$/.test(x.start)&&/^\d{2}:\d{2}$/.test(x.end)&&mins(x.end)>mins(x.start)).map(x=>({...x,type:x.type||'Regular Class'}));
+  const invalid=previewRows.length-valid.length;
+  if(!valid.length){toast('No valid timetable rows found. Check Day, Start and End times.');return}
+  if(invalid){toast(`${invalid} row(s) are incomplete. Complete or remove them before saving.`);return}
+  state.timetable=valid;state.history=[];save();$('previewCard').classList.add('hidden');$('manualEditor').classList.add('hidden');previewRows=[];renderAll();toast(valid.length+' timetable classes loaded successfully')
+};
+async function handleExcel(file){if(!window.XLSX){toast('Excel engine is still loading. Try again in a moment.');return}openModal('Reading timetable','Processing '+file.name);try{const data=await file.arrayBuffer();const wb=XLSX.read(data,{type:'array'});let best=[];for(const name of wb.SheetNames){const ws=wb.Sheets[name];const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});const parsed=parseMatrix(rows);if(parsed.length>best.length)best=parsed}closeModal();if(best.length){previewRows=best;showPreview()}else{toast('No timetable rows were recognized. Use CSV or Manual entry for this format.')}}catch(e){closeModal();toast('Could not read the Excel file')}}
+function normalizeDay(v){const s=String(v||'').trim().toLowerCase();const map={mon:'Monday',monday:'Monday',tue:'Tuesday',tues:'Tuesday',tuesday:'Tuesday',wed:'Wednesday',wednesday:'Wednesday',thu:'Thursday',thur:'Thursday',thurs:'Thursday',thursday:'Thursday',fri:'Friday',friday:'Friday',sat:'Saturday',saturday:'Saturday'};return map[s]||DAYS.find(d=>s.includes(d.toLowerCase()))||''}
+function normalizeTime(v){if(v===null||v===undefined||v==='')return '';if(typeof v==='number'){const total=Math.round(v*24*60);return String(Math.floor(total/60)%24).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}let s=String(v).trim().replace(/\./g,':').replace(/\s+/g,' ');let m=s.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return '';let h=Number(m[1]),mi=Number(m[2]||0),ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0')}
+function extractRange(s){const t=String(s||'').replace(/[–—−]/g,'-').replace(/\s+/g,' ');const parts=t.split(/\s*(?:-|to|TO)\s*/);if(parts.length<2)return null;const a=normalizeTime(parts[0]),b=normalizeTime(parts[1]);return a&&b?{start:a,end:b}:null}
+function parseMatrix(rows){const out=[];const header=rows.findIndex(r=>r.some(c=>/day|start|end|course|subject|section|room|time/i.test(String(c))));if(header>=0){const h=rows[header].map(c=>String(c).trim().toLowerCase());const ix={day:h.findIndex(x=>/^day$|day/.test(x)),start:h.findIndex(x=>/^start|from|begin/.test(x)),end:h.findIndex(x=>/^end|to|finish/.test(x)),course:h.findIndex(x=>/course|subject|class|paper/.test(x)),section:h.findIndex(x=>/section|batch|group/.test(x)),room:h.findIndex(x=>/room|venue|lab/.test(x)),type:h.findIndex(x=>/type/.test(x))};for(const r of rows.slice(header+1)){const day=normalizeDay(ix.day>=0?r[ix.day]:'');let start=normalizeTime(ix.start>=0?r[ix.start]:'');let end=normalizeTime(ix.end>=0?r[ix.end]:'');if((!start||!end)&&ix.start>=0){const range=extractRange(r[ix.start]);if(range){start=range.start;end=range.end}}if(day&&start&&end&&ix.course>=0&&String(r[ix.course]||'').trim())out.push({day,start,end,course:String(r[ix.course]).trim(),section:ix.section>=0?String(r[ix.section]||'').trim():'',room:ix.room>=0?String(r[ix.room]||'').trim():'',type:ix.type>=0?String(r[ix.type]||'').trim()||'Regular Class':'Regular Class'})}if(out.length)return out}return parseDayTimeMatrix(rows)}
+function parseDayTimeMatrix(rows){const out=[];for(const r of rows){const day=normalizeDay(r[0]);if(!day)continue;for(let i=1;i<r.length;i++){const cell=String(r[i]||'').trim();if(!cell)continue;const range=extractRange(String(rows[0]?.[i]||''))||extractRange(String(r[i-1]||''));if(range){const bits=cell.split(/\n|\r/).map(x=>x.trim()).filter(Boolean);out.push({day,start:range.start,end:range.end,course:bits[0]||cell,section:bits[1]||'',room:bits[2]||'',type:'Regular Class'})}}}return out}
+let pendingFile=null,pendingType='';
+function chooseFile(file,type){
+  pendingFile=file||null; pendingType=type||'';
+  if(!file){$('fileAction').classList.add('hidden');return}
+  $('fileAction').classList.remove('hidden');
+  $('selectedFileName').textContent=file.name;
+  $('selectedFileMeta').textContent=(file.type||'file')+' • '+Math.max(1,Math.round(file.size/1024))+' KB • Ready to process';
+  $('processFile').textContent=type==='excel'?'Upload & Read Excel':type==='pdf'?'Upload & Extract PDF':type==='image'?'Upload & Read Image':'Upload & Extract';
+  $('importStatus').innerHTML='<span class="tag green">File selected</span> Review the filename, then press the blue button to process it.';
+}
+$('excelInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'excel')};
+$('pdfInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'pdf')};
+$('imageInput').onchange=e=>{const f=e.target.files?.[0];if(f)chooseFile(f,'image')};
+$('processFile').onclick=async()=>{
+  if(!pendingFile){toast('Choose a timetable file first.');return}
+  const f=pendingFile,type=pendingType;
+  if(type==='excel') return handleExcel(f);
+  if(type==='pdf') return handlePDF(f);
+  if(type==='image') return handleImage(f);
+};
+function cleanOCRText(s){return String(s||'').replace(/[|{}\[\]<>]/g,' ').replace(/\s+/g,' ').trim()}
+function fuzzyDay(s){
+  const t=cleanOCRText(s).toLowerCase();
+  if(!t)return '';
+  const exact={monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday'};
+  if(exact[t])return exact[t];
+  let best='',score=99;
+  for(const d of DAYS){const a=t,b=d.toLowerCase();let dp=Array.from({length:a.length+1},(_,i)=>Array(b.length+1).fill(0));for(let i=0;i<=a.length;i++)dp[i][0]=i;for(let j=0;j<=b.length;j++)dp[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));if(dp[a.length][b.length]<score){score=dp[a.length][b.length];best=d}}
+  return score<=2?best:'';
+}
+
+// ================= Timetable recognition pipeline =================
+// Two independent strategies are tried in order, sharing the same course /
+// room / section extraction so results are consistent either way:
+//  1) extractGridTimetable — finds the printed table's ruling lines with
+//     pixel projections, then OCRs each cell individually. Most accurate
+//     when the source has visible borders (typical PDF timetable printouts).
+//  2) extractByWordCoordinates — OCRs the whole page once, then reconstructs
+//     rows/columns from where day names and period times land on the page.
+//     Works even without visible ruling lines (photos, scans), and falls
+//     back to parsePlainTimetableText for simple day-per-line listings.
+
+function extractCourse(text){
+  // Tesseract frequently misreads 0 as O and 1 as I/l inside a course number
+  // (e.g. "CSE 101" -> "CSE 1O1"). Accept those lookalikes in the numeric
+  // group only, then normalize, so a single misread character doesn't
+  // silently drop the whole class. The letter prefix is intentionally
+  // generic (not tied to any one department's course codes).
+  const m=String(text||'').match(/\b([A-Z]{2,8})\s*[-.]?\s*([0-9OoIl]{2,5})\b/i);
+  if(!m)return '';
+  const num=m[2].replace(/[Oo]/g,'0').replace(/[Il]/g,'1');
+  return m[1].toUpperCase()+' '+num;
+}
+function extractRoom(text){
+  const m=String(text||'').match(/\(?\s*([A-Z])\s*[-.:]?\s*([0-9OoIl]{3,4})\s*\)?/i);
+  if(!m)return '';
+  const num=m[2].replace(/[Oo]/g,'0').replace(/[Il]/g,'1');
+  return m[1].toUpperCase()+num;
+}
+function extractSection(text,course){
+  const escaped=course?String(course).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'):'';
+  let t=String(text||'').replace(/B\.\s*Tech\.?[-\s]*[A-Z]{2,8}/ig,' ');
+  t=escaped?t.replace(new RegExp(escaped,'ig'),' '):t.replace(/[A-Z]{2,8}\s*\d{2,5}/ig,' ');
+  const norm=t.replace(/[|]/g,' ').replace(/\s+/g,' ').toUpperCase();
+  if(/AIML/.test(norm)&&/\bP\b/.test(norm))return 'AIML I-P';
+  if(/\bCS\b/.test(norm)&&/\bC\b/.test(norm))return 'CS I-C';
+  const m=norm.match(/\b([A-Z]{1,8}\s*(?:I|II|III|IV|1|2|3|4)\s*[-–—]?\s*[A-Z])\b/);
+  return m?m[1].replace(/\s+/g,' ').replace(/\s*[-–—]\s*/g,'-').toUpperCase():'';
+}
+function dedupeRows(rows){
+  const seen=new Set();
+  return (rows||[]).filter(x=>{const k=[x.day,x.start,x.end,x.course,x.section,x.room].join('|');if(seen.has(k))return false;seen.add(k);return true;});
+}
+function normalizeOCRCellText(txt){
+  return cleanOCRText(String(txt||'').replace(/\r/g,' ').replace(/\n+/g,' | ').replace(/[“”]/g,'"'));
+}
+
+function cropCanvas(source,x0,y0,x1,y1,pad=5){
+  const left=Math.max(0,Math.floor(x0+pad)),top=Math.max(0,Math.floor(y0+pad));
+  const right=Math.min(source.width,Math.ceil(x1-pad)),bottom=Math.min(source.height,Math.ceil(y1-pad));
+  const c=document.createElement('canvas');c.width=Math.max(20,right-left);c.height=Math.max(20,bottom-top);
+  c.getContext('2d').drawImage(source,left,top,right-left,bottom-top,0,0,c.width,c.height);return c;
+}
+function cellInkRatio(canvas,x0,y0,x1,y1){
+  const c=cropCanvas(canvas,x0,y0,x1,y1,8),d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let dark=0,total=0;
+  for(let i=0;i<d.length;i+=16){const g=.299*d[i]+.587*d[i+1]+.114*d[i+2];if(g<190)dark++;total++;}
+  return total?dark/total:0;
+}
+function upscaleForOCR(sourceCanvas){
+  const scale=1.8, c=document.createElement('canvas'); c.width=Math.ceil(sourceCanvas.width*scale); c.height=Math.ceil(sourceCanvas.height*scale);
+  const ctx=c.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingEnabled=false;ctx.drawImage(sourceCanvas,0,0,c.width,c.height);
+  const img=ctx.getImageData(0,0,c.width,c.height), d=img.data;
+  for(let i=0;i<d.length;i+=4){let g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];g=g>205?255:g<125?0:Math.round((g-125)*255/80);d[i]=d[i+1]=d[i+2]=g}
+  ctx.putImageData(img,0,0);return c;
+}
+async function ocrCanvasText(canvas, psm=6){
+  const up=document.createElement('canvas');
+  const scale=Math.min(3,Math.max(2,1800/Math.max(1,canvas.width)));
+  up.width=Math.max(40,Math.round(canvas.width*scale));up.height=Math.max(30,Math.round(canvas.height*scale));
+  const ctx=up.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.drawImage(canvas,0,0,up.width,up.height);
+  try{
+    const r=await Tesseract.recognize(up,'eng',{config:{tessedit_pageseg_mode:String(psm)}});
+    return cleanOCRText(r?.data?.text||'');
+  }catch(e){return '';}
+}
+async function ocrCell(canvas,x0,y0,x1,y1){
+  const c=cropCanvas(canvas,x0,y0,x1,y1,7);
+  const tries=[];
+  for(const psm of [6,4]){
+    const t=await ocrCanvasText(c,psm);if(t)tries.push(t);
+  }
+  return tries.sort((a,b)=>b.length-a.length)[0]||'';
+}
+
+function defaultPeriodSlots(){
+  return [
+    {start:'09:00',end:'09:50'},{start:'10:00',end:'10:50'},{start:'11:00',end:'11:50'},
+    {start:'12:00',end:'12:50'},{start:'13:00',end:'13:50'},{start:'14:00',end:'14:50'},
+    {start:'15:00',end:'15:50'},{start:'16:00',end:'17:30'}
+  ];
+}
+function parseTimeRangeText(txt){
+  const t=String(txt||'').replace(/[Oo]/g,'0').replace(/[Il]/g,'1').replace(/[—–~]/g,'-');
+  const m=[...t.matchAll(/(\d{1,2})\s*[:.]\s*(\d{2})\s*-\s*(\d{1,2})\s*[:.]\s*(\d{2})/g)];
+  if(m.length)return {start:normalizeTime(m[0][1]+':'+m[0][2]),end:normalizeTime(m[0][3]+':'+m[0][4])};
+  const a=[...t.matchAll(/\b(\d{1,2})\s*[:.]\s*(\d{2})\b/g)].map(x=>x[1]+':'+x[2]);
+  return a.length>=2?{start:normalizeTime(a[0]),end:normalizeTime(a[1])}:null;
+}
+async function readPeriodSlots(canvas,vertical,headerBottom){
+  // OCR each of the 8 period columns just above the table body for its
+  // printed time range, so the app follows the timetable's own schedule
+  // rather than assuming every institution uses the same period times.
+  // Falls back to the standard period slots for any column OCR can't read.
+  const headerTop=Math.max(0,headerBottom-Math.round((vertical[2]-vertical[1])*1.3));
+  const slots=[];
+  for(let i=0;i<8;i++){
+    const c=cropCanvas(canvas,vertical[i+1],headerTop,vertical[i+2],headerBottom,3);
+    slots.push(parseTimeRangeText(await ocrCanvasText(c,6)));
+  }
+  if(slots.every(Boolean))return slots;
+  try{
+    const header=cropCanvas(canvas,vertical[1],headerTop,vertical[9],headerBottom,3);
+    const txt=await ocrCanvasText(header,6);
+    const toks=[...String(txt).replace(/[Oo]/g,'0').replace(/[Il]/g,'1').matchAll(/\b(\d{1,2})\s*[:.]\s*(\d{2})\b/g)].map(m=>normalizeTime(m[1]+':'+m[2]));
+    if(toks.length>=16){
+      const out=[];for(let i=0;i<8;i++)out.push({start:toks[i*2],end:toks[i*2+1]});
+      if(out.every(x=>x.start&&x.end))return out;
+    }
+  }catch(e){}
+  const defaults=defaultPeriodSlots();
+  return slots.map((s,i)=>s||defaults[i]);
+}
+
+function detectVerticalRules(canvas){
+  const h=canvas.height,w=canvas.width;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const data=ctx.getImageData(0,0,w,h).data;
+  const score=new Array(w).fill(0);
+  const y0=Math.floor(h*.18),y1=Math.floor(h*.86);
+  for(let x=0;x<w;x++){
+    let n=0;
+    for(let y=y0;y<y1;y+=2){const i=(y*w+x)*4;const g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<165)n+=2}
+    score[x]=n;
+  }
+  const threshold=Math.max(70,Math.floor((y1-y0)*.36));
+  const cand=[];for(let x=0;x<w;x++)if(score[x]>=threshold)cand.push(x);
+  const groups=[];for(const x of cand){if(!groups.length||x-groups[groups.length-1].end>5)groups.push({start:x,end:x});else groups[groups.length-1].end=x}
+  let lines=groups.map(g=>Math.round((g.start+g.end)/2));
+  if(lines.length>10){
+    let best=null;
+    for(let i=0;i<=lines.length-10;i++){
+      const run=lines.slice(i,i+10),gaps=run.slice(1).map((x,j)=>x-run[j]);
+      const avg=gaps.reduce((a,b)=>a+b,0)/gaps.length;
+      const spread=Math.max(...gaps)-Math.min(...gaps);
+      const score2=spread/Math.max(1,avg);
+      if(!best||score2<best.score)best={run,score:score2};
+    }
+    if(best)lines=best.run;
+  }
+  if(lines.length<10)return null;
+  return lines.slice(0,10);
+}
+function detectHorizontalRules(canvas,x0,x1){
+  const w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const data=ctx.getImageData(0,0,w,h).data,score=new Array(h).fill(0);
+  const lo=Math.max(0,Math.floor(x0)),hi=Math.min(w,Math.floor(x1));
+  for(let y=0;y<h;y++){
+    let n=0;for(let x=lo;x<hi;x+=2){const i=(y*w+x)*4;const g=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(g<155)n+=2}score[y]=n;
+  }
+  const threshold=Math.max(50,Math.floor((hi-lo)*.55));
+  const cand=[];for(let y=0;y<h;y++)if(score[y]>=threshold)cand.push(y);
+  const groups=[];for(const y of cand){if(!groups.length||y-groups[groups.length-1].end>4)groups.push({start:y,end:y});else groups[groups.length-1].end=y}
+  return groups.map(g=>Math.round((g.start+g.end)/2));
+}
+function chooseTableBodyRows(hRules,canvas){
+  // Picks the 7 horizontal rules (6 day rows) with the most regular row
+  // spacing, ignoring rules that belong to unrelated boxes elsewhere on the
+  // page (info panels, headers, footers).
+  const hs=(hRules||[]).filter(y=>y>canvas.height*0.32 && y<canvas.height*0.92).sort((a,b)=>a-b);
+  if(hs.length<7)return null;
+  let best=null;
+  for(let i=0;i<=hs.length-7;i++){
+    const run=hs.slice(i,i+7), gaps=run.slice(1).map((v,j)=>v-run[j]);
+    const inner=gaps.slice(1,5), med=[...inner].sort((a,b)=>a-b)[Math.floor(inner.length/2)]||0;
+    if(!med)continue;
+    const regular=inner.reduce((a,g)=>a+Math.abs(g-med),0)/(med*inner.length);
+    const edgePenalty=(Math.abs(gaps[0]-med*.36)+Math.abs(gaps[5]-med*.36))/Math.max(1,med);
+    const ySpan=run[6]-run[0];
+    const score=regular+edgePenalty*.15-(ySpan/canvas.height)*.02;
+    if(!best||score<best.score)best={run,score};
+  }
+  return best?.run||null;
+}
+
+async function extractGridTimetable(canvas,label){
+  try{
+    const vertical=detectVerticalRules(canvas);
+    if(!vertical||vertical.length<10)return [];
+    const hAll=detectHorizontalRules(canvas,vertical[0],vertical[vertical.length-1]);
+    const body=chooseTableBodyRows(hAll,canvas);
+    if(!body||body.length!==7)return [];
+    const slots=await readPeriodSlots(canvas,vertical,body[0]);
+    const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const rows=[];
+    for(let ri=0;ri<6;ri++){
+      const y0=body[ri],y1=body[ri+1];
+      if(!(y1>y0))continue;
+      for(let si=0;si<8;si++){
+        const x0=vertical[si+1],x1=vertical[si+2];
+        if(!(x1>x0))continue;
+        if(cellInkRatio(canvas,x0,y0,x1,y1)<0.012)continue;
+        let txt=normalizeOCRCellText(await ocrCell(canvas,x0,y0,x1,y1));
+        let course=txt?extractCourse(txt):'';
+        if(!course){
+          // First OCR pass didn't yield a readable course code. Retry once
+          // with a slightly wider crop before giving up on this cell.
+          const retry=normalizeOCRCellText(await ocrCell(canvas,x0-4,y0-4,x1+4,y1+4));
+          if(retry){course=extractCourse(retry);if(retry.length>(txt||'').length)txt=retry;}
+        }
+        if(!txt&&!course)continue;
+        // A cell with visible ink is a real class even if OCR couldn't read
+        // it cleanly. Keep it (flagged for manual review) instead of
+        // silently dropping it, so the detected count matches what's on the page.
+        const room=course?extractRoom(txt):'';
+        rows.push({day:days[ri],start:slots[si].start,end:slots[si].end,course:course||'(unreadable — tap to edit)',section:course?extractSection(txt,course):'',room,type:'Regular Class',_slotIndex:si,_needsReview:!course});
+      }
+    }
+    return dedupeRows(rows);
+  }catch(e){console.warn('grid extraction failed',e);return []}
+}
+
+async function extractByWordCoordinates(canvas,label){
+  try{
+    const result=await Tesseract.recognize(canvas,'eng',{
+      logger:m=>{if(m?.status && $('modalSub')) $('modalSub').textContent=label+' • '+m.status+(m.progress?' • '+Math.round(m.progress*100)+'%':'')},
+      config:{tessedit_pageseg_mode:'11',preserve_interword_spaces:'1'}
+    });
+    const rawText=result?.data?.text||'';
+    const words=(result?.data?.words||[]).map(w=>({
+      text:cleanOCRText(w.text),
+      x0:Number(w.bbox?.x0??0), y0:Number(w.bbox?.y0??0),
+      x1:Number(w.bbox?.x1??0), y1:Number(w.bbox?.y1??0),
+      conf:Number(w.confidence??w.conf??0)
+    })).filter(w=>w.text && Number.isFinite(w.x0) && Number.isFinite(w.y0));
+    if(!words.length)return parsePlainTimetableText(rawText);
+    const cx=w=>(w.x0+w.x1)/2, cy=w=>(w.y0+w.y1)/2;
+    const W=canvas.width,H=canvas.height;
+    const dayNames=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const dayHits=[];
+    for(const w of words){
+      const d=fuzzyDay(w.text), y=cy(w), x=cx(w);
+      if(!d || x>W*.35 || y<H*.18)continue;
+      const existing=dayHits.find(a=>a.day===d);
+      if(!existing || w.conf>existing.conf){if(existing)dayHits.splice(dayHits.indexOf(existing),1);dayHits.push({day:d,y,conf:w.conf});}
+    }
+    dayHits.sort((a,b)=>a.y-b.y);
+    const days=dayNames.map(d=>dayHits.find(x=>x.day===d)).filter(Boolean);
+    if(days.length<2)return parsePlainTimetableText(rawText);
+
+    const timeWords=[];
+    for(const w of words){
+      const t=w.text.replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[.]/g,':');
+      const m=t.match(/^(\d{1,2}):(\d{2})$/); if(!m)continue;
+      const y=cy(w),x=cx(w),hh=Number(m[1]);
+      if(y>H*.45 || y<H*.15 || x<W*.15 || hh>23)continue;
+      timeWords.push({x,y,text:normalizeTime(m[1]+':'+m[2])});
+    }
+    timeWords.sort((a,b)=>a.x-b.x||a.y-b.y);
+    const timeGroups=[];
+    for(const t of timeWords){
+      let g=timeGroups.find(g=>Math.abs(g.x-t.x)<70);
+      if(!g)timeGroups.push({x:t.x,items:[t]}); else {g.items.push(t);g.x=(g.x*(g.items.length-1)+t.x)/g.items.length;}
+    }
+    timeGroups.sort((a,b)=>a.x-b.x);
+    const defaults=defaultPeriodSlots();
+    let usableGroups=timeGroups.filter(g=>g.items.length>=1);
+    if(usableGroups.length<6)return parsePlainTimetableText(rawText);
+    usableGroups=usableGroups.slice(0,8);
+    const slots=usableGroups.map((g,i)=>{
+      const vals=g.items.sort((a,b)=>a.y-b.y).map(v=>v.text);
+      return vals.length>=2?{start:vals[0],end:vals[1]}:{start:defaults[i]?.start,end:defaults[i]?.end};
+    });
+    const xs=usableGroups.map(g=>g.x);
+    while(slots.length<8){
+      const i=slots.length,step=xs.length>1?xs[xs.length-1]-xs[xs.length-2]:120;
+      xs.push((xs[xs.length-1]||W*.5)+step);slots.push(defaults[i]);
+    }
+    const xBounds=[xs[0]-(xs[1]-xs[0])/2];
+    for(let i=1;i<xs.length;i++)xBounds.push((xs[i-1]+xs[i])/2);
+    xBounds.push(xs[xs.length-1]+(xs[xs.length-1]-xs[xs.length-2])/2);
+
+    const ys=days.map(d=>d.y);
+    const yBounds=[ys[0]-(ys[1]-ys[0]||70)/2];
+    for(let i=1;i<ys.length;i++)yBounds.push((ys[i-1]+ys[i])/2);
+    yBounds.push(ys[ys.length-1]+((ys[ys.length-1]-(ys[ys.length-2]??ys[ys.length-1]-70))));
+
+    const out=[];
+    for(let ri=0;ri<days.length;ri++){
+      const top=yBounds[ri],bottom=yBounds[ri+1];
+      for(let si=0;si<8;si++){
+        const left=xBounds[si],right=xBounds[si+1];
+        const cell=words.filter(w=>{const x=cx(w),y=cy(w);return x>left+4&&x<right-4&&y>top+4&&y<bottom-4;});
+        if(!cell.length)continue;
+        const txt=cell.sort((a,b)=>a.y0-b.y0||a.x0-b.x0).map(w=>w.text).join(' ').replace(/\s+/g,' ').trim();
+        const course=extractCourse(txt); if(!course)continue;
+        const room=extractRoom(txt);
+        out.push({day:days[ri].day,start:slots[si].start,end:slots[si].end,course,section:extractSection(txt,course),room,type:'Regular Class',_slotIndex:si});
+      }
+    }
+    const rows=dedupeRows(out);
+    return rows.length?rows:parsePlainTimetableText(rawText);
+  }catch(e){console.warn('word-coordinate extraction failed',e);return []}
+}
+
+async function recognizeTimetableCanvas(canvas,label){
+  // Primary path for grid-style timetables: detect the printed grid with
+  // pixels, then OCR each cell. This works identically for PDF-rendered
+  // pages and photographed/scanned images, since both arrive here as a canvas.
+  let rows=[];
+  try{rows=await extractGridTimetable(canvas,label);}catch(e){console.warn('grid extraction failed',e)}
+  if(rows.length)return rows;
+  // Fallback for timetables without a clean ruled grid (photos, scans):
+  // reconstruct the table from OCR word positions instead of pixel lines.
+  try{rows=await extractByWordCoordinates(canvas,label);}catch(e){console.warn('word-coordinate extraction failed',e)}
+  return rows;
+}
+
+function parsePlainTimetableText(text){
+  const lines=String(text||'').split(/\r?\n/).map(x=>cleanOCRText(x)).filter(Boolean);
+  const out=[]; let currentDay='';
+  const dayRe=/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)$/i;
+  const rangeRe=/(\d{1,2}:\d{2})\s*(?:-|–|—|to)\s*(\d{1,2}:\d{2})/i;
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i]; const d=fuzzyDay(line);
+    if(dayRe.test(line)||d){currentDay=d||line[0].toUpperCase()+line.slice(1).toLowerCase();continue}
+    const m=line.match(rangeRe); if(!m||!currentDay)continue;
+    const tail=line.slice(m.index+m[0].length).replace(/^\s*[•·|:-]\s*/,'').trim();
+    const context=(tail+' '+(lines[i+1]||'')+' '+(lines[i+2]||'')).trim();
+    const course=extractCourse(context); if(!course)continue;
+    const room=extractRoom(context);
+    const section=extractSection(context,course);
+    out.push({day:currentDay,start:normalizeTime(m[1]),end:normalizeTime(m[2]),course,section,room,type:'Regular Class'});
+  }
+  return dedupeRows(out);
+}
+
+async function handlePDF(file){
+  if(!window.pdfjsLib||!window.Tesseract){toast('PDF/OCR engine is still loading. Refresh once and try again.');return}
+  openModal('Reading timetable PDF','Checking the PDF and preparing the timetable…');
+  try{
+    const buf=await file.arrayBuffer(),pdf=await window.pdfjsLib.getDocument({data:buf}).promise; let all=[];
+    // First try the PDF text layer. This handles true text PDFs without OCR.
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p), tc=await page.getTextContent();
+      const text=tc.items.map(x=>x.str).join('\n'); const parsed=parsePlainTimetableText(text); all.push(...parsed);
+    }
+    if(!all.length){
+      for(let p=1;p<=pdf.numPages;p++){
+        const page=await pdf.getPage(p),viewport=page.getViewport({scale:2.5});
+        const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+        await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+        all.push(...await recognizeTimetableCanvas(canvas,'Scanning PDF page '+p+' of '+pdf.numPages));
+      }
+    }
+    closeModal();const parsed=dedupeRows(all);
+    if(parsed.length){previewRows=parsed;showPreview();toast(parsed.length+' timetable classes detected. Please review before saving.');}
+    else{toast('Timetable could not be identified automatically. Please use Manual entry or Excel/CSV.');showManualEditor();}
+  }catch(err){closeModal();console.error(err);toast('Could not process this PDF. Please try again.');}
+}
+
+async function handleImage(file){
+  if(!window.Tesseract){toast('Image OCR engine is still loading. Refresh once and try again.');return}
+  openModal('Reading timetable image','Preparing high-resolution OCR for '+file.name+'…');
+  try{
+    const bitmap=await createImageBitmap(file),canvas=document.createElement('canvas');
+    const max=2200,scale=Math.min(max/bitmap.width,max/bitmap.height,3);
+    canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    // Images go through the exact same recognizer as PDFs, so a fix to one
+    // input type benefits every input type instead of drifting apart.
+    const parsed=dedupeRows(await recognizeTimetableCanvas(canvas,'Reading timetable image'));
+    closeModal();
+    if(parsed.length){previewRows=parsed;showPreview();toast(parsed.length+' timetable classes detected. Please review before saving.');}
+    else{toast('The image was read, but no timetable rows were recognized. You can use Manual entry or Excel/CSV.');showManualEditor();}
+  }catch(err){closeModal();console.error(err);toast('Could not read this timetable image. Please try a clearer image or PDF/Excel.');}
+}
+$('closeModal').onclick=closeModal;$('modalBackdrop').onclick=e=>{if(e.target===$('modalBackdrop'))closeModal()};
+function exportBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='FacultyFlow_Backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+setInterval(()=>{renderHeader();renderHome();renderSchedule();if($('live').classList.contains('active'))renderLive()},1000);
+renderAll();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+(function(){
+  const exportBtn=document.getElementById('exportData');
+  const importBtn=document.getElementById('importDataBtn');
+  const fileInput=document.getElementById('importDataFile');
+  if(!exportBtn||!importBtn||!fileInput)return;
+  exportBtn.onclick=()=>{
+    const payload={version:'facultyflow-v34',exportedAt:new Date().toISOString()};
+    for(const k of Object.keys(localStorage)){
+      if(k.toLowerCase().includes('facultyflow')) payload[k]=localStorage.getItem(k);
+    }
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='facultyflow-my-data.json'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  };
+  importBtn.onclick=()=>fileInput.click();
+  fileInput.onchange=async()=>{
+    const f=fileInput.files?.[0]; if(!f)return;
+    try{
+      const payload=JSON.parse(await f.text()); let count=0;
+      Object.entries(payload).forEach(([k,v])=>{
+        if(k.toLowerCase().includes('facultyflow')&&typeof v==='string'){localStorage.setItem(k,v);count++;}
+      });
+      alert(count?`Imported ${count} FacultyFlow data item(s). Reloading…`:'No FacultyFlow data was found.');
+      if(count)location.reload();
+    }catch(e){alert('Invalid FacultyFlow data file.');}
+    fileInput.value='';
+  };
+})();
+
+</script>
+</body>
+</html>
